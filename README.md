@@ -1,5 +1,5 @@
 
-<h1>
+<h1 align="center">
  <img src="images/velosem-logo.png"> 
 </h1>
 
