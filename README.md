@@ -5,7 +5,7 @@
 
 **"Solve me?"** is a simple IQ test. At each stage, you are shown a few images and then asked what's the missing one, according to the pattern.  
 
-**Can you get them all right?**
+**Can you solve 'em all?**
 <hr> 
  
 ## Using virtualenv
@@ -34,6 +34,6 @@
   
   
 ## About
-Solve me? uses the Python library **Pillow** to draw the images. Make sure its dependencies are installed properly.
+"Solve me?" uses the Python library **Tkinter** to draw the images and **Numpy** to perform matrix arithmetics. 
 
 **Project for UFF 2019.1 TCC00291 Computer Graphics.**
