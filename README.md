@@ -3,7 +3,7 @@
  <img src="images/velosem-logo.png"> 
 </h1>
 
-**"Solve me?"** is a simple IQ test. At each stage, you are shown a few images and then asked what's the missing one according the pattern.  
+**"Solve me?"** is a simple IQ test. At each stage, you are shown a few images and then asked what's the missing one, according to the pattern.  
 
 **Can you get them all right?**
 <hr> 
