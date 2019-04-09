@@ -169,8 +169,8 @@ def main():
     pentagon = canvas.create_polygon(pentagon_image, fill='', outline ='black')
 
     #Translates the pentagon 80px to the right.
-    new_pentagon_image = translate_2D(pentagon_image, 80, 0)
-    pentagon2 = canvas.create_polygon(new_pentagon_image, fill='', outline ='black')
+    #new_pentagon_image = translate_2D(pentagon_image, 80, 0)
+    #pentagon2 = canvas.create_polygon(new_pentagon_image, fill='', outline ='black')
 
     canvas.pack()    
     root.mainloop()  
