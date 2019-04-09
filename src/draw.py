@@ -21,21 +21,163 @@ The data structures are as following:
 """
 
 # Data Structures
+""""
+The figures can be separated by amount of vertices into categories.
 
+The simple figures have less than 6 vertices.
+The average figures have between 6 and 8 vertices.
+The complex have more than 8 vertices.
+"""
 ##Vertices
-v1 = [20,50]
-v2 = [40,100]
-v3 = [160,100]
-v4 = [140,50]
+### Arrow
+v1_arrow = [10,40] 
+v2_arrow = [30,40]
 
-##Faces
-f1 = [v1,v2,v3,v4]
-f2 = None
+v3_arrow = [30,30]
+v4_arrow = [50,50]
+v5_arrow = [30,70]
 
-#Figures
+v6_arrow = [30,60]
+v7_arrow = [10,60]
 
-### Parallelogram
-p1 = [f1,f2]
+### Triangle
+v1_t1 = [100,20]
+v2_t1 = [140,60]
+v3_t1 = [60,60]
+
+### Cup
+v1_cup = [160,15]
+v2_cup = [170,60]
+v3_cup = [195,60]
+v4_cup = [205,15]
+
+### Box
+v1_box = [260,20]
+v2_box = [260,60]
+v3_box = [300,60]
+v4_box = [300,20]
+ 
+### Pentagon
+v1_pent = [320, 38]
+v2_pent = [330, 60]
+v3_pent = [360, 60]
+v4_pent = [370, 38]
+v5_pent = [345, 20]
+
+"""
+### Hexagon
+v1_hexa =
+v2_hexa =
+v3_hexa =
+v4_hexa =
+v5_hexa =
+v6_hexa =
+
+### Chair
+v1_chair = 
+v2_chair = 
+v3_chair = 
+v4_chair = 
+v5_chair = 
+v6_chair = 
+v7_chair = 
+v8_chair = 
+v9_chair = 
+v10_chair = 
+
+
+### Lantern
+v1_lant = 
+v2_lant = 
+v3_lant = 
+v4_lant = 
+v5_lant = 
+v6_lant = 
+v7_lant = 
+v8_lant = 
+
+
+### Bottle
+v1_bottle = 
+v2_bottle = 
+v3_bottle = 
+v4_bottle = 
+v5_bottle = 
+v6_bottle = 
+v7_bottle = 
+v8_bottle = 
+
+### House
+v1_house =
+v2_house =
+v3_house =
+v4_house =
+v5_house =
+v6_house =
+ """
+
+## Faces
+arrow_f1 = [v1_arrow, v2_arrow, v3_arrow, v4_arrow, v5_arrow, v6_arrow, v7_arrow]
+box_f1 = [v1_box,v2_box,v3_box,v4_box]
+cup_f1 = [v1_cup, v2_cup, v3_cup, v4_cup]
+triangle_f1 = [v1_t1, v2_t1, v3_t1]
+pentagon_f1 = [v1_pent, v2_pent, v3_pent, v4_pent, v5_pent]
+
+# Figures
+
+### Arrow
+arrow_image = [arrow_f1]
+
+### Box
+box_image = [box_f1]
+
+### Cup
+cup_image = [cup_f1]
+
+### Triangle
+triangle_image = [triangle_f1]
+
+### Pentagon
+pentagon_image = [pentagon_f1]
+
+
+def translate_2D(image, x_amount, y_amount):
+    new_image = image
+    for face in new_image:
+        for vertex in face:
+            vertex[0] += x_amount
+            vertex[1] += y_amount
+    return new_image
+
+#For mouse event debugging
+def callback(event):
+    print("Clicked at", event.x, event.y)
+    
+def main():
+
+    root = Tk()
+    canvas= Canvas(root, width=800, height=600)
+    canvas.bind("<Button-1>", callback)
+    
+    
+    #The method 'create_polygon' will decapsulate the structure by itself, no need to iterate through it.
+    #Removes fill(polygon is filled by default) and draws outline(invisible by default).
+    arrow = canvas.create_polygon(arrow_image, fill='', outline ='black')
+    box = canvas.create_polygon(box_image, fill='', outline ='black')
+    cup = canvas.create_polygon(cup_image, fill='', outline ='black')
+    triangle = canvas.create_polygon(triangle_image, fill='', outline ='black')
+    pentagon = canvas.create_polygon(pentagon_image, fill='', outline ='black')
+
+    #Translates the pentagon 80px to the right.
+    new_pentagon_image = translate_2D(pentagon_image, 80, 0)
+    pentagon2 = canvas.create_polygon(new_pentagon_image, fill='', outline ='black')
+
+    canvas.pack()    
+    root.mainloop()  
+
+
+if __name__ == '__main__':
+    main() 
 
 
 class Drawing(Frame):
@@ -51,24 +193,3 @@ class Drawing(Frame):
         self.pack(fill=BOTH, expand=1)
 
         canvas = Canvas(self)
-
-#For mouse event debugging
-def callback(event):
-    print("Clicked at", event.x, event.y)
-    
-def main():
-
-    root = Tk()
-    canvas= Canvas(root, width=800, height=600)
-    canvas.bind("<Button-1>", callback)
-    
-    #Removes fill and draws outline.
-    #The method itself will decapsulate the structure.
-    parallelogram = canvas.create_polygon(p1, fill='', outline ='black')
-
-    canvas.pack()    
-    root.mainloop()  
-
-
-if __name__ == '__main__':
-    main()  
