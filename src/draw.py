@@ -58,21 +58,33 @@ v3_box = [300,60]
 v4_box = [300,20]
  
 ### Pentagon
+
 v1_pent = [320, 38]
 v2_pent = [330, 60]
 v3_pent = [360, 60]
 v4_pent = [370, 38]
 v5_pent = [345, 20]
 
-"""
 ### Hexagon
-v1_hexa =
-v2_hexa =
-v3_hexa =
-v4_hexa =
-v5_hexa =
-v6_hexa =
 
+v1_hexa = [400, 38]
+v2_hexa = [400, 60]
+v3_hexa = [425, 75]
+v4_hexa = [450, 60]
+v5_hexa = [450, 38]
+v6_hexa = [425, 20]
+
+'''
+#quem tiver curiosidade tira o comentário disso aqui dps hahahaha
+v1_hexa = [400, 38] 
+v2_hexa = [450, 38] 
+v3_hexa = [400, 60]	
+v4_hexa = [450, 60] 
+v5_hexa = [430, 20] 
+v6_hexa = [430, 70]
+'''
+
+"""
 ### Chair
 v1_chair = 
 v2_chair = 
@@ -106,15 +118,16 @@ v5_bottle =
 v6_bottle = 
 v7_bottle = 
 v8_bottle = 
+"""
 
-### House
-v1_house =
-v2_house =
-v3_house =
-v4_house =
-v5_house =
-v6_house =
- """
+### House, minha casa minha vida
+
+v1_house = [410, 38]
+v2_house = [410, 60]
+v3_house = [440, 60]
+v4_house = [440, 38]
+v5_house = [425, 20]
+
 
 ## Faces
 arrow_f1 = [v1_arrow, v2_arrow, v3_arrow, v4_arrow, v5_arrow, v6_arrow, v7_arrow]
@@ -122,6 +135,8 @@ box_f1 = [v1_box,v2_box,v3_box,v4_box]
 cup_f1 = [v1_cup, v2_cup, v3_cup, v4_cup]
 triangle_f1 = [v1_t1, v2_t1, v3_t1]
 pentagon_f1 = [v1_pent, v2_pent, v3_pent, v4_pent, v5_pent]
+hexagon_f1 = [v1_hexa, v2_hexa, v3_hexa, v4_hexa, v5_hexa, v6_hexa]
+house_f1 = [v1_house, v2_house, v3_house, v4_house, v5_house]
 
 # Figures
 
@@ -139,6 +154,13 @@ triangle_image = [triangle_f1]
 
 ### Pentagon
 pentagon_image = [pentagon_f1]
+
+### Hexagon
+hexagon_image = [hexagon_f1]
+
+### House
+house_image = [house_f1]
+
 
 
 def translate_2D(image, x_amount, y_amount):
@@ -167,11 +189,19 @@ def main():
     cup = canvas.create_polygon(cup_image, fill='', outline ='black')
     triangle = canvas.create_polygon(triangle_image, fill='', outline ='black')
     pentagon = canvas.create_polygon(pentagon_image, fill='', outline ='black')
+    hexagon = canvas.create_polygon(hexagon_image, fill='',outline='red')
 
     #Translates the pentagon 80px to the right.
-    #new_pentagon_image = translate_2D(pentagon_image, 80, 0)
-    #pentagon2 = canvas.create_polygon(new_pentagon_image, fill='', outline ='black')
+    new_pentagon_image = translate_2D(pentagon_image, 0, 100)    
+    novopenta = canvas.create_polygon(new_pentagon_image)
 
+    #desenhando a casa sem ter que fazer a soma "manualmente" ou seja testando a transalate_2D
+    criar_casa = translate_2D(house_image, 80, 0)
+    '''
+    sugestao futura,  a funcao translate_2d poderia só atualizar o cara de dentro da matriz ao inves de retornar uma nova image
+    isso faz a gente ter que instanciar 2 variaveis , mas depois a gente conversa sobre isso
+    '''
+    minhacasa = canvas.create_polygon(criar_casa,fill='',outline='blue')
     canvas.pack()    
     root.mainloop()  
 
