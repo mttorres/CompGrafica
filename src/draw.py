@@ -1,4 +1,5 @@
 from tkinter import Tk, Canvas, Frame, BOTH
+import math
 """
 This file is used to draw figures using the Canvas object (and its methods) from Tkinter
 library. It also stores the data structures that represent these figures in vectors and matrixes.
@@ -171,6 +172,23 @@ def translate_2D(image, x_amount, y_amount):
             vertex[1] += y_amount
     return new_image
 
+def rotation_2D(image, angle=90):
+    radian = angle*(math.pi/180)
+    new_image = image
+    transaltex = new_image[0][0][0]
+    transaltey = new_image[0][0][1]
+    new_image=translate_2D(new_image,-transaltex,-transaltey)
+
+    for face in new_image:
+        for vertex in face:
+            x = vertex[0]
+            y = vertex[1]
+            vertex[0] = x*math.cos(radian) - y*math.sin(radian)
+            vertex[1] = x*math.sin(radian) + y*math.cos(radian)
+    new_image = translate_2D(new_image, transaltex, transaltey)
+    return new_image
+
+
 #For mouse event debugging
 def callback(event):
     print("Clicked at", event.x, event.y)
@@ -192,7 +210,10 @@ def main():
     hexagon = canvas.create_polygon(hexagon_image, fill='',outline='red')
 
     #Translates the pentagon 80px to the right.
-    new_pentagon_image = translate_2D(pentagon_image, 0, 100)    
+    new_pentagon_image = translate_2D(pentagon_image, 0, 100)
+    print(new_pentagon_image)
+    new_pentagon_image=rotation_2D(new_pentagon_image,180)
+    print(new_pentagon_image)
     novopenta = canvas.create_polygon(new_pentagon_image)
 
     #desenhando a casa sem ter que fazer a soma "manualmente" ou seja testando a transalate_2D
