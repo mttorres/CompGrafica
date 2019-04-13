@@ -175,17 +175,34 @@ def translate_2D(image, x_amount, y_amount):
 def rotation_2D(image, angle=90):
     radian = angle*(math.pi/180)
     new_image = image
-    transaltex = new_image[0][0][0]
-    transaltey = new_image[0][0][1]
-    new_image=translate_2D(new_image,-transaltex,-transaltey)
-
+    #Procurando os extremos para calcular o ponto medio
+    esquerda = None
+    direita = None
+    cima = None
+    baixo = None
+    for face in new_image:
+        for vertex in face:
+            if ((esquerda == None) or (esquerda < vertex[0])) :
+                esquerda=vertex[0]
+            if ((direita == None) or (direita > vertex[0])):
+                direita=vertex[0]
+            if ((cima == None) or (cima < vertex[1])):
+                cima=vertex[1]
+            if ((baixo == None) or (baixo > vertex[1])):
+                baixo=vertex[1]
+    #Calculando o ponto medio em relação  x e y e transladando a imagem para a origem
+    medio_x = (direita-esquerda)/2
+    medio_y = (baixo-cima)/2
+    new_image = translate_2D(new_image, -(esquerda+medio_x), -(cima+medio_y))
+    #Fazendo a rotação
     for face in new_image:
         for vertex in face:
             x = vertex[0]
             y = vertex[1]
             vertex[0] = x*math.cos(radian) - y*math.sin(radian)
             vertex[1] = x*math.sin(radian) + y*math.cos(radian)
-    new_image = translate_2D(new_image, transaltex, transaltey)
+    #Transladando a imagem pro ponto original
+    new_image = translate_2D(new_image, (esquerda+medio_x), (cima+medio_y))
     return new_image
 
 
@@ -212,7 +229,7 @@ def main():
     #Translates the pentagon 80px to the right.
     new_pentagon_image = translate_2D(pentagon_image, 0, 100)
     print(new_pentagon_image)
-    new_pentagon_image=rotation_2D(new_pentagon_image,180)
+    new_pentagon_image=rotation_2D(new_pentagon_image,0)
     print(new_pentagon_image)
     novopenta = canvas.create_polygon(new_pentagon_image)
 
