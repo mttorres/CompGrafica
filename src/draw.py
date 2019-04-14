@@ -162,7 +162,16 @@ hexagon_image = [hexagon_f1]
 ### House
 house_image = [house_f1]
 
-
+def scale_2D(image,k):
+    new_image = image
+    print(new_image)
+    for face in new_image:
+        for vertex in face:
+            #xtemp = vertex[0] 
+            #ytemp = vertex[1]
+            vertex[0] = vertex[0] * k[0]
+            vertex[1] = vertex[1] * k[1]
+    return new_image
 
 def translate_2D(image, x_amount, y_amount):
     new_image = image
@@ -226,11 +235,13 @@ def main():
     pentagon = canvas.create_polygon(pentagon_image, fill='', outline ='black')
     hexagon = canvas.create_polygon(hexagon_image, fill='',outline='red')
 
-    #Translates the pentagon 80px to the right.
+    #Translates the pentagon 100 px down
     new_pentagon_image = translate_2D(pentagon_image, 0, 100)
-    print(new_pentagon_image)
+   # print(new_pentagon_image)
+
+    #Rotate the pentagon 
     new_pentagon_image=rotation_2D(new_pentagon_image,0)
-    print(new_pentagon_image)
+  #  print(new_pentagon_image)
     novopenta = canvas.create_polygon(new_pentagon_image)
 
     #desenhando a casa sem ter que fazer a soma "manualmente" ou seja testando a transalate_2D
@@ -240,6 +251,13 @@ def main():
     isso faz a gente ter que instanciar 2 variaveis , mas depois a gente conversa sobre isso
     '''
     minhacasa = canvas.create_polygon(criar_casa,fill='',outline='blue')
+
+    #Draw a bigger box
+    blue_box = translate_2D(box_image, 0, 100)
+    canvas.create_polygon(blue_box,fill='',outline='blue')
+    big_box = scale_2D(blue_box,[2,2])
+    canvas.create_polygon(big_box,fill='',outline='blue')
+
     canvas.pack()    
     root.mainloop()  
 
