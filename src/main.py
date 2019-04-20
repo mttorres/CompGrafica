@@ -125,7 +125,7 @@ def polygonimagecreator(nvertices,data):
 
 def drawoptions(canvas,v,lados,preenc,contor,corretas,quase,respostas,rot= False,trans = False):
 	options = Canvas(canvas, width=800, height=300,bg="RED")
-	offsetx = 280
+	offsetx = 270
 	offsety = 80
 	data = [0,0]
 	for i in range(1,7):
@@ -164,11 +164,58 @@ def drawoptions(canvas,v,lados,preenc,contor,corretas,quase,respostas,rot= False
 	options.pack()
 	options.place(x= 0, y = 300)
 
+def drawquestions(canvas,v,lados,preenc,contor,rot= False,trans = False):
+	board = Canvas(canvas, width=800, height=300,bg="BLUE")
+	offsetx = 270
+	offsety = 80
+	data = [0,0]
+	for i in range(1,7):
+		j = i-1
 
+		# OBS: vou mudar ainda como essa funcao se comporta, por enquanto ela ta uma copia similar da drawoptions somente para testes
+
+
+		# divide entre esses botoes 1 e 2    ,  3 e 4 ,   5 e 6 
+		proporcaox = i // 3 # pode ser  1  ,  2   ,  3 
+		
+		paridade = i % 2
+		proporcaoy = 1
+		if(paridade == 0):
+			proporcaoy = 2
+		else:
+			proporcaoy = 0
+
+		if(i != 5):
+			
+			data[0] = offsetx*proporcaox + 50
+		else:
+			
+			data[0] = offsetx*(proporcaox+1) + 50
+		
+		data[1] = offsety*proporcaoy + 10
+
+		#desenha uma imagem em cada botao seguindo as propriedades do vetor de cada imagem
+
+		image = polygonimagecreator(lados[j],data)
+		if(preenc[j] == ""):
+			board.create_polygon(image,fill=preenc[j], outline = contor[j])
+		else:
+			board.create_polygon(image,fill=preenc[j], outline = contor[j])
+
+
+	board.pack()
+	board.place(x= 0, y = 0)
 
 #For mouse event debugging
 def callback(event):
     print("Clicked at", event.x, event.y)
+
+
+def quit_loop(v,root):
+    print("Selection:",v.get())
+    global selection
+    selection = v.get()
+    #root.destroy() 
 ########################################
 def main():
 	root = Tk()
@@ -176,11 +223,13 @@ def main():
 	canvas.bind("<Button-1>", callback)
 
 	v = IntVar()
+	v.set(1)
+
 	corretas = [5]*10
 	quase = [4]*10 
 	respostas = []
 
-	ladospergunta = [4,3,4,3,4,3]
+	ladospergunta = [4,4,4,4,4,4]
 	ladosopcoes = [4,3,4,3,4,3]
 	pagina = [ladospergunta,ladosopcoes]
 
@@ -191,13 +240,20 @@ def main():
 	presposta = ["black","black","black","black","black",""]
 	p = [ppergunta,presposta]
 
+	contorpergunta = ["red","red","red","red","red","red"]
+	contorresposta = ["blue","blue","blue","blue","blue","blue"]
+	cores = []
     
-	drawoptions(canvas,v,ladosopcoes,presposta,contor,corretas,quase,respostas)
+	drawoptions(canvas,v,ladosopcoes,presposta,contorresposta,corretas,quase,respostas)
+	drawquestions(canvas,v,ladospergunta,presposta,contorpergunta)
 	canvas.pack()
 
 
 	#termina de desenhar a tela
+	bnext = Button(root, text = "PROXIMA", command=quit_loop(v,root))
+	bnext.place(x= 380, y = 575)
 	canvas.pack()
+	#bnext.pack()
 	mainloop()
 
 
