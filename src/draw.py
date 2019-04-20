@@ -221,6 +221,8 @@ def callback(event):
     
 def main():
 
+    
+	# inicialização da tela base (root)
     root = Tk()
     canvas= Canvas(root, width=800, height=600)
     canvas.bind("<Button-1>", callback)
