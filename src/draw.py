@@ -166,9 +166,7 @@ house_image = [house_f1]
 
 def scale_2D(image, k):
     position=translateOrigin(image)
-    new_image = image
-    print(new_image)
-    for face in new_image:
+    for face in image:
         for vertex in face:
             matrixScale=np.array([[k[0], 0, 0],
                                  [0, k[1], 0],
@@ -177,13 +175,12 @@ def scale_2D(image, k):
             result=np.matmul(matrixScale,matrixPosition)
             vertex[0] = result[0]
             vertex[1] = result[1]
-    translate_2D(new_image,position[0],position[1])
-    return new_image
+    translate_2D(image,position[0],position[1])
+    return image
 
 
 def translate_2D(image, x_amount, y_amount):
-    new_image = image
-    for face in new_image:
+    for face in image:
         for vertex in face:
             matrixTranslate=np.array([[1, 0, x_amount],
                              [0, 1, y_amount],
@@ -192,7 +189,7 @@ def translate_2D(image, x_amount, y_amount):
             result=np.matmul(matrixTranslate,matrixPosition)
             vertex[0] = result[0]
             vertex[1] = result[1]
-    return new_image
+    return image
 
 
 def translateOrigin(image):
@@ -222,9 +219,8 @@ def translateOrigin(image):
 def rotation_2D(image, angle=90):
     radian = angle * (math.pi / 180)
     position=translateOrigin(image)
-    new_image = image
     # Fazendo a rotação
-    for face in new_image:
+    for face in image:
         for vertex in face:
             matrixRotation=np.array([[math.cos(radian), math.sin(radian), 0],
                             [math.sin(radian), math.cos(radian), 0],
@@ -234,8 +230,8 @@ def rotation_2D(image, angle=90):
             vertex[0] = result[0]
             vertex[1] = result[1]
     # Transladando a imagem pro ponto original
-    new_image = translate_2D(new_image, position[0], position[1])
-    return new_image
+    image = translate_2D(image, position[0], position[1])
+    return image
 
 
 # For mouse event debugging
