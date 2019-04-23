@@ -166,6 +166,8 @@ star_image = [star_f1]
 
 ### Bottle
 bottle_image = [bottle_f1]
+
+
 def scale_2D(image, k):
     position=translateOrigin(image)
     for face in image:
@@ -273,7 +275,7 @@ def next_page():
     for image in page_list:
         canvas.create_polygon(image, fill='', outline='black')
     position = midpoint(page_list[-1])
-    questiion_mark = canvas.create_text(position[0] + 100, position[1], font=("Times New Roman", 40), text="?")
+    questiion_mark = canvas.create_text(position[0] + 95, position[1], font=("Times New Roman", 40), text="?")
     root.current_page += 1
 
 def midpoint(image):
@@ -322,16 +324,41 @@ arrow6_pos = rotation_2D(arrow6_pos, -90)
 arrow7_pos = rotation_2D(arrow7_pos, 180)
 arrow8_pos = rotation_2D(arrow8_pos, -90)
 
-#page1=[arrow1_pos, arrow2_pos, arrow3_pos, arrow4_pos, arrow5_pos, arrow6_pos, arrow7_pos, arrow8_pos]
-#pages.append(page1)
+page1=[arrow1_pos, arrow2_pos, arrow3_pos, arrow4_pos, arrow5_pos, arrow6_pos, arrow7_pos, arrow8_pos]
+pages.append(page1)
 
 ## Second question
 triangle_position = translateOrigin(triangle_image)
-triangle1_pos = translate_2D(triangle_image, 270, 150)
-page1 = [triangle1_pos]
-pages.append(page1)
 
-#pages.append(page2)
+triangle1_pos = translate_2D(triangle_image, 270, 150)
+triangle2_pos = translate_2D(deepcopy(triangle1_pos), 100, 0)
+triangle3_pos = translate_2D(deepcopy(triangle2_pos), 100, 0)
+
+triangle4_pos = translate_2D(deepcopy(triangle1_pos), 0, 100)
+triangle5_pos = translate_2D(deepcopy(triangle2_pos), 0, 100)
+triangle6_pos = translate_2D(deepcopy(triangle3_pos), 0, 100)
+
+triangle7_pos = translate_2D(deepcopy(triangle4_pos), 0, 100)
+triangle8_pos = translate_2D(deepcopy(triangle5_pos), 0, 100)
+
+
+triangle2_pos = scale_2D(triangle2_pos, [1,2])
+triangle2_pos = translate_2D(triangle2_pos, 0, -20)
+
+triangle3_pos = scale_2D(triangle3_pos, [0.5,0.5])
+triangle3_pos = translate_2D(triangle3_pos, -20, 10)
+
+triangle4_pos = scale_2D(triangle4_pos, [1,2])
+triangle4_pos = translate_2D(triangle4_pos, 0, -20)
+
+triangle6_pos = scale_2D(triangle6_pos, [0.5,0.5])
+triangle6_pos = translate_2D(triangle6_pos, -20, 10)
+triangle7_pos = scale_2D(triangle7_pos, [0.5,0.5])
+triangle7_pos = translate_2D(triangle7_pos, 5, 10) 
+page2 = [triangle1_pos, triangle2_pos, triangle3_pos, triangle4_pos, triangle5_pos, triangle6_pos, triangle7_pos, triangle8_pos]
+pages.append(page2)
+
+
 
 """ 
 arrow = canvas.create_polygon(arrow_image, fill='', outline='black')
