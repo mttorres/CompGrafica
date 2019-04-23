@@ -131,7 +131,7 @@ cup_f1 = [v1_cup, v2_cup, v3_cup, v4_cup]
 triangle_f1 = [v1_t1, v2_t1, v3_t1]
 pentagon_f1 = [v1_pent, v2_pent, v3_pent, v4_pent, v5_pent]
 hexagon_f1 = [v1_hexa, v2_hexa, v3_hexa, v4_hexa, v5_hexa, v6_hexa]
-house_f1 = [v1_house, v2_house, v3_house, v4_house, v1_house, v5_house, v4_house]
+house_f1 = [v1_house, v2_house, v3_house, v4_house, v5_house]
 chair_f1 = [v1_chair, v2_chair, v3_chair, v4_chair, v5_chair, v6_chair, v7_chair, v8_chair, v9_chair, v10_chair]
 star_f1 = [v1_star, v2_star, v3_star, v4_star, v5_star, v6_star, v7_star, v8_star, v9_star, v10_star]
 bottle_f1 = [v1_bottle, v2_bottle, v3_bottle, v4_bottle, v5_bottle, v6_bottle, v7_bottle, v8_bottle]
@@ -168,6 +168,10 @@ star_image = [star_f1]
 bottle_image = [bottle_f1]
 
 
+
+# Transformations 
+
+## Scale
 def scale_2D(image, k):
     position=translateOrigin(image)
     for face in image:
@@ -182,6 +186,7 @@ def scale_2D(image, k):
     translate_2D(image,position[0],position[1])
     return image
 
+## Shear
 def cisa_2D(image, k):
     position=translateOrigin(image)
     for face in image:
@@ -196,6 +201,7 @@ def cisa_2D(image, k):
     translate_2D(image,position[0],position[1])
     return image
 
+## Translation
 def translate_2D(image, x_amount, y_amount):
     for face in image:
         for vertex in face:
@@ -208,7 +214,7 @@ def translate_2D(image, x_amount, y_amount):
             vertex[1] = result[1]
     return image
 
-
+## Translate image midpoint to (0,0)
 def translateOrigin(image):
     # Procurando os extremos para calcular o ponto medio
     esquerda = None
@@ -232,7 +238,7 @@ def translateOrigin(image):
     image = translate_2D(image, -position[0], -position[1])
     return position
 
-
+## Rotation
 def rotation_2D(image, angle=90):
     radian = angle * (math.pi / 180)
     position=translateOrigin(image)
@@ -251,15 +257,12 @@ def rotation_2D(image, angle=90):
     return image
 
 
-
-
-# inicialização da tela base (root)
+# Inicialização da tela base (root)
 root = Tk()
 canvas = Canvas(root, width=800, height=600)
 root.pages = []
 root.current_page = 0
 pages = root.pages
-
 
 
 # The method 'create_polygon' will decapsulate the structure by itself, no need to iterate through it.
@@ -299,10 +302,9 @@ def midpoint(image):
     position=[esquerda + medio_x,cima + medio_y]
     return position
 
-def callback(event):
-    print("Clicked at", event.x, event.y)
-
 # Creating the question's images
+
+##First question 
 arrow_origin = translateOrigin(arrow_image)
 
 arrow1_pos = translate_2D(deepcopy(arrow_image),270,150)
@@ -341,7 +343,6 @@ triangle6_pos = translate_2D(deepcopy(triangle3_pos), 0, 100)
 
 triangle7_pos = translate_2D(deepcopy(triangle4_pos), 0, 100)
 triangle8_pos = translate_2D(deepcopy(triangle5_pos), 0, 100)
-
 
 triangle2_pos = scale_2D(triangle2_pos, [1,2])
 triangle2_pos = translate_2D(triangle2_pos, 0, -20)
@@ -423,20 +424,50 @@ page6 = [cup1_pos, star1_pos, box19_pos, arrow9_pos, cup2_pos, star2_pos, cup3_p
         cup4_pos, star4_pos, cup5_pos, star5_pos, box20_pos, arrow11_pos]
 pages.append(page6)
 
+## Seventh question
 
-""" 
-arrow = canvas.create_polygon(arrow_image, fill='', outline='black')
-box = canvas.create_polygon(box_image, fill='', outline='black')
-cup = canvas.create_polygon(cup_image, fill='', outline='black')
-triangle = canvas.create_polygon(triangle_image, fill='', outline='black')
-pentagon = canvas.create_polygon(pentagon_image, fill='', outline='black')
-hexagon = canvas.create_polygon(hexagon_image, fill='', outline='black')
-house = canvas.create_polygon(house_image, fill='', outline='black') 
+hexagon_origin = translateOrigin(hexagon_image)
+bottle_origin = translateOrigin(bottle_image)
+pentagon_origin = translateOrigin(pentagon_image)
 
-"""
+hex1_pos = translate_2D(deepcopy(hexagon_image), 270, 150)
+box21_pos = translate_2D(deepcopy(box_image), 370, 150)
+star6_pos = translate_2D(deepcopy(star_image), 470, 150 )
+
+pent1_pos = translate_2D(deepcopy(pentagon_image), 270, 250)
+triangle9_pos = translate_2D(deepcopy(triangle_image), 370, 250)
+bottle1_pos = translate_2D(deepcopy(bottle_image), 470, 250)
+
+pent2_pos = translate_2D(deepcopy(pent1_pos), 0, 100)
+triangle10_pos = translate_2D(deepcopy(triangle9_pos), 0, 100)
+
+hex1_pos = cisa_2D(hex1_pos, [-0.225, 0])
+box21_pos = cisa_2D(box21_pos, [-0.225, 0])
+star6_pos = scale_2D(star6_pos, [1.5, 1.5])
+
+pent1_pos = cisa_2D(pent1_pos, [-0.225, 0])
+triangle9_pos = cisa_2D(triangle9_pos, [-0.225, 0])
+bottle1_pos = scale_2D(bottle1_pos, [1.5, 1.5])
+
+pent2_pos = cisa_2D(pent2_pos, [0.225, 0])
+triangle10_pos = cisa_2D(triangle10_pos, [0.225, 0])
+
+page7 = [hex1_pos, box21_pos, star6_pos, pent1_pos, triangle9_pos, bottle1_pos, pent2_pos, triangle10_pos]
+pages.append(page7)
+
+
+## Tenth question
+triangle11_pos = translate_2D(deepcopy(triangle_image), 270, 150)
+box22_pos = translate_2D(deepcopy(box_image), 370, 150)
+pent3_pos = translate_2D(deepcopy(pentagon_image), 460, 150)
+
+page10 = [triangle11_pos, box22_pos, pent3_pos]
+pages.append(page10)
+#house = translate_2D(house_image, 100, 100)
+#house = canvas.create_polygon(house_image, fill='', outline='black')
+
 canvas.pack()
 root.update()
-canvas.bind("<Button-1>", callback)
 next_button = Button(canvas, text="Próxima página", command=next_page)
 next_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
 root.mainloop()
