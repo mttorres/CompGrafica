@@ -1,6 +1,6 @@
 from tkinter import *
 import math
-from src.draw import *
+#from src.draw import *
 
 
 ##### estou pensando em separar cada uma dessas partes abaixo em modulos .py
@@ -70,7 +70,7 @@ def polygonimagecreator(nvertices, data):
 
 
 def drawoptions(canvas, v, lados, preenc, contor, corretas, quase, respostas, rot=False, trans=False):
-    options = Canvas(canvas, width=800, height=300, bg="RED")
+    options = Canvas(canvas, width=800, height=300, bg="#ffffcc")
     offsetx = 270
     offsety = 80
     data = [0, 0]
@@ -111,7 +111,7 @@ def drawoptions(canvas, v, lados, preenc, contor, corretas, quase, respostas, ro
 
 
 def drawquestions(canvas, v, lados, preenc, contor, rot=False, trans=False):
-    board = Canvas(canvas, width=800, height=300, bg="BLUE")
+    board = Canvas(canvas, width=800, height=300, bg="#ffffcc")
     offsetx = 270
     offsety = 80
     data = [0, 0]
@@ -166,7 +166,7 @@ def quit_loop(v, root):
 ########################################
 def main():
     root = Tk()
-    canvas = Canvas(root, width=800, height=600, bg="Blue")
+    canvas = Canvas(root, width=800, height=600, bg="#ffffcc")
     canvas.bind("<Button-1>", callback)
 
     v = IntVar()
