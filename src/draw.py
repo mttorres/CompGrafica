@@ -376,6 +376,68 @@ page3 = [chair1_pos, chair2_pos, chair3_pos]
 pages.append(page3)
 
 
+##fourth question
+box_origin = translateOrigin(box_image)
+
+box1_pos = translate_2D(deepcopy(box_image),270,150)
+
+box2_pos = translate_2D(deepcopy(box1_pos), 80, 0)
+box3_pos = translate_2D(deepcopy(box2_pos), 40, 0)
+
+
+box4_pos = translate_2D(deepcopy(box3_pos), 80, 0)
+box5_pos = translate_2D(deepcopy(box4_pos), 40, 0)
+box6_pos = translate_2D(deepcopy(box5_pos), 40, 0)
+
+
+box7_pos = translate_2D(deepcopy(box1_pos), 0, 100)
+box8_pos = translate_2D(deepcopy(box7_pos), 40, 0)
+box9_pos = translate_2D(deepcopy(box8_pos), 40, 0)
+box10_pos = translate_2D(deepcopy(box9_pos), 40, 0)
+
+box11_pos = translate_2D(deepcopy(box10_pos), 80, 0)
+box12_pos = translate_2D(deepcopy(box11_pos), 40, 0)
+box13_pos = translate_2D(deepcopy(box12_pos), 40, 0)
+box14_pos = translate_2D(deepcopy(box13_pos), 40, 0)
+box15_pos = translate_2D(deepcopy(box14_pos), 40, 0)
+
+
+box16_pos = translate_2D(deepcopy(box1_pos), 0, 200)
+box17_pos = translate_2D(deepcopy(box16_pos), 40, 0)
+box18_pos = translate_2D(deepcopy(box17_pos), 40, 0)
+box19_pos = translate_2D(deepcopy(box18_pos), 40, 0)
+box20_pos = translate_2D(deepcopy(box19_pos), 40, 0)
+box21_pos = translate_2D(deepcopy(box20_pos), 40, 0)
+
+
+page4=[box1_pos, box2_pos, box3_pos,box4_pos,box5_pos,box6_pos,box7_pos,box8_pos,box9_pos,box10_pos,box11_pos,box12_pos,box13_pos,box14_pos,box15_pos
+,box16_pos,box17_pos,box18_pos,box19_pos,box20_pos,box21_pos]
+pages.append(page4)
+
+#fifth question
+penta_origin = translateOrigin(pentagon_image)
+penta1_pos = translate_2D(deepcopy(pentagon_image),270,150)
+
+penta2_pos = translate_2D(deepcopy(penta1_pos),120,0)
+penta2_pos = rotation_2D(penta2_pos, 90)
+penta2_pos = scale_2D(penta2_pos,[0.75,0.75])
+
+penta3_pos = translate_2D(deepcopy(penta1_pos),240,0)
+penta3_pos = rotation_2D(penta3_pos, 180)
+penta3_pos = scale_2D(penta3_pos,[0.50,0.50])
+
+
+penta4_pos = translate_2D(deepcopy(penta1_pos),0,100)
+penta4_pos = rotation_2D(penta4_pos, 270)
+penta4_pos = scale_2D(penta4_pos,[0.25,0.25])
+
+penta5_pos = translate_2D(deepcopy(penta1_pos),120,100)
+penta5_pos = rotation_2D(penta5_pos,360)
+penta5_pos = scale_2D(penta5_pos,[1.25,1.25])
+
+page5 = [penta1_pos,penta2_pos,penta3_pos,penta4_pos,penta5_pos]
+pages.append(page5)
+
 ##Sixth question
 
 cup_origin = translateOrigin(cup_image)
@@ -456,15 +518,63 @@ page7 = [hex1_pos, box21_pos, star6_pos, pent1_pos, triangle9_pos, bottle1_pos, 
 pages.append(page7)
 
 
-## Tenth question
+
+# eighth question
+house_origin = translateOrigin(house_image)
+star_origin = translateOrigin(star_image)
+
+house1_pos = translate_2D(deepcopy(house_image),240,150)
+star_pos1 = translate_2D(deepcopy(star_image),230,165)
+starzinha1 = scale_2D(star_pos1,[0.15,0.15])
+
+house2_pos = translate_2D(deepcopy(house1_pos),100,0)
+starzinha2 = translate_2D(deepcopy(starzinha1),100,-20)
+
+house3_pos = scale_2D(translate_2D(deepcopy(house1_pos),200,0),[1,-1])
+starzinha3 = translate_2D(deepcopy(starzinha1),200,-10)
+
+house4_pos = translate_2D(deepcopy(house3_pos),100,0)
+starzinha4 = translate_2D(deepcopy(starzinha3),100,-20)
+
+page8 = [house1_pos,starzinha1,starzinha2,house2_pos,starzinha3,house3_pos,starzinha4,house4_pos]
+pages.append(page8)
+
+
+## 9 question
 triangle11_pos = translate_2D(deepcopy(triangle_image), 270, 150)
 box22_pos = translate_2D(deepcopy(box_image), 370, 150)
 pent3_pos = translate_2D(deepcopy(pentagon_image), 460, 150)
 
 page10 = [triangle11_pos, box22_pos, pent3_pos]
 pages.append(page10)
-#house = translate_2D(house_image, 100, 100)
-#house = canvas.create_polygon(house_image, fill='', outline='black')
+
+
+#x question
+
+box_origin = translateOrigin(deepcopy(box_image))
+
+box1_pos = translate_2D(deepcopy(box_image),270,150)
+
+box2_pos = translate_2D(deepcopy(box1_pos),80,0)
+disto2_pos = cisa_2D(deepcopy(box2_pos), [1, 0])
+box3_pos = translate_2D(deepcopy(box2_pos),100,0)
+disto3_pos = cisa_2D(deepcopy(box3_pos), [2, 0])
+
+
+box4_pos = translate_2D(deepcopy(box1_pos),0,100)
+
+box5_pos = translate_2D(deepcopy(box4_pos),100,0)
+disto5_pos = cisa_2D(deepcopy(box5_pos), [0, 1])
+box6_pos = translate_2D(deepcopy(box5_pos),100,0)
+disto6_pos = cisa_2D(deepcopy(box6_pos), [0, 2])
+
+
+box7_pos = translate_2D(deepcopy(box4_pos),0,100)
+box8_pos = translate_2D(deepcopy(box7_pos),100,0)
+disto8_pos = cisa_2D(deepcopy(box8_pos), [1, 1])
+
+pageX = [box1_pos,box2_pos,disto2_pos,box3_pos,disto3_pos,box4_pos,box5_pos,disto5_pos,box6_pos,disto6_pos,box7_pos,box8_pos,disto8_pos]
+pages.append(pageX)
 
 canvas.pack()
 root.update()
