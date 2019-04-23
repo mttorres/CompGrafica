@@ -1,4 +1,4 @@
-from tkinter import Tk, Canvas, Frame, BOTH
+from tkinter import Tk, Canvas, Frame, Button, BOTH
 import math
 import numpy as np
 from copy import deepcopy
@@ -102,15 +102,15 @@ v9_chair =
 v10_chair = 
 
 
-### Lantern
-v1_lant = 
-v2_lant = 
-v3_lant = 
-v4_lant = 
-v5_lant = 
-v6_lant = 
-v7_lant = 
-v8_lant = 
+### Star
+v1_star = 
+v2_star = 
+v3_star = 
+v4_star = 
+v5_star = 
+v6_star = 
+v7_star = 
+v8_star = 
 
 
 ### Bottle
@@ -139,7 +139,7 @@ cup_f1 = [v1_cup, v2_cup, v3_cup, v4_cup]
 triangle_f1 = [v1_t1, v2_t1, v3_t1]
 pentagon_f1 = [v1_pent, v2_pent, v3_pent, v4_pent, v5_pent]
 hexagon_f1 = [v1_hexa, v2_hexa, v3_hexa, v4_hexa, v5_hexa, v6_hexa]
-house_f1 = [v1_house, v2_house, v3_house, v4_house, v5_house]
+house_f1 = [v1_house, v2_house, v3_house, v4_house, v1_house, v5_house, v4_house]
 
 # Figures
 
@@ -248,71 +248,71 @@ def rotation_2D(image, angle=90):
     return image
 
 
-# For mouse event debugging
-def callback(event):
-    print("Clicked at", event.x, event.y)
 
 
-def main():
-    # inicialização da tela base (root)
-    root = Tk()
-    canvas = Canvas(root, width=800, height=600)
-    canvas.bind("<Button-1>", callback)
-
-    # The method 'create_polygon' will decapsulate the structure by itself, no need to iterate through it.
-    # Removes fill(polygon is filled by default) and draws outline(invisible by default).
-    arrow = canvas.create_polygon(arrow_image, fill='', outline='black')
-    box = canvas.create_polygon(box_image, fill='', outline='black')
-    cup = canvas.create_polygon(cup_image, fill='', outline='black')
-    triangle = canvas.create_polygon(triangle_image, fill='', outline='black')
-    pentagon = canvas.create_polygon(pentagon_image, fill='', outline='black')
-    hexagon = canvas.create_polygon(hexagon_image, fill='', outline='red')
-
-    # Translates the pentagon 100 px down
-    new_pentagon_image = translate_2D(pentagon_image, 0, 100)
-    # print(new_pentagon_image)
-
-    # Rotate the pentagon
-    #new_pentagon_image = rotation_2D(new_pentagon_image, 90)
-    #  print(new_pentagon_image)
-    novopenta = canvas.create_polygon(new_pentagon_image)
-
-    # desenhando a casa sem ter que fazer a soma "manualmente" ou seja testando a transalate_2D
-    criar_casa = translate_2D(house_image, 80, 0)
-    '''
-    sugestao futura,  a funcao translate_2d poderia só atualizar o cara de dentro da matriz ao inves de retornar uma nova image
-    isso faz a gente ter que instanciar 2 variaveis , mas depois a gente conversa sobre isso
-    '''
-    minhacasa = canvas.create_polygon(criar_casa, fill='', outline='blue')
-
-    # Draw a bigger box
-    copia = deepcopy(box_image)
+# inicialização da tela base (root)
+root = Tk()
+canvas = Canvas(root, width=800, height=600)
+root.pages = []
+pages = root.pages
+root.current_page = 0
 
 
-    blue_box = translate_2D(box_image, 0, 100)
-    canvas.create_polygon(blue_box, fill='', outline='blue')
-    big_box = scale_2D(blue_box, [2, 2])
-    inverpenta = scale_2D(new_pentagon_image, [1, -1])
-    #big_box = cisa_2D(blue_box, [1, 0])
-    canvas.create_polygon(inverpenta, fill='', outline='blue')
-    canvas.create_polygon(big_box, fill='', outline='blue')
+# The method 'create_polygon' will decapsulate the structure by itself, no need to iterate through it.
+# Removes fill(polygon is filled by default) and draws outline(invisible by default).
+#Gets the pages from the root object and draw each page's images.
+def next_page():
     
-    canvas.pack()
-    root.mainloop()
+    if(root.current_page > len(pages)):
+        root.current_page = 0
+    canvas.delete('all')
+    for image in pages[root.current_page]:
+        canvas.create_polygon(image, fill='', outline='black')
+    root.current_page += 1
+
+page1=[arrow_image, box_image, cup_image]
+page2=[triangle_image, pentagon_image,hexagon_image]
+pages.append(page1)
+pages.append(page2)
+
+""" arrow = canvas.create_polygon(arrow_image, fill='', outline='black')
+box = canvas.create_polygon(box_image, fill='', outline='black')
+cup = canvas.create_polygon(cup_image, fill='', outline='black')
+triangle = canvas.create_polygon(triangle_image, fill='', outline='black')
+pentagon = canvas.create_polygon(pentagon_image, fill='', outline='black')
+hexagon = canvas.create_polygon(hexagon_image, fill='', outline='black')
+house = canvas.create_polygon(house_image, fill='', outline='black') """
+# Translates the pentagon 100 px down
+#new_pentagon_image = translate_2D(pentagon_image, 0, 100)
+# print(new_pentagon_image)
+
+# Rotate the pentagon
+#new_pentagon_image = rotation_2D(new_pentagon_image, 90)
+#  print(new_pentagon_image)
+#novopenta = canvas.create_polygon(new_pentagon_image)
+
+# desenhando a casa sem ter que fazer a soma "manualmente" ou seja testando a transalate_2D
+#criar_casa = translate_2D(house_image, 80, 0)
+
+""" minhacasa = canvas.create_polygon(criar_casa, fill='', outline='blue')
+
+# Draw a bigger box
+copia = deepcopy(box_image)
 
 
-if __name__ == '__main__':
-    main()
+blue_box = translate_2D(box_image, 0, 100)
+canvas.create_polygon(blue_box, fill='', outline='blue')
+big_box = scale_2D(blue_box, [2, 2])
+inverpenta = scale_2D(new_pentagon_image, [1, -1])
+#big_box = cisa_2D(blue_box, [1, 0])
+canvas.create_polygon(inverpenta, fill='', outline='blue')
+canvas.create_polygon(big_box, fill='', outline='blue')
+ """
+canvas.pack()
+
+clear_button = Button(canvas, text="Próxima página", command=next_page)
+clear_button.place(x=0, y=0)
+root.mainloop()
 
 
-class Drawing(Frame):
 
-    def __init__(self):
-        super().__init__()
-        self.initUI()
-
-    def initUI(self):
-        self.master.title("Lines")
-        self.pack(fill=BOTH, expand=1)
-
-        canvas = Canvas(self)
