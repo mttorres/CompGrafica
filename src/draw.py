@@ -1,7 +1,10 @@
-from tkinter import Tk, Canvas, Frame, Button, BOTH
+from tkinter import Tk, Canvas, Frame, Button, Label, BOTH
+from PIL import Image, ImageTk
 import math
 import numpy as np
 from copy import deepcopy
+import os
+import pathlib
 
 """
 This file is used to draw figures using the Canvas object (and its methods) from Tkinter
@@ -126,46 +129,65 @@ v5_house = [425, 20]
 
 ## Faces
 arrow_f1 = [v1_arrow, v2_arrow, v3_arrow, v4_arrow, v5_arrow, v6_arrow, v7_arrow]
+arrow_f2 = [v1_arrow, v7_arrow, v6_arrow, v5_arrow, v4_arrow, v3_arrow, v2_arrow]
+
 box_f1 = [v1_box, v2_box, v3_box, v4_box]
+box_f2 = [v1_box, v4_box, v3_box, v2_box]
+
 cup_f1 = [v1_cup, v2_cup, v3_cup, v4_cup]
+cup_f2 = [v1_cup, v4_cup, v3_cup, v2_cup]
+
 triangle_f1 = [v1_t1, v2_t1, v3_t1]
+triangle_f2 = [v1_t1, v3_t1, v2_t1]
+
 pentagon_f1 = [v1_pent, v2_pent, v3_pent, v4_pent, v5_pent]
+pentagon_f2 = [v1_pent, v5_pent, v4_pent, v3_pent, v2_pent]
+
 hexagon_f1 = [v1_hexa, v2_hexa, v3_hexa, v4_hexa, v5_hexa, v6_hexa]
+hexagon_f2 = [v1_hexa, v6_hexa, v5_hexa, v4_hexa, v3_hexa, v2_hexa]
+
 house_f1 = [v1_house, v2_house, v3_house, v4_house, v5_house]
+house_f2 = [v1_house, v5_house, v4_house, v3_house, v2_house]
+
 chair_f1 = [v1_chair, v2_chair, v3_chair, v4_chair, v5_chair, v6_chair, v7_chair, v8_chair, v9_chair, v10_chair]
+chair_f2 = [v1_chair, v10_chair, v9_chair, v8_chair, v7_chair, v6_chair, v5_chair, v4_chair, v3_chair, v2_chair]
+
 star_f1 = [v1_star, v2_star, v3_star, v4_star, v5_star, v6_star, v7_star, v8_star, v9_star, v10_star]
+star_f2 = [v1_star, v10_star, v9_star, v8_star, v7_star, v6_star, v5_star, v4_star, v3_star, v2_star]
+
 bottle_f1 = [v1_bottle, v2_bottle, v3_bottle, v4_bottle, v5_bottle, v6_bottle, v7_bottle, v8_bottle]
+bottle_f2 = [v1_bottle, v8_bottle, v7_bottle, v6_bottle, v5_bottle, v4_bottle, v3_bottle, v2_bottle]
 # Figures
 
 ### Arrow
-arrow_image = [arrow_f1]
+arrow_image = [arrow_f1, arrow_f2]
 
 ### Box
-box_image = [box_f1]
+box_image = [box_f1, box_f2]
 
 ### Cup
-cup_image = [cup_f1]
+cup_image = [cup_f1, cup_f2]
 
 ### Triangle
-triangle_image = [triangle_f1]
+triangle_image = [triangle_f1, triangle_f2]
 
 ### Pentagon
-pentagon_image = [pentagon_f1]
+pentagon_image = [pentagon_f1, pentagon_f2]
 
 ### Hexagon
-hexagon_image = [hexagon_f1]
+hexagon_image = [hexagon_f1, hexagon_f2]
 
 ### House
-house_image = [house_f1]
+house_image = [house_f1, house_f2]
 
 ### Chair
-chair_image = [chair_f1]
+chair_image = [chair_f1, chair_f2]
 
 ### Star 
-star_image = [star_f1]
+star_image = [star_f1, star_f2]
 
 ### Bottle
-bottle_image = [bottle_f1]
+bottle_image = [bottle_f1, bottle_f2]
 
 
 
@@ -174,44 +196,44 @@ bottle_image = [bottle_f1]
 ## Scale
 def scale_2D(image, k):
     position=translateOrigin(image)
-    for face in image:
-        for vertex in face:
-            matrixScale=np.array([[k[0], 0, 0],
-                                 [0, k[1], 0],
-                                 [0, 0, 1]])
-            matrixPosition=np.array([vertex[0],vertex[1],1])
-            result=np.matmul(matrixScale,matrixPosition)
-            vertex[0] = result[0]
-            vertex[1] = result[1]
+    face = image[0]
+    for vertex in face:
+        matrixScale=np.array([[k[0], 0, 0],
+                                [0, k[1], 0],
+                                [0, 0, 1]])
+        matrixPosition=np.array([vertex[0],vertex[1],1])
+        result=np.matmul(matrixScale,matrixPosition)
+        vertex[0] = result[0]
+        vertex[1] = result[1]
     translate_2D(image,position[0],position[1])
     return image
 
 ## Shear
 def cisa_2D(image, k):
     position=translateOrigin(image)
-    for face in image:
-        for vertex in face:
-            matrixScale=np.array([[1, k[0], 0],
-                                 [k[1], 1, 0],
-                                 [0, 0, 1]])
-            matrixPosition=np.array([vertex[0],vertex[1],1])
-            result=np.matmul(matrixScale,matrixPosition)
-            vertex[0] = result[0]
-            vertex[1] = result[1]
+    face = image[0]
+    for vertex in face:
+        matrixScale=np.array([[1, k[0], 0],
+                                [k[1], 1, 0],
+                                [0, 0, 1]])
+        matrixPosition=np.array([vertex[0],vertex[1],1])
+        result=np.matmul(matrixScale,matrixPosition)
+        vertex[0] = result[0]
+        vertex[1] = result[1]
     translate_2D(image,position[0],position[1])
     return image
 
 ## Translation
 def translate_2D(image, x_amount, y_amount):
-    for face in image:
-        for vertex in face:
-            matrixTranslate=np.array([[1, 0, x_amount],
-                             [0, 1, y_amount],
-                             [0, 0, 1]])
-            matrixPosition=np.array([vertex[0],vertex[1],1])
-            result=np.matmul(matrixTranslate,matrixPosition)
-            vertex[0] = result[0]
-            vertex[1] = result[1]
+    face = image[0]
+    for vertex in face:
+        matrixTranslate=np.array([[1, 0, x_amount],
+                            [0, 1, y_amount],
+                            [0, 0, 1]])
+        matrixPosition=np.array([vertex[0],vertex[1],1])
+        result=np.matmul(matrixTranslate,matrixPosition)
+        vertex[0] = result[0]
+        vertex[1] = result[1]
     return image
 
 ## Translate image midpoint to (0,0)
@@ -221,16 +243,16 @@ def translateOrigin(image):
     direita = None
     cima = None
     baixo = None
-    for face in image:
-        for vertex in face:
-            if ((esquerda == None) or (esquerda < vertex[0])):
-                esquerda = vertex[0]
-            if ((direita == None) or (direita > vertex[0])):
-                direita = vertex[0]
-            if ((cima == None) or (cima < vertex[1])):
-                cima = vertex[1]
-            if ((baixo == None) or (baixo > vertex[1])):
-                baixo = vertex[1]
+    face = image[0]
+    for vertex in face:
+        if ((esquerda == None) or (esquerda < vertex[0])):
+            esquerda = vertex[0]
+        if ((direita == None) or (direita > vertex[0])):
+            direita = vertex[0]
+        if ((cima == None) or (cima < vertex[1])):
+            cima = vertex[1]
+        if ((baixo == None) or (baixo > vertex[1])):
+            baixo = vertex[1]
     # Calculando o ponto medio em relação  x e y e transladando a imagem para a origem
     medio_x = (direita - esquerda) / 2
     medio_y = (baixo - cima) / 2
@@ -243,15 +265,14 @@ def rotation_2D(image, angle=90):
     radian = angle * (math.pi / 180)
     position=translateOrigin(image)
     # Fazendo a rotação
-    for face in image:
-        for vertex in face:
-            matrixRotation=np.array([[math.cos(radian), (math.sin(radian)), 0],
-                            [-math.sin(radian), math.cos(radian), 0],
-                            [0, 0, 1]])
-            vetorPosition=np.array([vertex[0],vertex[1],1])
-            result=np.matmul(matrixRotation,vetorPosition)
-            vertex[0] = result[0]
-            vertex[1] = result[1]
+    face = image[0]
+    for vertex in face:
+        matrixRotation=np.array([[math.cos(radian), (math.sin(radian))],[-(math.sin(radian)), math.cos(radian)]])
+                        
+        vetorPosition=np.array([vertex[0],vertex[1]])
+        result=np.matmul(matrixRotation,vetorPosition)
+        vertex[0] = result[0]
+        vertex[1] = result[1]
     # Transladando a imagem pro ponto original
     image = translate_2D(image, position[0], position[1])
     return image
@@ -265,14 +286,18 @@ root.current_page = 0
 pages = root.pages
 
 
+
 # The method 'create_polygon' will decapsulate the structure by itself, no need to iterate through it.
 # Removes fill(polygon is filled by default) and draws outline(invisible by default).
 # Gets the pages from the root object and draw each page's images.
 def next_page():
+    next_button = Button(canvas, text="Próxima página", command=next_page)
+    next_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
     if(root.current_page < 0):
         return
     if(root.current_page > len(pages) -1):
         root.current_page = 0
+    start_button.destroy()
     canvas.delete('all')
     page_list = pages[root.current_page]
     for image in page_list:
@@ -287,16 +312,16 @@ def midpoint(image):
     direita = None
     cima = None
     baixo = None
-    for face in image:
-        for vertex in face:
-            if ((esquerda == None) or (esquerda < vertex[0])):
-                esquerda = vertex[0]
-            if ((direita == None) or (direita > vertex[0])):
-                direita = vertex[0]
-            if ((cima == None) or (cima < vertex[1])):
-                cima = vertex[1]
-            if ((baixo == None) or (baixo > vertex[1])):
-                baixo = vertex[1]
+    face = image[0]
+    for vertex in face:
+        if ((esquerda == None) or (esquerda < vertex[0])):
+            esquerda = vertex[0]
+        if ((direita == None) or (direita > vertex[0])):
+            direita = vertex[0]
+        if ((cima == None) or (cima < vertex[1])):
+            cima = vertex[1]
+        if ((baixo == None) or (baixo > vertex[1])):
+            baixo = vertex[1]
     medio_x = (direita - esquerda) / 2
     medio_y = (baixo - cima) / 2
     position=[esquerda + medio_x,cima + medio_y]
@@ -463,14 +488,17 @@ pent3_pos = translate_2D(deepcopy(pentagon_image), 460, 150)
 
 page10 = [triangle11_pos, box22_pos, pent3_pos]
 pages.append(page10)
-#house = translate_2D(house_image, 100, 100)
-#house = canvas.create_polygon(house_image, fill='', outline='black')
 
 canvas.pack()
 root.update()
-next_button = Button(canvas, text="Próxima página", command=next_page)
-next_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
+
+start_button = Button(canvas, text="Começar o jogo!", command=next_page)
+start_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
+""" file_path = "Trabalho 1\src\\velosem_logo.png"
+img = ImageTk.PhotoImage(Image.open(file_path))
+canvas.create_image """
 root.mainloop()
+
 
 
 
