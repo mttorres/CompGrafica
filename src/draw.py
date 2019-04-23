@@ -5,7 +5,7 @@ import numpy as np
 from copy import deepcopy
 import os
 import pathlib
-
+import time
 """
 This file is used to draw figures using the Canvas object (and its methods) from Tkinter
 library. It also stores the data structures that represent these figures in vectors and matrixes.
@@ -283,28 +283,67 @@ root = Tk()
 canvas = Canvas(root, width=800, height=600)
 root.pages = []
 root.current_page = 0
+root.start = 0
 pages = root.pages
 
+""" arrow = canvas.create_polygon(arrow_image, fill='', outline='black')
+triangle = canvas.create_polygon(triangle_image, fill='', outline='black')
+cup = canvas.create_polygon(cup_image, fill='', outline='black')
+box = canvas.create_polygon(box_image, fill='', outline='black')
+pentagon = canvas.create_polygon(pentagon_image, fill='', outline='black')
+hexagon = canvas.create_polygon(hexagon_image, fill='', outline='black')
+chair = canvas.create_polygon(chair_image, fill='', outline='black')
+star = canvas.create_polygon(star_image, fill='', outline='black')
+bottle = canvas.create_polygon(bottle_image, fill='', outline='black')
+house = translate_2D(house_image, 50, 0)
+house = canvas.create_polygon(house_image, fill='', outline='black') """
 
 
+#Botões
 # The method 'create_polygon' will decapsulate the structure by itself, no need to iterate through it.
 # Removes fill(polygon is filled by default) and draws outline(invisible by default).
 # Gets the pages from the root object and draw each page's images.
+def exit_game():
+    print("You spent %s seconds taking the test!" % (time.time() - root.start))
+    return exit()
+
+def back_menu():
+    print("You spent %s seconds taking the test!" % (time.time() - root.start))
+    root.start = 0
+    menu_button.place_forget()
+    exit_button.place_forget()
+    next_button.place_forget()
+    root.current_page = 0
+    start_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.70)
+    canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
+
 def next_page():
-    next_button = Button(canvas, text="Próxima página", command=next_page)
-    next_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
     if(root.current_page < 0):
+        return  
+    if(root.start == 0):
+        root.start = time.time()
+    start_button.place_forget()
+    exit_button.place_forget()
+    if(root.current_page >= 0 and root.current_page < len(pages) - 1):
+        next_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
+    else:
+        canvas.delete('all')
+        next_button.place_forget()
+        exit_button.place(x=canvas.winfo_width()*0.65, y=canvas.winfo_height()*0.70)
+        menu_button.place(x=canvas.winfo_width()*0.25, y=canvas.winfo_height()*0.70)
         return
-    if(root.current_page > len(pages) -1):
-        root.current_page = 0
-    start_button.destroy()
+    
     canvas.delete('all')
+    
     page_list = pages[root.current_page]
     for image in page_list:
         canvas.create_polygon(image, fill='', outline='black')
     position = midpoint(page_list[-1])
-    questiion_mark = canvas.create_text(position[0] + 95, position[1], font=("Times New Roman", 40), text="?")
+    question_mark = canvas.create_text(position[0] + 95, position[1], font=("Times New Roman", 40), text="?")
+    
     root.current_page += 1
+
+
 
 # Gets the midpoint of an image
 def midpoint(image):
@@ -605,10 +644,18 @@ canvas.pack()
 root.update()
 
 start_button = Button(canvas, text="Começar o jogo!", command=next_page)
-start_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
-""" file_path = "Trabalho 1\src\\velosem_logo.png"
+next_button = Button(canvas, text="Próxima página", command=next_page)
+
+exit_button = Button(canvas, text="Sair do jogo!", command=exit_game)
+menu_button = Button(canvas, text="Ir para o menu!", command=back_menu)
+
+start_button.place(x=canvas.winfo_width()*0.25, y=canvas.winfo_height()*0.70)
+exit_button.place(x=canvas.winfo_width()*0.65, y=canvas.winfo_height()*0.70)
+
+file_path = "images/velosem-logo.png"
 img = ImageTk.PhotoImage(Image.open(file_path))
-canvas.create_image """
+canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
+
 root.mainloop()
 
 
