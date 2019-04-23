@@ -278,6 +278,7 @@ def next_page():
     questiion_mark = canvas.create_text(position[0] + 95, position[1], font=("Times New Roman", 40), text="?")
     root.current_page += 1
 
+# Gets the midpoint of an image
 def midpoint(image):
     esquerda = None
     direita = None
@@ -304,7 +305,7 @@ def callback(event):
 # Creating the question's images
 arrow_origin = translateOrigin(arrow_image)
 
-arrow1_pos = translate_2D(arrow_image,270,150)
+arrow1_pos = translate_2D(deepcopy(arrow_image),270,150)
 arrow2_pos = translate_2D(deepcopy(arrow1_pos), 100, 0)
 arrow3_pos = translate_2D(deepcopy(arrow2_pos), 100, 0)
 
@@ -330,7 +331,7 @@ pages.append(page1)
 ## Second question
 triangle_position = translateOrigin(triangle_image)
 
-triangle1_pos = translate_2D(triangle_image, 270, 150)
+triangle1_pos = translate_2D(deepcopy(triangle_image), 270, 150)
 triangle2_pos = translate_2D(deepcopy(triangle1_pos), 100, 0)
 triangle3_pos = translate_2D(deepcopy(triangle2_pos), 100, 0)
 
@@ -355,9 +356,72 @@ triangle6_pos = scale_2D(triangle6_pos, [0.5,0.5])
 triangle6_pos = translate_2D(triangle6_pos, -20, 10)
 triangle7_pos = scale_2D(triangle7_pos, [0.5,0.5])
 triangle7_pos = translate_2D(triangle7_pos, 5, 10) 
+
 page2 = [triangle1_pos, triangle2_pos, triangle3_pos, triangle4_pos, triangle5_pos, triangle6_pos, triangle7_pos, triangle8_pos]
 pages.append(page2)
 
+### Third question
+
+chair_origin = translateOrigin(chair_image)
+
+chair1_pos = translate_2D(deepcopy(chair_image), 320, 160)
+chair2_pos = translate_2D(deepcopy(chair1_pos), 100, 0)
+
+chair3_pos = translate_2D(deepcopy(chair1_pos), 0, 120)
+
+chair1_pos = scale_2D(chair1_pos, [-1, 1])
+chair3_pos = scale_2D(chair3_pos, [-1, -1])
+page3 = [chair1_pos, chair2_pos, chair3_pos]
+pages.append(page3)
+
+
+##Sixth question
+
+cup_origin = translateOrigin(cup_image)
+star_origin = translateOrigin(star_image)
+box_origin = translateOrigin(box_image)
+
+cup1_pos = translate_2D(deepcopy(cup_image), 270, 150)
+cup1_mid = midpoint(cup1_pos)
+star1_pos = translate_2D(deepcopy(star_image), cup1_mid[0], cup1_mid[1])
+star1_pos = scale_2D(star1_pos, [0.5, 0.5])
+
+box19_pos = translate_2D(deepcopy(box_image), 370, 150)
+box19_mid = midpoint(box19_pos)
+arrow9_pos = translate_2D(deepcopy(arrow_image),box19_mid[0], box19_mid[1])
+arrow9_pos = scale_2D(arrow9_pos, [0.5,0.5])
+arrow9_pos = rotation_2D(arrow9_pos, 90)
+
+cup2_pos = translate_2D(deepcopy(cup1_pos), 200, -50)
+cup2_mid = midpoint(cup2_pos)
+star2_pos = translate_2D(deepcopy(star_image), cup2_mid[0], cup2_mid[1])
+cup2_pos = scale_2D(cup2_pos, [1.5, 1.5])
+star2_pos = scale_2D(star2_pos, [0.75,0.75])
+
+cup3_pos = translate_2D(deepcopy(cup1_pos), 0, 100)
+star3_pos = translate_2D(deepcopy(star1_pos), 0, 100)
+
+arrow10_pos = translate_2D(deepcopy(arrow9_pos), 0, 100)
+
+cup4_pos = translate_2D(deepcopy(cup3_pos), 200, -50)
+cup4_mid = midpoint(cup4_pos)
+star4_pos = translate_2D(deepcopy(star_image), cup4_mid[0], cup4_mid[1])
+star4_pos = scale_2D(star4_pos, [0.5,0.5])
+
+cup5_pos = translate_2D(deepcopy(cup3_pos),0,100)
+cup5_mid = midpoint(cup5_pos)
+star5_pos = translate_2D(deepcopy(star_image), cup5_mid[0], cup5_mid[1])
+star5_pos = scale_2D(star5_pos, [0.5,0.5])
+
+box20_pos = translate_2D(deepcopy(box19_pos), 0, 200)
+box20_mid = midpoint(box20_pos)
+arrow11_pos = translate_2D(deepcopy(arrow_image), box20_mid[0], box20_mid[1])
+arrow11_pos = scale_2D(arrow11_pos, [0.5,0.5])
+arrow11_pos = rotation_2D(arrow11_pos, -90)
+
+page6 = [cup1_pos, star1_pos, box19_pos, arrow9_pos, cup2_pos, star2_pos, cup3_pos, star3_pos, arrow10_pos,
+        cup4_pos, star4_pos, cup5_pos, star5_pos, box20_pos, arrow11_pos]
+pages.append(page6)
 
 
 """ 
@@ -373,8 +437,8 @@ house = canvas.create_polygon(house_image, fill='', outline='black')
 canvas.pack()
 root.update()
 canvas.bind("<Button-1>", callback)
-clear_button = Button(canvas, text="Próxima página", command=next_page)
-clear_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
+next_button = Button(canvas, text="Próxima página", command=next_page)
+next_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
 root.mainloop()
 
 
