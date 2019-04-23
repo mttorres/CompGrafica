@@ -263,17 +263,21 @@ root.current_page = 0
 # Removes fill(polygon is filled by default) and draws outline(invisible by default).
 # Gets the pages from the root object and draw each page's images.
 def next_page():
+    if(root.current_page < 0):
+        return
     if(root.current_page > len(pages) -1):
         root.current_page = 0
     canvas.delete('all')
-    for image in pages[root.current_page]:
+    page_list = pages[root.current_page]
+    for image in page_list:
         canvas.create_polygon(image, fill='', outline='black')
-    position = get_last_position(pages[root.current_page])
+    position = get_last_position(page_list[-1])
     questiion_mark = canvas.create_text(position[0]+ 80 , position[1], font=("Times New Roman", 40), text="?")
     root.current_page += 1
 
-def get_last_position(page):
-    last_image = page[-1]
+#Gets the image's rightmost position
+def get_last_position(image):
+    last_image = image
     x = 0
     y = 0
     for face in last_image:
@@ -310,10 +314,12 @@ arrow7_pos = rotation_2D(arrow7_pos, 180)
 arrow8_pos = rotation_2D(arrow8_pos, -90)
 
 page1=[arrow1_pos, arrow2_pos, arrow3_pos, arrow4_pos, arrow5_pos, arrow6_pos, arrow7_pos, arrow8_pos]
-
-
-#page2=[triangle_image, pentagon_image,hexagon_image]
 pages.append(page1)
+
+## Second question
+triangle_position = translateOrigin(triangle_image)
+
+
 #pages.append(page2)
 
 """ 
@@ -330,7 +336,6 @@ canvas.pack()
 root.update()
 canvas.bind("<Button-1>", callback)
 clear_button = Button(canvas, text="Próxima página", command=next_page)
-print(canvas.winfo_height())
 clear_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
 root.mainloop()
 
