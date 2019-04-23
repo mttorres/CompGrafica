@@ -255,8 +255,9 @@ def rotation_2D(image, angle=90):
 root = Tk()
 canvas = Canvas(root, width=800, height=600)
 root.pages = []
-pages = root.pages
 root.current_page = 0
+pages = root.pages
+
 
 
 # The method 'create_polygon' will decapsulate the structure by itself, no need to iterate through it.
@@ -271,21 +272,29 @@ def next_page():
     page_list = pages[root.current_page]
     for image in page_list:
         canvas.create_polygon(image, fill='', outline='black')
-    position = get_last_position(page_list[-1])
-    questiion_mark = canvas.create_text(position[0]+ 80 , position[1], font=("Times New Roman", 40), text="?")
+    position = midpoint(page_list[-1])
+    questiion_mark = canvas.create_text(position[0] + 100, position[1], font=("Times New Roman", 40), text="?")
     root.current_page += 1
 
-#Gets the image's rightmost position
-def get_last_position(image):
-    last_image = image
-    x = 0
-    y = 0
-    for face in last_image:
+def midpoint(image):
+    esquerda = None
+    direita = None
+    cima = None
+    baixo = None
+    for face in image:
         for vertex in face:
-            if(vertex[0] > x):
-                x = vertex[0] 
-                y = vertex[1]
-        return [x,y]
+            if ((esquerda == None) or (esquerda < vertex[0])):
+                esquerda = vertex[0]
+            if ((direita == None) or (direita > vertex[0])):
+                direita = vertex[0]
+            if ((cima == None) or (cima < vertex[1])):
+                cima = vertex[1]
+            if ((baixo == None) or (baixo > vertex[1])):
+                baixo = vertex[1]
+    medio_x = (direita - esquerda) / 2
+    medio_y = (baixo - cima) / 2
+    position=[esquerda + medio_x,cima + medio_y]
+    return position
 
 def callback(event):
     print("Clicked at", event.x, event.y)
@@ -313,12 +322,14 @@ arrow6_pos = rotation_2D(arrow6_pos, -90)
 arrow7_pos = rotation_2D(arrow7_pos, 180)
 arrow8_pos = rotation_2D(arrow8_pos, -90)
 
-page1=[arrow1_pos, arrow2_pos, arrow3_pos, arrow4_pos, arrow5_pos, arrow6_pos, arrow7_pos, arrow8_pos]
-pages.append(page1)
+#page1=[arrow1_pos, arrow2_pos, arrow3_pos, arrow4_pos, arrow5_pos, arrow6_pos, arrow7_pos, arrow8_pos]
+#pages.append(page1)
 
 ## Second question
 triangle_position = translateOrigin(triangle_image)
-
+triangle1_pos = translate_2D(triangle_image, 270, 150)
+page1 = [triangle1_pos]
+pages.append(page1)
 
 #pages.append(page2)
 
