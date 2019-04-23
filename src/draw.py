@@ -596,7 +596,7 @@ disto6_pos = cisa_2D(deepcopy(box6_pos), [0, 2])
 
 box7_pos = translate_2D(deepcopy(box4_pos),0,100)
 box8_pos = translate_2D(deepcopy(box7_pos),100,0)
-disto8_pos = cisa_2D(deepcopy(box8_pos), [2, 2])
+disto8_pos = cisa_2D(deepcopy(box8_pos), [1, 1])
 
 pageX = [box1_pos,box2_pos,disto2_pos,box3_pos,disto3_pos,box4_pos,box5_pos,disto5_pos,box6_pos,disto6_pos,box7_pos,box8_pos,disto8_pos]
 pages.append(pageX)
