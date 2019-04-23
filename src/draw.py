@@ -1,5 +1,5 @@
 from tkinter import Tk, Canvas, Frame, Button, Label, BOTH
-#from PIL import Image, ImageTk
+from PIL import Image, ImageTk
 import math
 import numpy as np
 from copy import deepcopy
