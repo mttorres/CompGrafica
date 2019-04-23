@@ -1,6 +1,7 @@
 from tkinter import Tk, Canvas, Frame, BOTH
 import math
 import numpy as np
+from copy import deepcopy
 
 """
 This file is used to draw figures using the Canvas object (and its methods) from Tkinter
@@ -178,6 +179,19 @@ def scale_2D(image, k):
     translate_2D(image,position[0],position[1])
     return image
 
+def cisa_2D(image, k):
+    position=translateOrigin(image)
+    for face in image:
+        for vertex in face:
+            matrixScale=np.array([[1, k[0], 0],
+                                 [k[1], 1, 0],
+                                 [0, 0, 1]])
+            matrixPosition=np.array([vertex[0],vertex[1],1])
+            result=np.matmul(matrixScale,matrixPosition)
+            vertex[0] = result[0]
+            vertex[1] = result[1]
+    translate_2D(image,position[0],position[1])
+    return image
 
 def translate_2D(image, x_amount, y_amount):
     for face in image:
@@ -259,7 +273,7 @@ def main():
     # print(new_pentagon_image)
 
     # Rotate the pentagon
-    new_pentagon_image = rotation_2D(new_pentagon_image, 90)
+    #new_pentagon_image = rotation_2D(new_pentagon_image, 90)
     #  print(new_pentagon_image)
     novopenta = canvas.create_polygon(new_pentagon_image)
 
@@ -272,11 +286,17 @@ def main():
     minhacasa = canvas.create_polygon(criar_casa, fill='', outline='blue')
 
     # Draw a bigger box
+    copia = deepcopy(box_image)
+
+
     blue_box = translate_2D(box_image, 0, 100)
     canvas.create_polygon(blue_box, fill='', outline='blue')
-    big_box = scale_2D(blue_box, [10, 10])
+    big_box = scale_2D(blue_box, [2, 2])
+    inverpenta = scale_2D(new_pentagon_image, [1, -1])
+    #big_box = cisa_2D(blue_box, [1, 0])
+    canvas.create_polygon(inverpenta, fill='', outline='blue')
     canvas.create_polygon(big_box, fill='', outline='blue')
-
+    
     canvas.pack()
     root.mainloop()
 
