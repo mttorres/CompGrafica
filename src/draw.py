@@ -237,8 +237,8 @@ def rotation_2D(image, angle=90):
     # Fazendo a rotação
     for face in image:
         for vertex in face:
-            matrixRotation=np.array([[math.cos(radian), math.sin(radian), 0],
-                            [math.sin(radian), math.cos(radian), 0],
+            matrixRotation=np.array([[math.cos(radian), (math.sin(radian)), 0],
+                            [-math.sin(radian), math.cos(radian), 0],
                             [0, 0, 1]])
             vetorPosition=np.array([vertex[0],vertex[1],1])
             result=np.matmul(matrixRotation,vetorPosition)
@@ -268,50 +268,70 @@ def next_page():
     canvas.delete('all')
     for image in pages[root.current_page]:
         canvas.create_polygon(image, fill='', outline='black')
+    position = get_last_position(pages[root.current_page])
+    questiion_mark = canvas.create_text(position[0]+ 80 , position[1], font=("Times New Roman", 40), text="?")
     root.current_page += 1
 
-page1=[arrow_image, box_image, cup_image, chair_image, star_image, bottle_image]
-page2=[triangle_image, pentagon_image,hexagon_image]
-pages.append(page1)
-pages.append(page2)
+def get_last_position(page):
+    last_image = page[-1]
+    x = 0
+    y = 0
+    for face in last_image:
+        for vertex in face:
+            if(vertex[0] > x):
+                x = vertex[0] 
+                y = vertex[1]
+        return [x,y]
 
-""" arrow = canvas.create_polygon(arrow_image, fill='', outline='black')
+def callback(event):
+    print("Clicked at", event.x, event.y)
+
+# Creating the question's images
+arrow_origin = translateOrigin(arrow_image)
+
+arrow1_pos = translate_2D(arrow_image,270,150)
+arrow2_pos = translate_2D(deepcopy(arrow1_pos), 100, 0)
+arrow3_pos = translate_2D(deepcopy(arrow2_pos), 100, 0)
+
+arrow4_pos = translate_2D(deepcopy(arrow1_pos), 0, 100)
+arrow5_pos = translate_2D(deepcopy(arrow2_pos), 0, 100)
+arrow6_pos = translate_2D(deepcopy(arrow3_pos), 0, 100)
+
+arrow7_pos = translate_2D(deepcopy(arrow4_pos), 0, 100)
+arrow8_pos = translate_2D(deepcopy(arrow5_pos), 0, 100)
+
+arrow2_pos = rotation_2D(arrow2_pos, 90)
+arrow3_pos = rotation_2D(arrow3_pos, 180)
+
+arrow4_pos = rotation_2D(arrow4_pos, 90)
+arrow6_pos = rotation_2D(arrow6_pos, -90)
+
+arrow7_pos = rotation_2D(arrow7_pos, 180)
+arrow8_pos = rotation_2D(arrow8_pos, -90)
+
+page1=[arrow1_pos, arrow2_pos, arrow3_pos, arrow4_pos, arrow5_pos, arrow6_pos, arrow7_pos, arrow8_pos]
+
+
+#page2=[triangle_image, pentagon_image,hexagon_image]
+pages.append(page1)
+#pages.append(page2)
+
+""" 
+arrow = canvas.create_polygon(arrow_image, fill='', outline='black')
 box = canvas.create_polygon(box_image, fill='', outline='black')
 cup = canvas.create_polygon(cup_image, fill='', outline='black')
 triangle = canvas.create_polygon(triangle_image, fill='', outline='black')
 pentagon = canvas.create_polygon(pentagon_image, fill='', outline='black')
 hexagon = canvas.create_polygon(hexagon_image, fill='', outline='black')
-house = canvas.create_polygon(house_image, fill='', outline='black') """
-# Translates the pentagon 100 px down
-#new_pentagon_image = translate_2D(pentagon_image, 0, 100)
-# print(new_pentagon_image)
+house = canvas.create_polygon(house_image, fill='', outline='black') 
 
-# Rotate the pentagon
-#new_pentagon_image = rotation_2D(new_pentagon_image, 90)
-#  print(new_pentagon_image)
-#novopenta = canvas.create_polygon(new_pentagon_image)
-
-# desenhando a casa sem ter que fazer a soma "manualmente" ou seja testando a transalate_2D
-#criar_casa = translate_2D(house_image, 80, 0)
-
-""" minhacasa = canvas.create_polygon(criar_casa, fill='', outline='blue')
-
-# Draw a bigger box
-copia = deepcopy(box_image)
-
-
-blue_box = translate_2D(box_image, 0, 100)
-canvas.create_polygon(blue_box, fill='', outline='blue')
-big_box = scale_2D(blue_box, [2, 2])
-inverpenta = scale_2D(new_pentagon_image, [1, -1])
-#big_box = cisa_2D(blue_box, [1, 0])
-canvas.create_polygon(inverpenta, fill='', outline='blue')
-canvas.create_polygon(big_box, fill='', outline='blue')
- """
+"""
 canvas.pack()
-
+root.update()
+canvas.bind("<Button-1>", callback)
 clear_button = Button(canvas, text="Próxima página", command=next_page)
-clear_button.place(x=0, y=0)
+print(canvas.winfo_height())
+clear_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
 root.mainloop()
 
 
