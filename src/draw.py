@@ -80,6 +80,16 @@ v4_hexa = [450, 60]
 v5_hexa = [450, 38]
 v6_hexa = [425, 20]
 
+#Heptagon 
+v1_hep = [400, 38]
+v2_hep = [395, 60]
+v3_hep = [410, 75]
+v4_hep = [440, 75]
+v5_hep = [455, 60]
+v6_hep = [450, 38]
+v7_hep = [425, 20]
+
+
 
 ### Chair
 v1_chair = [30, 100]
@@ -146,6 +156,9 @@ pentagon_f2 = [v1_pent, v5_pent, v4_pent, v3_pent, v2_pent]
 hexagon_f1 = [v1_hexa, v2_hexa, v3_hexa, v4_hexa, v5_hexa, v6_hexa]
 hexagon_f2 = [v1_hexa, v6_hexa, v5_hexa, v4_hexa, v3_hexa, v2_hexa]
 
+heptagon_f1 = [v1_hep,v2_hep,v3_hep,v4_hep,v5_hep,v6_hep,v7_hep]
+heptagon_f2 = [v1_hep,v7_hep,v6_hep,v5_hep,v4_hep,v3_hep,v2_hep]
+
 house_f1 = [v1_house, v2_house, v3_house, v4_house, v5_house]
 house_f2 = [v1_house, v5_house, v4_house, v3_house, v2_house]
 
@@ -176,6 +189,10 @@ pentagon_image = [pentagon_f1, pentagon_f2]
 
 ### Hexagon
 hexagon_image = [hexagon_f1, hexagon_f2]
+
+#Heptagon
+
+heptagon_image = [heptagon_f1,heptagon_f2]
 
 ### House
 house_image = [house_f1, house_f2]
@@ -291,7 +308,7 @@ def map_pages(page_list, width, height, screen_w, screen_h):
             image = map_coords(image, width, height, screen_w, screen_h)
 # Inicialização da tela base (root)
 root = Tk()
-canvas = Canvas(root, width=300, height=200)
+canvas = Canvas(root, width=800, height=600)
 canvas.pack()
 root.update()
 
@@ -348,7 +365,7 @@ def next_page():
         root.start = time.time()
     start_button.place_forget()
     exit_button.place_forget()
-    if(root.current_page >= 0 and root.current_page < len(pages) - 1):
+    if(root.current_page >= 0 and root.current_page < len(pages) ):
         next_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
     else:
         canvas.delete('all')
@@ -608,23 +625,23 @@ pages.append(page7)
 
 
 # eighth question
-house_origin = translateOrigin(house_image)
+hep_origin = translateOrigin(heptagon_image)
 star_origin = translateOrigin(star_image)
 
-house1_pos = translate_2D(deepcopy(house_image),240,150)
+hep1_pos = translate_2D(deepcopy(heptagon_image),240,150)
 star_pos1 = translate_2D(deepcopy(star_image),230,165)
 starzinha1 = scale_2D(star_pos1,[0.15,0.15])
 
-house2_pos = translate_2D(deepcopy(house1_pos),100,0)
-starzinha2 = translate_2D(deepcopy(starzinha1),100,-20)
+hep2_pos = translate_2D(deepcopy(heptagon_image),340,150)
+starzinha2 = scale_2D(translate_2D(deepcopy(star_image),330,145),[0.15,0.15])
 
-house3_pos = scale_2D(translate_2D(deepcopy(house1_pos),200,0),[1,-1])
-starzinha3 = translate_2D(deepcopy(starzinha1),200,-10)
+hep3_pos = scale_2D(translate_2D(deepcopy(heptagon_image),440,150),[1,-1])
+starzinha3 = scale_2D(translate_2D(deepcopy(star_image),430,155),[0.15,0.15])
 
-house4_pos = translate_2D(deepcopy(house3_pos),100,0)
-starzinha4 = translate_2D(deepcopy(starzinha3),100,-20)
+hep4_pos = scale_2D(translate_2D(deepcopy(heptagon_image),540,150),[1,-1])
+starzinha4 = scale_2D(translate_2D(deepcopy(star_image),530,135),[0.15,0.15])
 
-page8 = [house1_pos,starzinha1,starzinha2,house2_pos,starzinha3,house3_pos,starzinha4,house4_pos]
+page8 = [hep1_pos,starzinha1,starzinha2,hep2_pos,starzinha3,hep3_pos,starzinha4,hep4_pos]
 pages.append(page8)
 
 
