@@ -119,7 +119,7 @@ v7_bottle = [200,130]
 v8_bottle = [190,140]
 
 
-### House, minha casa minha vida
+### Heptagono
 
 v1_house = [410, 38]
 v2_house = [410, 60]
@@ -278,13 +278,37 @@ def rotation_2D(image, angle=90):
     return image
 
 
+def map_coords(image, width, height, screen_w, screen_h):
+    face = image[0]
+    for vertex in face:
+        vertex[0] = (vertex[0] * width)/screen_width
+        vertex[1] = (vertex[1] * height)/screen_height
+        #print(vertex[0], vertex[1])
+    return image
+def map_pages(page_list, width, height, screen_w, screen_h):
+    for i_page in page_list:
+        for image in i_page:
+            image = map_coords(image, width, height, screen_w, screen_h)
 # Inicialização da tela base (root)
 root = Tk()
-canvas = Canvas(root, width=800, height=600)
+canvas = Canvas(root, width=300, height=200)
+canvas.pack()
+root.update()
+
+canvas_width = canvas.winfo_width()
+canvas_height = canvas.winfo_height()
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+font_size = int(min(canvas_width, screen_width) / 20)
+print(canvas_width, canvas_height, screen_width, screen_height)
+
 root.pages = []
 root.current_page = 0
 root.start = 0
 pages = root.pages
+
+box_image = map_coords(box_image, canvas_width, canvas_height, screen_width, screen_height)
+
 
 """ arrow = canvas.create_polygon(arrow_image, fill='', outline='black')
 triangle = canvas.create_polygon(triangle_image, fill='', outline='black')
@@ -315,7 +339,7 @@ def back_menu():
     next_button.place_forget()
     root.current_page = 0
     start_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.70)
-    canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
+    #canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
 
 def next_page():
     if(root.current_page < 0):
@@ -339,7 +363,7 @@ def next_page():
     for image in page_list:
         canvas.create_polygon(image, fill='', outline='black')
     position = midpoint(page_list[-1])
-    question_mark = canvas.create_text(position[0] + 95, position[1], font=("Times New Roman", 40), text="?")
+    question_mark = canvas.create_text(position[0] * 1.25, position[1], font=("Times New Roman", font_size), text="?")
     
     root.current_page += 1
 
@@ -441,7 +465,7 @@ pages.append(page3)
 
 
 ##fourth question
-box_origin_1 = translateOrigin(box_image)
+box_origin = translateOrigin(box_image)
 
 box1_pos = translate_2D(deepcopy(box_image),270,150)
 
@@ -643,6 +667,8 @@ pages.append(pageX)
 canvas.pack()
 root.update()
 
+map_pages(pages, canvas_width, canvas_height, screen_width, screen_height)
+
 start_button = Button(canvas, text="Começar o jogo!", command=next_page)
 next_button = Button(canvas, text="Próxima página", command=next_page)
 
@@ -654,7 +680,7 @@ exit_button.place(x=canvas.winfo_width()*0.65, y=canvas.winfo_height()*0.70)
 
 file_path = "images/velosem-logo.png"
 img = ImageTk.PhotoImage(Image.open(file_path))
-canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
+#canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
 
 root.mainloop()
 
