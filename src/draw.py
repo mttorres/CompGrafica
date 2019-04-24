@@ -667,22 +667,22 @@ box_origin = translateOrigin(deepcopy(box_image))
 
 box1_pos = translate_2D(deepcopy(box_image),270,150)
 
-box2_pos = translate_2D(deepcopy(box_image),350,150)
+box2_pos = translate_2D(deepcopy(box_image),370,150)
 disto2_pos = cisa_2D(deepcopy(box2_pos), [1, 0])
-box3_pos = translate_2D(deepcopy(box_image),450,150)
+box3_pos = translate_2D(deepcopy(box_image),470,150)
 disto3_pos = cisa_2D(deepcopy(box3_pos), [2, 0])
 
 
-box4_pos = translate_2D(deepcopy(box_image),270,200)
+box4_pos = translate_2D(deepcopy(box_image),270,230)
 
-box5_pos = translate_2D(deepcopy(box_image),370,200)
+box5_pos = translate_2D(deepcopy(box_image),370,230)
 disto5_pos = cisa_2D(deepcopy(box5_pos), [0, 1])
-box6_pos = translate_2D(deepcopy(box_image),470,200)
+box6_pos = translate_2D(deepcopy(box_image),470,230)
 disto6_pos = cisa_2D(deepcopy(box6_pos), [0, 2])
 
 
-box7_pos = translate_2D(deepcopy(box_image),370,300)
-box8_pos = translate_2D(deepcopy(box_image),47,300)
+box7_pos = translate_2D(deepcopy(box_image),270,330)
+box8_pos = translate_2D(deepcopy(box_image),370,330)
 disto8_pos = cisa_2D(deepcopy(box8_pos), [1, 1])
 
 pageX = [box1_pos,box2_pos,disto2_pos,box3_pos,disto3_pos,box4_pos,box5_pos,disto5_pos,box6_pos,disto6_pos,box7_pos,box8_pos,disto8_pos]
@@ -705,10 +705,6 @@ exit_button.place(x=canvas.winfo_width()*0.65, y=canvas.winfo_height()*0.70)
 
 file_path = "images/velosem-logo.png"
 img = ImageTk.PhotoImage(Image.open(file_path))
-#canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
+canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
 
 root.mainloop()
-
-
-
-
