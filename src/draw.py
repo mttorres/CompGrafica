@@ -55,9 +55,14 @@ v3_t1 = [60, 60]
 
 ### Cup
 v1_cup = [160, 15]
-v2_cup = [170, 60]
-v3_cup = [195, 60]
-v4_cup = [205, 15]
+v2_cup = [183, 33]
+v3_cup = [183, 63]
+v4_cup = [170, 70]
+
+v5_cup = [200, 70]
+v6_cup = [187, 63]
+v7_cup = [187, 33]
+v8_cup = [210, 15]
 
 ### Box
 v1_box = [260, 20]
@@ -88,7 +93,6 @@ v4_hep = [440, 75]
 v5_hep = [455, 60]
 v6_hep = [450, 38]
 v7_hep = [425, 20]
-
 
 
 ### Chair
@@ -144,8 +148,8 @@ arrow_f2 = [v1_arrow, v7_arrow, v6_arrow, v5_arrow, v4_arrow, v3_arrow, v2_arrow
 box_f1 = [v1_box, v2_box, v3_box, v4_box]
 box_f2 = [v1_box, v4_box, v3_box, v2_box]
 
-cup_f1 = [v1_cup, v2_cup, v3_cup, v4_cup]
-cup_f2 = [v1_cup, v4_cup, v3_cup, v2_cup]
+cup_f1 = [v1_cup, v2_cup, v3_cup, v4_cup, v5_cup, v6_cup, v7_cup, v8_cup]
+cup_f2 = [v1_cup, v8_cup, v7_cup, v6_cup, v5_cup, v4_cup, v3_cup, v2_cup]
 
 triangle_f1 = [v1_t1, v2_t1, v3_t1]
 triangle_f2 = [v1_t1, v3_t1, v2_t1]
@@ -191,7 +195,6 @@ pentagon_image = [pentagon_f1, pentagon_f2]
 hexagon_image = [hexagon_f1, hexagon_f2]
 
 #Heptagon
-
 heptagon_image = [heptagon_f1,heptagon_f2]
 
 ### House
@@ -316,7 +319,7 @@ def padding(page_list, x_padd, y_padd):
 root = Tk()
 
 
-canvas = Canvas(root, width=1280, height=1024)
+canvas = Canvas(root, width=800, height=600)
 
 canvas.pack()
 root.update()
@@ -326,14 +329,12 @@ canvas_height = canvas.winfo_height()
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 font_size = int(min(canvas_width, screen_width) / 20)
-print(canvas_width, canvas_height, screen_width, screen_height)
+print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, screen_width, screen_height))
 
 root.pages = []
 root.current_page = 0
 root.start = 0
 pages = root.pages
-
-box_image = map_coords(box_image, canvas_width, canvas_height, screen_width, screen_height)
 
 
 """ arrow = canvas.create_polygon(arrow_image, fill='', outline='black')
@@ -364,8 +365,9 @@ def back_menu():
     exit_button.place_forget()
     next_button.place_forget()
     root.current_page = 0
-    start_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.70)
-    #canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
+    start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
+    exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
+    canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
 
 def next_page():
     if(root.current_page < 0):
@@ -375,7 +377,7 @@ def next_page():
     start_button.place_forget()
     exit_button.place_forget()
     if(root.current_page >= 0 and root.current_page < len(pages) ):
-        next_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.70)
+        next_button.place(x=canvas.winfo_width()*0.40, y=canvas.winfo_height()*0.60)
     else:
         canvas.delete('all')
         next_button.place_forget()
@@ -557,41 +559,38 @@ star_origin = translateOrigin(star_image)
 box_origin = translateOrigin(box_image)
 
 cup1_pos = translate_2D(deepcopy(cup_image), 270, 150)
-cup1_mid = midpoint(cup1_pos)
-star1_pos = translate_2D(deepcopy(star_image), cup1_mid[0], cup1_mid[1])
-star1_pos = scale_2D(star1_pos, [0.5, 0.5])
+star1_pos = translate_2D(deepcopy(star_image), 270, 130)
+star1_pos = scale_2D(star1_pos, [0.3, 0.3])
 
 box19_pos = translate_2D(deepcopy(box_image), 370, 150)
-box19_mid = midpoint(box19_pos)
-arrow9_pos = translate_2D(deepcopy(arrow_image),box19_mid[0], box19_mid[1])
-arrow9_pos = scale_2D(arrow9_pos, [0.5,0.5])
+arrow9_pos = translate_2D(deepcopy(arrow_image),370, 150)
+arrow9_pos = scale_2D(arrow9_pos, [0.65,0.65])
 arrow9_pos = rotation_2D(arrow9_pos, 90)
 
-cup2_pos = translate_2D(deepcopy(cup1_pos), 200, -50)
-cup2_mid = midpoint(cup2_pos)
-star2_pos = translate_2D(deepcopy(star_image), cup2_mid[0], cup2_mid[1])
+cup2_pos = translate_2D(deepcopy(cup_image), 470, 100)
+star2_pos = translate_2D(deepcopy(star_image), 470, 70)
 cup2_pos = scale_2D(cup2_pos, [1.5, 1.5])
-star2_pos = scale_2D(star2_pos, [0.75,0.75])
+star2_pos = scale_2D(star2_pos, [0.5,0.5])
 
-cup3_pos = translate_2D(deepcopy(cup1_pos), 0, 100)
-star3_pos = translate_2D(deepcopy(star1_pos), 0, 100)
 
-arrow10_pos = translate_2D(deepcopy(arrow9_pos), 0, 100)
+cup3_pos = translate_2D(deepcopy(cup_image), 270, 250)
+star3_pos = translate_2D(deepcopy(star_image), 270, 230)
+star3_pos = scale_2D(star3_pos, [0.3,0.3])
 
-cup4_pos = translate_2D(deepcopy(cup3_pos), 200, -50)
-cup4_mid = midpoint(cup4_pos)
-star4_pos = translate_2D(deepcopy(star_image), cup4_mid[0], cup4_mid[1])
-star4_pos = scale_2D(star4_pos, [0.5,0.5])
+arrow10_pos = translate_2D(deepcopy(arrow_image), 370, 250)
+arrow10_pos = rotation_2D(arrow10_pos, 90)
 
-cup5_pos = translate_2D(deepcopy(cup3_pos),0,100)
-cup5_mid = midpoint(cup5_pos)
-star5_pos = translate_2D(deepcopy(star_image), cup5_mid[0], cup5_mid[1])
-star5_pos = scale_2D(star5_pos, [0.5,0.5])
+cup4_pos = translate_2D(deepcopy(cup_image), 470, 200)
+star4_pos = translate_2D(deepcopy(star_image), 470, 180)
+star4_pos = scale_2D(star4_pos, [0.3,0.3])
 
-box20_pos = translate_2D(deepcopy(box19_pos), 0, 200)
-box20_mid = midpoint(box20_pos)
-arrow11_pos = translate_2D(deepcopy(arrow_image), box20_mid[0], box20_mid[1])
-arrow11_pos = scale_2D(arrow11_pos, [0.5,0.5])
+cup5_pos = translate_2D(deepcopy(cup_image),270,350)
+star5_pos = translate_2D(deepcopy(star_image), 270, 330)
+star5_pos = scale_2D(star5_pos, [0.3,0.3])
+
+box20_pos = translate_2D(deepcopy(box_image), 370, 350)
+arrow11_pos = translate_2D(deepcopy(arrow_image), 370, 350)
+arrow11_pos = scale_2D(arrow11_pos, [0.65,0.65])
 arrow11_pos = rotation_2D(arrow11_pos, -90)
 
 page6 = [cup1_pos, star1_pos, box19_pos, arrow9_pos, cup2_pos, star2_pos, cup3_pos, star3_pos, arrow10_pos,
@@ -692,7 +691,6 @@ canvas.pack()
 root.update()
 
 map_pages(pages, canvas_width, canvas_height, screen_width, screen_height)
-#padding(pages, 120, 0)
 
 start_button = Button(canvas, text="Começar o jogo!", command=next_page)
 next_button = Button(canvas, text="Próxima página", command=next_page)
@@ -700,11 +698,16 @@ next_button = Button(canvas, text="Próxima página", command=next_page)
 exit_button = Button(canvas, text="Sair do jogo!", command=exit_game)
 menu_button = Button(canvas, text="Ir para o menu!", command=back_menu)
 
-start_button.place(x=canvas.winfo_width()*0.25, y=canvas.winfo_height()*0.70)
-exit_button.place(x=canvas.winfo_width()*0.65, y=canvas.winfo_height()*0.70)
+start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
+exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
 
 file_path = "images/velosem-logo.png"
-img = ImageTk.PhotoImage(Image.open(file_path))
+logo = Image.open(file_path)
+logo_width, logo_height = logo.size
+logo_w_resize = round((logo_width * canvas_width)/screen_width)
+logo_h_resize = round((logo_height * canvas_height)/screen_height)
+logo.resize((logo_w_resize, logo_h_resize))
+img = ImageTk.PhotoImage(logo)
 canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
 
 root.mainloop()
