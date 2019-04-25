@@ -40,11 +40,9 @@ The complex have more than 8 vertices.
 ### Arrow
 v1_arrow = [10, 40]
 v2_arrow = [30, 40]
-
 v3_arrow = [30, 30]
 v4_arrow = [50, 50]
 v5_arrow = [30, 70]
-
 v6_arrow = [30, 60]
 v7_arrow = [10, 60]
 
@@ -58,7 +56,6 @@ v1_cup = [160, 15]
 v2_cup = [183, 33]
 v3_cup = [183, 63]
 v4_cup = [170, 70]
-
 v5_cup = [200, 70]
 v6_cup = [187, 63]
 v7_cup = [187, 33]
@@ -100,11 +97,9 @@ v1_chair = [30, 100]
 v2_chair = [30, 200]
 v3_chair = [40, 200]
 v4_chair = [40,170]
-
 v5_chair = [80,170]
 v6_chair = [80,200]
 v7_chair = [90,200]
-
 v8_chair = [90,160]
 v9_chair = [40,160]
 v10_chair = [40,100] 
@@ -133,81 +128,88 @@ v7_bottle = [200,130]
 v8_bottle = [190,140]
 
 
-### Heptagono
 
-v1_house = [410, 38]
-v2_house = [410, 60]
-v3_house = [440, 60]
-v4_house = [440, 38]
-v5_house = [425, 20]
+vertexes = [
+    v1_arrow, v2_arrow, v3_arrow, v4_arrow, v5_arrow, v6_arrow, v7_arrow,
+    v1_t1, v2_t1, v3_t1,
+    v1_cup, v2_cup, v3_cup, v4_cup, v5_cup, v6_cup, v7_cup, v8_cup,
+    v1_box, v2_box, v3_box, v4_box,
+    v1_pent, v2_pent, v3_pent, v4_pent, v5_pent,
+    v1_hexa, v2_hexa, v3_hexa, v4_hexa, v5_hexa, v6_hexa,
+    v1_hep, v2_hep, v3_hep, v4_hep, v5_hep, v6_hep, v7_hep,
+    v1_chair, v2_chair, v3_chair, v4_chair, v5_chair, v6_chair, v7_chair, v8_chair, v9_chair, v10_chair,
+    v1_star, v2_star, v3_star, v4_star, v5_star, v6_star, v7_star, v8_star, v9_star, v10_star,
+    v1_bottle, v2_bottle, v3_bottle, v4_bottle, v5_bottle, v6_bottle, v7_bottle, v8_bottle
+    ]
 
 ## Faces
-arrow_f1 = [v1_arrow, v2_arrow, v3_arrow, v4_arrow, v5_arrow, v6_arrow, v7_arrow]
-arrow_f2 = [v1_arrow, v7_arrow, v6_arrow, v5_arrow, v4_arrow, v3_arrow, v2_arrow]
+arrow_f1 = [vertexes[0], vertexes[1], vertexes[2], vertexes[3], vertexes[4], vertexes[5], vertexes[6]]
+arrow_f2 = [vertexes[0], vertexes[6], vertexes[5], vertexes[4], vertexes[3], vertexes[2], vertexes[1]]
 
-box_f1 = [v1_box, v2_box, v3_box, v4_box]
-box_f2 = [v1_box, v4_box, v3_box, v2_box]
+box_f1 = [vertexes[18], vertexes[19], vertexes[20], vertexes[21]]
+box_f2 = [vertexes[18], vertexes[21], vertexes[20], vertexes[19]]
 
-cup_f1 = [v1_cup, v2_cup, v3_cup, v4_cup, v5_cup, v6_cup, v7_cup, v8_cup]
-cup_f2 = [v1_cup, v8_cup, v7_cup, v6_cup, v5_cup, v4_cup, v3_cup, v2_cup]
+cup_f1 = [vertexes[10], vertexes[11], vertexes[12], vertexes[13], vertexes[14], vertexes[15], vertexes[16], vertexes[17]]
+cup_f2 = [vertexes[10], vertexes[17], vertexes[16], vertexes[15], vertexes[14], vertexes[13], vertexes[12], vertexes[11]]
 
-triangle_f1 = [v1_t1, v2_t1, v3_t1]
-triangle_f2 = [v1_t1, v3_t1, v2_t1]
+triangle_f1 = [vertexes[7], vertexes[8], vertexes[9]]
+triangle_f2 = [vertexes[7], vertexes[9], vertexes[8]]
 
-pentagon_f1 = [v1_pent, v2_pent, v3_pent, v4_pent, v5_pent]
-pentagon_f2 = [v1_pent, v5_pent, v4_pent, v3_pent, v2_pent]
+pentagon_f1 = [vertexes[22], vertexes[23], vertexes[24], vertexes[25], vertexes[26]]
+pentagon_f2 = [vertexes[22], vertexes[26], vertexes[25], vertexes[24], vertexes[23]]
 
-hexagon_f1 = [v1_hexa, v2_hexa, v3_hexa, v4_hexa, v5_hexa, v6_hexa]
-hexagon_f2 = [v1_hexa, v6_hexa, v5_hexa, v4_hexa, v3_hexa, v2_hexa]
+hexagon_f1 = [vertexes[27], vertexes[28], vertexes[29], vertexes[30], vertexes[31], vertexes[32]]
+hexagon_f2 = [vertexes[27], vertexes[32], vertexes[31], vertexes[30], vertexes[29], vertexes[28]]
 
-heptagon_f1 = [v1_hep,v2_hep,v3_hep,v4_hep,v5_hep,v6_hep,v7_hep]
-heptagon_f2 = [v1_hep,v7_hep,v6_hep,v5_hep,v4_hep,v3_hep,v2_hep]
+heptagon_f1 = [vertexes[33], vertexes[34], vertexes[35], vertexes[36], vertexes[37], vertexes[38], vertexes[39]]
+heptagon_f2 = [vertexes[33], vertexes[39], vertexes[38], vertexes[37], vertexes[36], vertexes[35], vertexes[34]]
 
-house_f1 = [v1_house, v2_house, v3_house, v4_house, v5_house]
-house_f2 = [v1_house, v5_house, v4_house, v3_house, v2_house]
+chair_f1 = [vertexes[40], vertexes[41], vertexes[42], vertexes[43], vertexes[44], vertexes[45], vertexes[46], vertexes[47], vertexes[48], vertexes[49]]
+chair_f2 = [vertexes[40], vertexes[49], vertexes[48], vertexes[47], vertexes[46], vertexes[45], vertexes[44], vertexes[43], vertexes[42], vertexes[41]]
 
-chair_f1 = [v1_chair, v2_chair, v3_chair, v4_chair, v5_chair, v6_chair, v7_chair, v8_chair, v9_chair, v10_chair]
-chair_f2 = [v1_chair, v10_chair, v9_chair, v8_chair, v7_chair, v6_chair, v5_chair, v4_chair, v3_chair, v2_chair]
+star_f1 = [vertexes[50], vertexes[51], vertexes[52], vertexes[53], vertexes[54], vertexes[55], vertexes[56], vertexes[57], vertexes[58], vertexes[59]]
+star_f2 = [vertexes[50], vertexes[59], vertexes[58], vertexes[57], vertexes[56], vertexes[55], vertexes[54], vertexes[53], vertexes[52], vertexes[51]]
 
-star_f1 = [v1_star, v2_star, v3_star, v4_star, v5_star, v6_star, v7_star, v8_star, v9_star, v10_star]
-star_f2 = [v1_star, v10_star, v9_star, v8_star, v7_star, v6_star, v5_star, v4_star, v3_star, v2_star]
+bottle_f1 = [vertexes[60], vertexes[61], vertexes[62], vertexes[63], vertexes[64], vertexes[65], vertexes[66], vertexes[67]]
+bottle_f2 = [vertexes[60], vertexes[67], vertexes[66], vertexes[65], vertexes[64], vertexes[63], vertexes[62], vertexes[61]]
 
-bottle_f1 = [v1_bottle, v2_bottle, v3_bottle, v4_bottle, v5_bottle, v6_bottle, v7_bottle, v8_bottle]
-bottle_f2 = [v1_bottle, v8_bottle, v7_bottle, v6_bottle, v5_bottle, v4_bottle, v3_bottle, v2_bottle]
+faces = [
+         arrow_f1, arrow_f2, box_f1, box_f2, cup_f1, cup_f2, triangle_f1, triangle_f2,
+         pentagon_f1, pentagon_f2, hexagon_f1, hexagon_f2, heptagon_f1, heptagon_f2,
+         chair_f1, chair_f2, star_f1, star_f2, bottle_f1, bottle_f2
+        ]
+      
 # Figures
 
 ### Arrow
-arrow_image = [arrow_f1, arrow_f2]
-
+arrow_image = [faces[0], faces[1]]
+print(arrow_image)  
 ### Box
-box_image = [box_f1, box_f2]
+box_image = [faces[2], faces[3]]
 
 ### Cup
-cup_image = [cup_f1, cup_f2]
+cup_image = [faces[4], faces[5]]
 
 ### Triangle
-triangle_image = [triangle_f1, triangle_f2]
+triangle_image = [faces[6], faces[7]]
 
 ### Pentagon
-pentagon_image = [pentagon_f1, pentagon_f2]
+pentagon_image = [faces[8], faces[9]]
 
 ### Hexagon
-hexagon_image = [hexagon_f1, hexagon_f2]
+hexagon_image = [faces[10], faces[11]]
 
 #Heptagon
-heptagon_image = [heptagon_f1,heptagon_f2]
-
-### House
-house_image = [house_f1, house_f2]
+heptagon_image = [faces[12],faces[13]]
 
 ### Chair
-chair_image = [chair_f1, chair_f2]
+chair_image = [faces[14], faces[15]]
 
 ### Star 
-star_image = [star_f1, star_f2]
+star_image = [faces[16], faces[17]]
 
 ### Bottle
-bottle_image = [bottle_f1, bottle_f2]
+bottle_image = [faces[18], faces[19]]
 
 
 
