@@ -119,13 +119,13 @@ v10_star = [130,135]
 
 ### Bottle
 v1_bottle = [190, 200, 0]
-v2_bottle = [220,200, 0]
-v3_bottle = [220,140, 0]
-v4_bottle = [210,130, 0]
-v5_bottle = [210,120, 0]
-v6_bottle = [200,120, 0]
-v7_bottle = [200,130, 0]
-v8_bottle = [190,140, 0]
+v2_bottle = [220, 200, 0]
+v3_bottle = [220, 140, 0]
+v4_bottle = [210, 130, 0]
+v5_bottle = [210, 120, 0]
+v6_bottle = [200, 120, 0]
+v7_bottle = [200, 130, 0]
+v8_bottle = [190, 140, 0]
 
 
 
@@ -139,7 +139,7 @@ vertexes = [
     v1_hep, v2_hep, v3_hep, v4_hep, v5_hep, v6_hep, v7_hep,
     v1_chair, v2_chair, v3_chair, v4_chair, v5_chair, v6_chair, v7_chair, v8_chair, v9_chair, v10_chair,
     v1_star, v2_star, v3_star, v4_star, v5_star, v6_star, v7_star, v8_star, v9_star, v10_star,
-    v1_bottle[0:2], v2_bottle[0:2], v3_bottle[0:2], v4_bottle[0:2], v5_bottle[0:2], v6_bottle[0:2], v7_bottle[0:2], v8_bottle[0:2]
+    v1_bottle, v2_bottle, v3_bottle, v4_bottle, v5_bottle, v6_bottle, v7_bottle, v8_bottle
     ]
 
 ## Faces
