@@ -6,12 +6,13 @@ from copy import deepcopy
 import os
 import pathlib
 import time
+
 """
 This file is used to draw figures using the Canvas object (and its methods) from Tkinter
 library. It also stores the data structures that represent these figures in vectors and matrixes.
 
 Each figure is composed by at least one face, which in turn is composed by at least
-two vertices, and these vertices are coordinates in the (x,y) or (x,y,z) systems (for 2D or 3D,
+two vertices, and these vertices are coordinates in the (x,y) or (x,y,z) systems (for 2D ands 3D,
 respectively). The origin (0,0) is located at the top left corner of the screen.
 The data structures are as following:
 
@@ -62,30 +63,10 @@ v7_cup = [187, 33]
 v8_cup = [210, 15]
 
 ### Box
-v1_box = [260, 20, 0]
-v2_box = [260, 60, 0]
-v3_box = [300, 60, 0]
-v4_box = [300, 20, 0]
-
-""" v1_box = [0, 0, 0]
-v2_box = [0, 40, 0]
-v3_box = [40, 40, 0]
-v4_box = [40, 0, 0] """
-
-v1_boxf2 = [260, 20, 40]
-v2_boxf2 = [260, 60, 40]
-v3_boxf2 = [300, 60, 40]
-v4_boxf2 = [300, 20, 40]
-
-v1_boxf3 = [0, 0, 0]
-v2_boxf3 = [0, 40, 0]
-v3_boxf3 = [0, 40, 40]
-v4_boxf3 = [0, 0, 40]
-
-v1_boxf4 = [40, 0, 0]
-v2_boxf4 = [40, 40, 0]
-v3_boxf4 = [40, 40, 40]
-v4_boxf4 = [40, 0, 40]
+v1_box = [260, 20]
+v2_box = [260, 60]
+v3_box = [300, 60]
+v4_box = [300, 20]
 
 ### Pentagon
 v1_pent = [320, 38]
@@ -110,7 +91,6 @@ v4_hep = [440, 75]
 v5_hep = [455, 60]
 v6_hep = [450, 38]
 v7_hep = [425, 20]
-
 
 ### Chair
 v1_chair = [30, 100]
@@ -147,33 +127,42 @@ v6_bottle = [200, 120, 0]
 v7_bottle = [200, 130, 0]
 v8_bottle = [190, 140, 0]
 
-v1_bottlef2 = [190, 200, 100]
-v2_bottlef2 = [220, 200, 100]
-v3_bottlef2 = [220, 140, 100]
-v4_bottlef2 = [210, 130, 100]
-v5_bottlef2 = [210, 120, 100]
-v6_bottlef2 = [200, 120, 100]
-v7_bottlef2 = [200, 130, 100]
-v8_bottlef2 = [190, 140, 100]
+v1_bottlef2 = [190, 200, 20]
+v2_bottlef2 = [220, 200, 20]
+v3_bottlef2 = [220, 140, 20]
+v4_bottlef2 = [210, 130, 20]
+v5_bottlef2 = [210, 120, 20]
+v6_bottlef2 = [200, 120, 20]
+v7_bottlef2 = [200, 130, 20]
+v8_bottlef2 = [190, 140, 20]
 
-v1_bottlef3 = [190, 200, 100]
-v2_bottlef3 = [190, 200, 0]
-v3_bottlef3 = [190, 140, 100]
-v4_bottlef3 = [200, 130, 100]
-v5_bottlef3 = [200, 120, 100]
+v1_bottlef3 = [190, 200, 0]
+v2_bottlef3 = [190, 200, 20]
+v3_bottlef3 = [190, 140, 20]
+v4_bottlef3 = [200, 130, 20]
+v5_bottlef3 = [200, 120, 20]
 v6_bottlef3 = [200, 120, 0]
 v7_bottlef3 = [200, 130, 0]
 v8_bottlef3 = [190, 140, 0]
 
-v1_bottlef4 = [220, 200, 100]
-v2_bottlef4 = [220, 200, 0]
-v3_bottlef4 = [220, 140, 100]
-v4_bottlef4 = [210, 130, 100]
-v5_bottlef4 = [210, 120, 100]
+v1_bottlef4 = [220, 200, 0]
+v2_bottlef4 = [220, 200, 20]
+v3_bottlef4 = [220, 140, 20]
+v4_bottlef4 = [210, 130, 20]
+v5_bottlef4 = [210, 120, 20]
 v6_bottlef4 = [210, 120, 0]
 v7_bottlef4 = [210, 130, 0]
 v8_bottlef4 = [220, 140, 0]
 
+v1_bottle_topo = [210, 120, 0]
+v2_bottle_topo = [200, 120, 0]
+v3_bottle_topo = [200, 120, 20]
+v4_bottle_topo = [210, 120, 20]
+
+v1_bottle_base = [190, 200, 0]
+v2_bottle_base = [220, 200, 0]
+v3_bottle_base = [220, 200, 20]
+v4_bottle_base = [190, 200, 20]
 
 vertexes = [
     v1_arrow, v2_arrow, v3_arrow, v4_arrow, v5_arrow, v6_arrow, v7_arrow,
@@ -196,9 +185,7 @@ arrow_f1 = [vertexes[0], vertexes[1], vertexes[2], vertexes[3], vertexes[4], ver
 arrow_f2 = [vertexes[0], vertexes[6], vertexes[5], vertexes[4], vertexes[3], vertexes[2], vertexes[1]]
 
 box_f1 = [vertexes[18], vertexes[19], vertexes[20], vertexes[21]]
-box_f2 = [v1_boxf2, v2_boxf2, v3_boxf2, v4_boxf2]
-box_f3 = [v1_boxf3, v2_boxf3, v3_boxf3, v4_boxf3]
-box_f4 = [v1_boxf4, v2_boxf4, v3_boxf4, v4_boxf4]
+box_f2 = [vertexes[18], vertexes[21], vertexes[20], vertexes[19]]
 
 cup_f1 = [vertexes[10], vertexes[11], vertexes[12], vertexes[13], vertexes[14], vertexes[15], vertexes[16], vertexes[17]]
 cup_f2 = [vertexes[10], vertexes[17], vertexes[16], vertexes[15], vertexes[14], vertexes[13], vertexes[12], vertexes[11]]
@@ -225,6 +212,8 @@ bottle_f1 = [vertexes[60], vertexes[61], vertexes[62], vertexes[63], vertexes[64
 bottle_f2 = [vertexes[68], vertexes[75], vertexes[74], vertexes[73], vertexes[72], vertexes[71], vertexes[70], vertexes[69]]
 bottle_f3 = [vertexes[76], vertexes[77], vertexes[78], vertexes[79], vertexes[80], vertexes[81], vertexes[82], vertexes[83]]
 bottle_f4 = [vertexes[84], vertexes[91], vertexes[90], vertexes[89], vertexes[88], vertexes[87], vertexes[86], vertexes[85]]
+bottle_topo = [v1_bottle_topo, v2_bottle_topo, v3_bottle_topo, v4_bottle_topo]
+bottle_base = [v1_bottle_base, v2_bottle_base, v3_bottle_base, v4_bottle_base]
 
 faces = [
          arrow_f1, arrow_f2, box_f1, box_f2, cup_f1, cup_f2, triangle_f1, triangle_f2,
@@ -238,7 +227,7 @@ faces = [
 arrow_image = [faces[0], faces[1]]
 
 ### Box
-box_image = [faces[2], faces[3], box_f3, box_f4]
+box_image = [faces[2], faces[3]]
 
 ### Cup
 cup_image = [faces[4], faces[5]]
@@ -262,49 +251,66 @@ chair_image = [faces[14], faces[15]]
 star_image = [faces[16], faces[17]]
 
 ### Bottle
-bottle_image = [faces[18],faces[19]]
-print("Bottle image")
-print(bottle_image)
-
+bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo]
 
 
 # Transformations 
 
-
-
 ## Scale
 def scale_2D(image, k):
     position=translateOrigin(image)
-    for face in image:
+    if(len(image) > 2):
+        for face in image:
+            for vertex in face:
+                matrixScale=np.array([[k[0], 0, 0],
+                                        [0, k[1], 0],
+                                        [0, 0, 1]])
+                matrixPosition=np.array([vertex[0],vertex[1],1])
+                result=np.matmul(matrixScale,matrixPosition)
+                vertex[0] = result[0]
+                vertex[1] = result[1]
+    else:
+        face = image[0]
         for vertex in face:
-            matrixScale=np.array([[k[0], 0, 0],
-                                    [0, k[1], 0],
-                                    [0, 0, 1]])
-            matrixPosition=np.array([vertex[0],vertex[1],1])
-            result=np.matmul(matrixScale,matrixPosition)
-            vertex[0] = result[0]
-            vertex[1] = result[1]
+                matrixScale=np.array([[k[0], 0, 0],
+                                        [0, k[1], 0],
+                                        [0, 0, 1]])
+                matrixPosition=np.array([vertex[0],vertex[1],1])
+                result=np.matmul(matrixScale,matrixPosition)
+                vertex[0] = result[0]
+                vertex[1] = result[1]
     translate_2D(image,position[0],position[1])
     return image
 
 ## Shear
 def cisa_2D(image, k):
     position=translateOrigin(image)
-    for face in image:
+    if(len(image) > 2):
+        for face in image:
+            for vertex in face:
+                matrixScale=np.array([[1, k[0], 0],
+                                        [k[1], 1, 0],
+                                        [0, 0, 1]])
+                matrixPosition=np.array([vertex[0],vertex[1],1])
+                result=np.matmul(matrixScale,matrixPosition)
+                vertex[0] = result[0]
+                vertex[1] = result[1]
+    else:
+        face = image[0]
         for vertex in face:
-            matrixScale=np.array([[1, k[0], 0],
-                                    [k[1], 1, 0],
-                                    [0, 0, 1]])
-            matrixPosition=np.array([vertex[0],vertex[1],1])
-            result=np.matmul(matrixScale,matrixPosition)
-            vertex[0] = result[0]
-            vertex[1] = result[1]
+                matrixScale=np.array([[1, k[0], 0],
+                                        [k[1], 1, 0],
+                                        [0, 0, 1]])
+                matrixPosition=np.array([vertex[0],vertex[1],1])
+                result=np.matmul(matrixScale,matrixPosition)
+                vertex[0] = result[0]
+                vertex[1] = result[1]
     translate_2D(image,position[0],position[1])
     return image
 
-## Translation
 def translate_2D(image, x_amount, y_amount):
-    for face in image:
+    if(len(image) <= 2):
+        face = image[0]
         for vertex in face:
             matrixTranslate=np.array([[1, 0, x_amount],
                                 [0, 1, y_amount],
@@ -313,6 +319,16 @@ def translate_2D(image, x_amount, y_amount):
             result=np.matmul(matrixTranslate,matrixPosition)
             vertex[0] = result[0]
             vertex[1] = result[1]
+    else:
+        for face in image:
+            for vertex in face:
+                matrixTranslate=np.array([[1, 0, x_amount],
+                                    [0, 1, y_amount],
+                                    [0, 0, 1]])
+                matrixPosition=np.array([vertex[0],vertex[1],1])
+                result=np.matmul(matrixTranslate,matrixPosition)
+                vertex[0] = result[0]
+                vertex[1] = result[1]
     return image
 
 ## Translate image midpoint to (0,0)
@@ -322,7 +338,6 @@ def translateOrigin(image):
     direita = None
     cima = None
     baixo = None
-    #face = image[0]
     for face in image:
         for vertex in face:
             if ((esquerda == None) or (esquerda < vertex[0])):
@@ -344,8 +359,18 @@ def translateOrigin(image):
 def rotation_2D(image, angle=90):
     radian = angle * (math.pi / 180)
     position=translateOrigin(image)
-    # Fazendo a rotação
-    for face in image:
+    if(len(image) > 2):
+        # Fazendo a rotação
+        for face in image:
+            for vertex in face:
+                matrixRotation=np.array([[math.cos(radian), (math.sin(radian))],[-(math.sin(radian)), math.cos(radian)]])
+
+                vetorPosition=np.array([vertex[0],vertex[1]])
+                result=np.matmul(matrixRotation,vetorPosition)
+                vertex[0] = result[0]
+                vertex[1] = result[1]
+    else:
+        face = image[0]
         for vertex in face:
             matrixRotation=np.array([[math.cos(radian), (math.sin(radian))],[-(math.sin(radian)), math.cos(radian)]])
 
@@ -358,82 +383,66 @@ def rotation_2D(image, angle=90):
     return image
 
 
-def rotation_3D(image, angle_x=30, angle_y = 45):
+def isometric(image, angle_x=30, angle_y = 45):
     radian_x = angle_x * (math.pi / 180)
     radian_y = angle_y * (math.pi / 180)
     position=translateOrigin(image)
     # Fazendo a rotação
     for face in image:
         for vertex in face:
-            
-            """ if axis=='z':
-                matrixRotation=np.array([[math.cos(radian),   (math.sin(radian)),0, 0]
-                                        ,[-(math.sin(radian)), math.cos(radian),0 ,0],
-                                            [0, 0, 1, 0],
-                                            [0, 0, 0, 1]])
-    
-            matrixRotation_x=np.array([[1,0,0, 0]
-                                        ,[0, math.cos(radian_x),-(math.sin(radian_x)) ,0],
-                                            [0, math.sin(radian_x), math.cos(radian_x), 0],
-                                            [0, 0, 0, 1]])
-            
-            matrixRotation_y = np.array([[math.cos(radian_y), 0, math.sin(radian_y), 0]
-                                              , [0, 1, 0, 0],
-                                           [-(math.sin(radian_y)), 0,  math.cos(radian_y), 0],
-                                           [0, 0, 0, 1]]) """
+            # Cada vetor do array é uma linha da matriz            
             matrixRotation = np.array([[math.cos(radian_y), math.sin(radian_y) * math.sin(radian_y), 0, 0],
                                         [0, math.cos(radian_x),0 ,0],
                                         [math.sin(radian_y), -(math.sin(radian_x) * math.cos(radian_y)), 0, 0],
                                         [0,0,0,1]])                                           
-            matrixProjection=np.array([[1,0,0,0],
-                                      [0,1,0,0],
-                                      [0,0,0,0],
-                                      [0,0,0,1]])
+
             vetorPosition = np.array([vertex[0],vertex[1], vertex[2], 1])
-            #semiResult = np.matmul(rotationSemiResult, matrixProjection)
-            print("Vetor position")
-            print(vetorPosition)
             result=np.matmul(vetorPosition,matrixRotation)
-            print(result)
             vertex[0] = result[0]
             vertex[1] = result[1]
             vertex[2] = result[2]
-        # Transladando a imagem pro ponto original
+    # Transladando a imagem pro ponto original
     image = translate_2D(image, position[0], position[1])
-    #print(matrixRotation)
     return image
 
+
+#Auxiliary functions
+#Converte uma imagem para o SRD
 def map_coords(image, width, height, screen_w, screen_h):
     for face in image:
         for vertex in face:
-            vertex[0] = round((vertex[0] * width)/screen_width)
-            vertex[1] = round((vertex[1] * height)/screen_height)
+            vertex[0] = round((vertex[0] * width)/screen_w)
+            vertex[1] = round((vertex[1] * height)/screen_h)
             #print(vertex[0], vertex[1])
     return image
-    
+
+#Converte as páginas para SRD
 def map_pages(page_list, width, height, screen_w, screen_h):
     for i_page in page_list:
         for image in i_page:
             image = map_coords(image, width, height, screen_w, screen_h)
 
-def padding(page_list, x_padd, y_padd):
-    for i_page in page_list:
-        for image in i_page:
-            image = translate_2D(image, x_padd, y_padd)
-# Inicialização da tela base (root)
-root = Tk()
+#Desenha uma imagem bidimensional face por face
+def draw_image(image, canvas):
+    image_pointer = []
+    for face in image:
+        polygon = canvas.create_polygon(face, fill='', outline='black')
+        image_pointer.append(polygon)
+    return image_pointer
 
-def pass3dTo2d(image):
-    res=[]
+#Transforma uma imagem 3D em 2D
+def convert3D_to_2D(image):
+    image_2D = []
     for face in range(0,len(image)):
         newFace=[]
         for vertex in range(0,len(image[face])):
             newFace.append(image[face][vertex][0:2])
-        res.append(newFace)
-    return res
+        image_2D.append(newFace)
+    return image_2D
 
 
-
+# Inicialização da tela base (root)
+root = Tk()
 canvas = Canvas(root, width=800, height=600)
 
 canvas.pack()
@@ -446,17 +455,13 @@ screen_height = root.winfo_screenheight()
 font_size = int(min(canvas_width, screen_width) / 20)
 print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, screen_width, screen_height))
 
-bx= rotation_3D(box_image)
-boxy = pass3dTo2d(bx)
-translate_2D(boxy, 100,100)
-print("After projection: \n" + str(boxy))
-bottle1 = canvas.create_polygon(boxy[0], fill='', outline='black')
-bottle1 = canvas.create_polygon(boxy[1], fill='', outline='black')
-bottle1 = canvas.create_polygon(boxy[2], fill='', outline='black')
-bottle1 = canvas.create_polygon(boxy[3], fill='', outline='black')
-
-#bottle2 = canvas.create_polygon(btl[1], fill='', outline='black')
-
+isometric_bottle = isometric(bottle_image)
+bottle = convert3D_to_2D(isometric_bottle)
+bottle_copy = deepcopy(bottle)
+bottle_coverpage = map_coords(bottle_copy, canvas_width, canvas_height, screen_width, screen_height)
+translate_2D(bottle_coverpage, canvas_width * 0.33, canvas_height * 0.3)
+scale_2D(bottle_coverpage, [2,2])
+draw_image(bottle_coverpage, canvas)
 
 root.pages = []
 root.current_page = 0
@@ -516,7 +521,7 @@ def next_page():
     
     page_list = pages[root.current_page]
     for image in page_list:
-        canvas.create_line(image)
+        draw_image(image, canvas)
     position = midpoint(page_list[-1])
     question_mark = canvas.create_text(position[0] * 1.25, position[1], font=("Times New Roman", font_size), text="?")
     
@@ -727,7 +732,7 @@ pages.append(page6)
 ## Seventh question
 
 hexagon_origin = translateOrigin(hexagon_image)
-bottle_origin = translateOrigin(bottle_image)
+bottle_img = translateOrigin(bottle_image)
 pentagon_origin = translateOrigin(pentagon_image)
 
 hex1_pos = translate_2D(deepcopy(hexagon_image), 270, 150)
@@ -736,9 +741,9 @@ star6_pos = translate_2D(deepcopy(star_image), 470, 150 )
 
 pent1_pos = translate_2D(deepcopy(pentagon_image), 270, 250)
 triangle9_pos = translate_2D(deepcopy(triangle_image), 370, 250)
-bottle1_pos = translate_2D(deepcopy(bottle_image), 470, 250)
-
-bottle1_pos = rotation_3D(bottle1_pos)
+bottle1_pos = translate_2D(deepcopy(bottle_image), 280, 200)
+bottle1_pos = scale_2D(bottle1_pos, [0.5,0.5])
+bottle1_pos = isometric(bottle1_pos)
 
 pent2_pos = translate_2D(deepcopy(pentagon_image), 270, 350)
 triangle10_pos = translate_2D(deepcopy(triangle_image), 370, 350)
@@ -754,9 +759,7 @@ bottle1_pos = scale_2D(bottle1_pos, [1.5, 1.5])
 pent2_pos = cisa_2D(pent2_pos, [0.225, 0])
 triangle10_pos = cisa_2D(triangle10_pos, [0.225, 0])
 
-page7 = [hex1_pos, box21_pos, star6_pos, pent1_pos, triangle9_pos, pass3dTo2d(bottle1_pos), pent2_pos, triangle10_pos]
-#print("Bottle image")
-#print(bottle1_pos)
+page7 = [hex1_pos, box21_pos, star6_pos, pent1_pos, triangle9_pos, convert3D_to_2D(bottle1_pos), pent2_pos, triangle10_pos]
 pages.append(page7)
 
 
@@ -835,12 +838,12 @@ exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
 file_path = "images/velosem-logo.png"
 
 
-# logo = Image.open(file_path)
-# logo_width, logo_height = logo.size
-# logo_w_resize = round((logo_width * canvas_width)/screen_width)
-# logo_h_resize = round((logo_height * canvas_height)/screen_height)
-#logo.resize((logo_w_resize, logo_h_resize))
-#img = ImageTk.PhotoImage(logo)
-#canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
+logo = Image.open(file_path)
+logo_width, logo_height = logo.size
+logo_w_resize = round((logo_width * canvas_width)/screen_width)
+logo_h_resize = round((logo_height * canvas_height)/screen_height)
+logo.resize((logo_w_resize, logo_h_resize))
+img = ImageTk.PhotoImage(logo)
+canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.25, image = img)
 
 root.mainloop()
