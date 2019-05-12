@@ -373,7 +373,6 @@ def rotation_2D(image, angle=90):
         face = image[0]
         for vertex in face:
             matrixRotation=np.array([[math.cos(radian), (math.sin(radian))],[-(math.sin(radian)), math.cos(radian)]])
-
             vetorPosition=np.array([vertex[0],vertex[1]])
             result=np.matmul(matrixRotation,vetorPosition)
             vertex[0] = result[0]
@@ -455,6 +454,7 @@ screen_height = root.winfo_screenheight()
 font_size = int(min(canvas_width, screen_width) / 20)
 print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, screen_width, screen_height))
 
+bottle_2D = convert3D_to_2D(bottle_image)
 isometric_bottle = isometric(bottle_image)
 bottle = convert3D_to_2D(isometric_bottle)
 bottle_copy = deepcopy(bottle)
@@ -732,7 +732,9 @@ pages.append(page6)
 ## Seventh question
 
 hexagon_origin = translateOrigin(hexagon_image)
-bottle_img = translateOrigin(bottle_image)
+bottle_2D_image = [deepcopy(bottle_2D[0])]
+bottle_img = scale_2D(bottle_2D_image, [0.7,0.7])
+bottle_img = translateOrigin(bottle_2D_image)
 pentagon_origin = translateOrigin(pentagon_image)
 
 hex1_pos = translate_2D(deepcopy(hexagon_image), 270, 150)
@@ -741,9 +743,7 @@ star6_pos = translate_2D(deepcopy(star_image), 470, 150 )
 
 pent1_pos = translate_2D(deepcopy(pentagon_image), 270, 250)
 triangle9_pos = translate_2D(deepcopy(triangle_image), 370, 250)
-bottle1_pos = translate_2D(deepcopy(bottle_image), 280, 200)
-bottle1_pos = scale_2D(bottle1_pos, [0.5,0.5])
-bottle1_pos = isometric(bottle1_pos)
+bottle1_pos = translate_2D(deepcopy(bottle_2D_image), 280, 200)
 
 pent2_pos = translate_2D(deepcopy(pentagon_image), 270, 350)
 triangle10_pos = translate_2D(deepcopy(triangle_image), 370, 350)
@@ -759,7 +759,7 @@ bottle1_pos = scale_2D(bottle1_pos, [1.5, 1.5])
 pent2_pos = cisa_2D(pent2_pos, [0.225, 0])
 triangle10_pos = cisa_2D(triangle10_pos, [0.225, 0])
 
-page7 = [hex1_pos, box21_pos, star6_pos, pent1_pos, triangle9_pos, convert3D_to_2D(bottle1_pos), pent2_pos, triangle10_pos]
+page7 = [hex1_pos, box21_pos, star6_pos, pent1_pos, triangle9_pos, bottle1_pos, pent2_pos, triangle10_pos]
 pages.append(page7)
 
 
