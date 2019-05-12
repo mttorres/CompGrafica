@@ -991,8 +991,8 @@ menu_button = Button(canvas, text="Ir para o menu!", command=back_menu)
 start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
 exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
 
-#file_path = "images/velosem-logo.png"
-file_path = "velosem-logo.png"
+file_path = "images/velosem-logo.png"
+
 
 logo = Image.open(file_path)
 logo_width, logo_height = logo.size
