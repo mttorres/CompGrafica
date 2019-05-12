@@ -127,6 +127,32 @@ v6_bottle = [200, 120, 0]
 v7_bottle = [200, 130, 0]
 v8_bottle = [190, 140, 0]
 
+v1_bottlef2 = [190, 200, 10]
+v2_bottlef2 = [220, 200, 10]
+v3_bottlef2 = [220, 140, 10]
+v4_bottlef2 = [210, 130, 10]
+v5_bottlef2 = [210, 120, 10]
+v6_bottlef2 = [200, 120, 10]
+v7_bottlef2 = [200, 130, 10]
+v8_bottlef2 = [190, 140, 10]
+
+v1_bottlef3 = [190, 200, 10]
+v2_bottlef3 = [190, 200, 0]
+v3_bottlef3 = [190, 140, 10]
+v4_bottlef3 = [200, 130, 10]
+v5_bottlef3 = [200, 120, 10]
+v6_bottlef3 = [200, 120, 0]
+v7_bottlef3 = [200, 130, 0]
+v8_bottlef3 = [190, 140, 0]
+
+v1_bottlef4 = [220, 200, 10]
+v2_bottlef4 = [220, 200, 0]
+v3_bottlef4 = [220, 140, 10]
+v4_bottlef4 = [210, 130, 10]
+v5_bottlef4 = [210, 120, 10]
+v6_bottlef4 = [210, 120, 0]
+v7_bottlef4 = [210, 130, 0]
+v8_bottlef4 = [220, 140, 0]
 
 
 vertexes = [
@@ -139,7 +165,10 @@ vertexes = [
     v1_hep, v2_hep, v3_hep, v4_hep, v5_hep, v6_hep, v7_hep,
     v1_chair, v2_chair, v3_chair, v4_chair, v5_chair, v6_chair, v7_chair, v8_chair, v9_chair, v10_chair,
     v1_star, v2_star, v3_star, v4_star, v5_star, v6_star, v7_star, v8_star, v9_star, v10_star,
-    v1_bottle, v2_bottle, v3_bottle, v4_bottle, v5_bottle, v6_bottle, v7_bottle, v8_bottle
+    v1_bottle, v2_bottle, v3_bottle, v4_bottle, v5_bottle, v6_bottle, v7_bottle, v8_bottle,
+    v1_bottlef2, v2_bottlef2, v3_bottlef2, v4_bottlef2, v5_bottlef2, v6_bottlef2, v7_bottlef2, v8_bottlef2,
+    v1_bottlef3,v2_bottlef3,v3_bottlef3,v4_bottlef3,v5_bottlef3,v6_bottlef3,v7_bottlef3,v8_bottlef3,
+    v1_bottlef4,v2_bottlef4,v3_bottlef4,v4_bottlef4,v5_bottlef4,v6_bottlef4,v7_bottlef4,v8_bottlef4
     ]
 
 ## Faces
@@ -171,19 +200,21 @@ star_f1 = [vertexes[50], vertexes[51], vertexes[52], vertexes[53], vertexes[54],
 star_f2 = [vertexes[50], vertexes[59], vertexes[58], vertexes[57], vertexes[56], vertexes[55], vertexes[54], vertexes[53], vertexes[52], vertexes[51]]
 
 bottle_f1 = [vertexes[60], vertexes[61], vertexes[62], vertexes[63], vertexes[64], vertexes[65], vertexes[66], vertexes[67]]
-bottle_f2 = [vertexes[60], vertexes[67], vertexes[66], vertexes[65], vertexes[64], vertexes[63], vertexes[62], vertexes[61]]
+bottle_f2 = [vertexes[68], vertexes[75], vertexes[74], vertexes[73], vertexes[72], vertexes[71], vertexes[70], vertexes[69]]
+bottle_f3 = [vertexes[76], vertexes[77], vertexes[78], vertexes[79], vertexes[80], vertexes[81], vertexes[82], vertexes[83]]
+bottle_f4 = [vertexes[84], vertexes[91], vertexes[90], vertexes[89], vertexes[88], vertexes[87], vertexes[86], vertexes[85]]
 
 faces = [
          arrow_f1, arrow_f2, box_f1, box_f2, cup_f1, cup_f2, triangle_f1, triangle_f2,
          pentagon_f1, pentagon_f2, hexagon_f1, hexagon_f2, heptagon_f1, heptagon_f2,
-         chair_f1, chair_f2, star_f1, star_f2, bottle_f1, bottle_f2
+         chair_f1, chair_f2, star_f1, star_f2, bottle_f1, bottle_f2,bottle_f3,bottle_f4
         ]
       
 # Figures
 
 ### Arrow
 arrow_image = [faces[0], faces[1]]
-print(arrow_image)  
+print(arrow_image)
 ### Box
 box_image = [faces[2], faces[3]]
 
@@ -209,53 +240,57 @@ chair_image = [faces[14], faces[15]]
 star_image = [faces[16], faces[17]]
 
 ### Bottle
-bottle_image = [faces[18], faces[19]]
+bottle_image = [faces[18],faces[20],faces[19],faces[21]]
+print("Bottle image")
+print(bottle_image)
 
 
 
 # Transformations 
 
+
+
 ## Scale
 def scale_2D(image, k):
     position=translateOrigin(image)
-    face = image[0]
-    for vertex in face:
-        matrixScale=np.array([[k[0], 0, 0],
-                                [0, k[1], 0],
-                                [0, 0, 1]])
-        matrixPosition=np.array([vertex[0],vertex[1],1])
-        result=np.matmul(matrixScale,matrixPosition)
-        vertex[0] = result[0]
-        vertex[1] = result[1]
+    for face in image:
+        for vertex in face:
+            matrixScale=np.array([[k[0], 0, 0],
+                                    [0, k[1], 0],
+                                    [0, 0, 1]])
+            matrixPosition=np.array([vertex[0],vertex[1],1])
+            result=np.matmul(matrixScale,matrixPosition)
+            vertex[0] = result[0]
+            vertex[1] = result[1]
     translate_2D(image,position[0],position[1])
     return image
 
 ## Shear
 def cisa_2D(image, k):
     position=translateOrigin(image)
-    face = image[0]
-    for vertex in face:
-        matrixScale=np.array([[1, k[0], 0],
-                                [k[1], 1, 0],
-                                [0, 0, 1]])
-        matrixPosition=np.array([vertex[0],vertex[1],1])
-        result=np.matmul(matrixScale,matrixPosition)
-        vertex[0] = result[0]
-        vertex[1] = result[1]
+    for face in image:
+        for vertex in face:
+            matrixScale=np.array([[1, k[0], 0],
+                                    [k[1], 1, 0],
+                                    [0, 0, 1]])
+            matrixPosition=np.array([vertex[0],vertex[1],1])
+            result=np.matmul(matrixScale,matrixPosition)
+            vertex[0] = result[0]
+            vertex[1] = result[1]
     translate_2D(image,position[0],position[1])
     return image
 
 ## Translation
 def translate_2D(image, x_amount, y_amount):
-    face = image[0]
-    for vertex in face:
-        matrixTranslate=np.array([[1, 0, x_amount],
-                            [0, 1, y_amount],
-                            [0, 0, 1]])
-        matrixPosition=np.array([vertex[0],vertex[1],1])
-        result=np.matmul(matrixTranslate,matrixPosition)
-        vertex[0] = result[0]
-        vertex[1] = result[1]
+    for face in image:
+        for vertex in face:
+            matrixTranslate=np.array([[1, 0, x_amount],
+                                [0, 1, y_amount],
+                                [0, 0, 1]])
+            matrixPosition=np.array([vertex[0],vertex[1],1])
+            result=np.matmul(matrixTranslate,matrixPosition)
+            vertex[0] = result[0]
+            vertex[1] = result[1]
     return image
 
 ## Translate image midpoint to (0,0)
@@ -265,20 +300,21 @@ def translateOrigin(image):
     direita = None
     cima = None
     baixo = None
-    face = image[0]
-    for vertex in face:
-        if ((esquerda == None) or (esquerda < vertex[0])):
-            esquerda = vertex[0]
-        if ((direita == None) or (direita > vertex[0])):
-            direita = vertex[0]
-        if ((cima == None) or (cima < vertex[1])):
-            cima = vertex[1]
-        if ((baixo == None) or (baixo > vertex[1])):
-            baixo = vertex[1]
-    # Calculando o ponto medio em relação  x e y e transladando a imagem para a origem
-    medio_x = (direita - esquerda) / 2
-    medio_y = (baixo - cima) / 2
-    position=[esquerda + medio_x,cima + medio_y]
+    #face = image[0]
+    for face in image:
+        for vertex in face:
+            if ((esquerda == None) or (esquerda < vertex[0])):
+                esquerda = vertex[0]
+            if ((direita == None) or (direita > vertex[0])):
+                direita = vertex[0]
+            if ((cima == None) or (cima < vertex[1])):
+                cima = vertex[1]
+            if ((baixo == None) or (baixo > vertex[1])):
+                baixo = vertex[1]
+        # Calculando o ponto medio em relação  x e y e transladando a imagem para a origem
+        medio_x = (direita - esquerda) / 2
+        medio_y = (baixo - cima) / 2
+        position=[esquerda + medio_x,cima + medio_y]
     image = translate_2D(image, -position[0], -position[1])
     return position
 
@@ -287,25 +323,25 @@ def rotation_2D(image, angle=90):
     radian = angle * (math.pi / 180)
     position=translateOrigin(image)
     # Fazendo a rotação
-    face = image[0]
-    for vertex in face:
-        matrixRotation=np.array([[math.cos(radian), (math.sin(radian))],[-(math.sin(radian)), math.cos(radian)]])
-                        
-        vetorPosition=np.array([vertex[0],vertex[1]])
-        result=np.matmul(matrixRotation,vetorPosition)
-        vertex[0] = result[0]
-        vertex[1] = result[1]
-    # Transladando a imagem pro ponto original
+    for face in image:
+        for vertex in face:
+            matrixRotation=np.array([[math.cos(radian), (math.sin(radian))],[-(math.sin(radian)), math.cos(radian)]])
+
+            vetorPosition=np.array([vertex[0],vertex[1]])
+            result=np.matmul(matrixRotation,vetorPosition)
+            vertex[0] = result[0]
+            vertex[1] = result[1]
+        # Transladando a imagem pro ponto original
     image = translate_2D(image, position[0], position[1])
     return image
 
 
 def map_coords(image, width, height, screen_w, screen_h):
-    face = image[0]
-    for vertex in face:
-        vertex[0] = round((vertex[0] * width)/screen_width)
-        vertex[1] = round((vertex[1] * height)/screen_height)
-        #print(vertex[0], vertex[1])
+    for face in image:
+        for vertex in face:
+            vertex[0] = round((vertex[0] * width)/screen_width)
+            vertex[1] = round((vertex[1] * height)/screen_height)
+            #print(vertex[0], vertex[1])
     return image
     
 def map_pages(page_list, width, height, screen_w, screen_h):
@@ -319,6 +355,16 @@ def padding(page_list, x_padd, y_padd):
             image = translate_2D(image, x_padd, y_padd)
 # Inicialização da tela base (root)
 root = Tk()
+
+def pass2dTo3d(image):
+    res=[]
+    for face in range(0,len(image)):
+        newFace=[]
+        for vertex in range(0,len(image[face])):
+            newFace.append(image[face][vertex][0:2])
+        res.append(newFace)
+    return res
+
 
 
 canvas = Canvas(root, width=800, height=600)
@@ -627,7 +673,9 @@ bottle1_pos = scale_2D(bottle1_pos, [1.5, 1.5])
 pent2_pos = cisa_2D(pent2_pos, [0.225, 0])
 triangle10_pos = cisa_2D(triangle10_pos, [0.225, 0])
 
-page7 = [hex1_pos, box21_pos, star6_pos, pent1_pos, triangle9_pos, bottle1_pos, pent2_pos, triangle10_pos]
+page7 = [hex1_pos, box21_pos, star6_pos, pent1_pos, triangle9_pos, pass2dTo3d(bottle1_pos), pent2_pos, triangle10_pos]
+print("Bottle image")
+print(bottle1_pos)
 pages.append(page7)
 
 
@@ -704,12 +752,12 @@ start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
 exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
 
 file_path = "images/velosem-logo.png"
-logo = Image.open(file_path)
-logo_width, logo_height = logo.size
-logo_w_resize = round((logo_width * canvas_width)/screen_width)
-logo_h_resize = round((logo_height * canvas_height)/screen_height)
-logo.resize((logo_w_resize, logo_h_resize))
-img = ImageTk.PhotoImage(logo)
-canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
+# logo = Image.open(file_path)
+# logo_width, logo_height = logo.size
+# logo_w_resize = round((logo_width * canvas_width)/screen_width)
+# logo_h_resize = round((logo_height * canvas_height)/screen_height)
+#logo.resize((logo_w_resize, logo_h_resize))
+#img = ImageTk.PhotoImage(logo)
+#canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.35, image = img)
 
 root.mainloop()
