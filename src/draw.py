@@ -127,29 +127,29 @@ v6_bottle = [200, 120, 0]
 v7_bottle = [200, 130, 0]
 v8_bottle = [190, 140, 0]
 
-v1_bottlef2 = [190, 200, 10]
-v2_bottlef2 = [220, 200, 10]
-v3_bottlef2 = [220, 140, 10]
-v4_bottlef2 = [210, 130, 10]
-v5_bottlef2 = [210, 120, 10]
-v6_bottlef2 = [200, 120, 10]
-v7_bottlef2 = [200, 130, 10]
-v8_bottlef2 = [190, 140, 10]
+v1_bottlef2 = [190, 200, 100]
+v2_bottlef2 = [220, 200, 100]
+v3_bottlef2 = [220, 140, 100]
+v4_bottlef2 = [210, 130, 100]
+v5_bottlef2 = [210, 120, 100]
+v6_bottlef2 = [200, 120, 100]
+v7_bottlef2 = [200, 130, 100]
+v8_bottlef2 = [190, 140, 100]
 
-v1_bottlef3 = [190, 200, 10]
+v1_bottlef3 = [190, 200, 100]
 v2_bottlef3 = [190, 200, 0]
-v3_bottlef3 = [190, 140, 10]
-v4_bottlef3 = [200, 130, 10]
-v5_bottlef3 = [200, 120, 10]
+v3_bottlef3 = [190, 140, 100]
+v4_bottlef3 = [200, 130, 100]
+v5_bottlef3 = [200, 120, 100]
 v6_bottlef3 = [200, 120, 0]
 v7_bottlef3 = [200, 130, 0]
 v8_bottlef3 = [190, 140, 0]
 
-v1_bottlef4 = [220, 200, 10]
+v1_bottlef4 = [220, 200, 100]
 v2_bottlef4 = [220, 200, 0]
-v3_bottlef4 = [220, 140, 10]
-v4_bottlef4 = [210, 130, 10]
-v5_bottlef4 = [210, 120, 10]
+v3_bottlef4 = [220, 140, 100]
+v4_bottlef4 = [210, 130, 100]
+v5_bottlef4 = [210, 120, 100]
 v6_bottlef4 = [210, 120, 0]
 v7_bottlef4 = [210, 130, 0]
 v8_bottlef4 = [220, 140, 0]
@@ -336,6 +336,41 @@ def rotation_2D(image, angle=90):
     return image
 
 
+def rotation_3D(image, angle=90, axis='z'):
+    radian = angle * (math.pi / 180)
+    position=translateOrigin(image)
+    # Fazendo a rotação
+    for face in image:
+        for vertex in face:
+            if axis=='z':
+                matrixRotation=np.array([[math.cos(radian),   (math.sin(radian)),0, 0]
+                                        ,[-(math.sin(radian)), math.cos(radian),0 ,0],
+                                            [0, 0, 1, 0],
+                                            [0, 0, 0, 1]])
+            elif axis=='x':
+                matrixRotation=np.array([[1,0,0, 0]
+                                        ,[0, math.cos(radian),-(math.sin(radian)) ,0],
+                                            [0, math.sin(radian), math.cos(radian), 0],
+                                            [0, 0, 0, 1]])
+            elif axis=='y':
+                matrixRotation = np.array([[math.cos(radian), 0, math.sin(radian), 0]
+                                              , [0, 1, 0, 0],
+                                           [-(math.sin(radian)), 0,  math.cos(radian), 0],
+                                           [0, 0, 0, 1]])
+            matrixProjection=np.array([[1,0,0,0],
+                                      [0,1,0,0],
+                                      [0,0,0,0],
+                                      [0,0,0,1]])
+            vetorPosition = np.array([vertex[0], vertex[1], vertex[2], 1])
+            semiResult = np.matmul(matrixRotation, matrixProjection)
+            result=np.matmul(semiResult,vetorPosition)
+            vertex[0] = result[0]
+            vertex[1] = result[1]
+            vertex[2] = result[2]
+        # Transladando a imagem pro ponto original
+    image = translate_2D(image, position[0], position[1])
+    return image
+
 def map_coords(image, width, height, screen_w, screen_h):
     for face in image:
         for vertex in face:
@@ -356,7 +391,7 @@ def padding(page_list, x_padd, y_padd):
 # Inicialização da tela base (root)
 root = Tk()
 
-def pass2dTo3d(image):
+def pass3dTo2d(image):
     res=[]
     for face in range(0,len(image)):
         newFace=[]
@@ -437,7 +472,7 @@ def next_page():
     
     page_list = pages[root.current_page]
     for image in page_list:
-        canvas.create_polygon(image, fill='', outline='black')
+        canvas.create_line(image)
     position = midpoint(page_list[-1])
     question_mark = canvas.create_text(position[0] * 1.25, position[1], font=("Times New Roman", font_size), text="?")
     
@@ -659,6 +694,8 @@ pent1_pos = translate_2D(deepcopy(pentagon_image), 270, 250)
 triangle9_pos = translate_2D(deepcopy(triangle_image), 370, 250)
 bottle1_pos = translate_2D(deepcopy(bottle_image), 470, 250)
 
+bottle1_pos = rotation_3D(bottle1_pos,60,'y')
+
 pent2_pos = translate_2D(deepcopy(pentagon_image), 270, 350)
 triangle10_pos = translate_2D(deepcopy(triangle_image), 370, 350)
 
@@ -673,7 +710,7 @@ bottle1_pos = scale_2D(bottle1_pos, [1.5, 1.5])
 pent2_pos = cisa_2D(pent2_pos, [0.225, 0])
 triangle10_pos = cisa_2D(triangle10_pos, [0.225, 0])
 
-page7 = [hex1_pos, box21_pos, star6_pos, pent1_pos, triangle9_pos, pass2dTo3d(bottle1_pos), pent2_pos, triangle10_pos]
+page7 = [hex1_pos, box21_pos, star6_pos, pent1_pos, triangle9_pos, pass3dTo2d(bottle1_pos), pent2_pos, triangle10_pos]
 print("Bottle image")
 print(bottle1_pos)
 pages.append(page7)
