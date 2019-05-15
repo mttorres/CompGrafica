@@ -216,6 +216,11 @@ v12_lado2= [200, 130, 20]
 v7_lado2 = [200, 120, 20]
 v8_lado2 = [200, 120, 0]
 
+v1_tampa=[200, 130, 0]
+v2_tampa=[200, 130, 20]
+v3_tampa=[210, 130, 20]
+v4_tampa=[210, 130, 0]
+
 ###
 vertexes = [
     v1_arrow, v2_arrow, v3_arrow, v4_arrow, v5_arrow, v6_arrow, v7_arrow,
@@ -267,6 +272,7 @@ bottle_f3 = [vertexes[76], vertexes[77], vertexes[78], vertexes[79], vertexes[80
 bottle_f4 = [vertexes[84], vertexes[91], vertexes[90], vertexes[89], vertexes[88], vertexes[87], vertexes[86], vertexes[85]]
 bottle_topo = [v1_bottle_topo, v2_bottle_topo, v3_bottle_topo, v4_bottle_topo]
 bottle_base = [v1_bottle_base, v2_bottle_base, v3_bottle_base, v4_bottle_base]
+bottle_tampa=[v1_tampa,v2_tampa,v3_tampa,v4_tampa]
 
 #faces laterais
 bottle_f5 = [v1_lado1,v2_lado1,v3_lado1,v4_lado1]
@@ -326,7 +332,7 @@ star_image = [faces[16], faces[17]]
 #bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo,bottle_f11]
 
 #tudo
-bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo,bottle_f5,bottle_f6,bottle_f7,bottle_f8,bottle_f9,bottle_f10]
+bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo,bottle_f5,bottle_f6,bottle_f7,bottle_f8,bottle_f9,bottle_f10,bottle_tampa]
 
 # Transformations 
 
@@ -538,7 +544,7 @@ print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, sc
 # passa as coordenadas do bottle para 2d e ao mesmo tempo fazendo uma copia
 bottle_2D = convert3D_to_2D(bottle_image)
 # aplica transformação isométrica no bottle
-isometric_bottle = isometric(bottle_image)
+isometric_bottle = isometric(bottle_image,30,45)
 # converte para 2d para poder ser desenhado no tkinter
 bottle = convert3D_to_2D(isometric_bottle)
 #copia que será usada
