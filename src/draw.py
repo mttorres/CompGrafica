@@ -180,14 +180,19 @@ v4_bottle_base = [190, 200, 20]
 #face maior
 v1_lado1 = [220, 200, 0]
 v2_lado1 = [220, 200, 20]   
-v3_lado1 = [220, 140, 0]    # 3 e 4 fazem parte da face media
-v4_lado1 = [220, 140, 20]
+v3_lado1 = [220, 140, 20]    # 3 e 4 fazem parte da face media
+v4_lado1 = [220, 140, 0]
+
 ######### 
 #face media
-v5_lado1 = [210, 130, 0]
-v6_lado1 = [210, 130, 20] # fazem parte da face pequena
+v9_lado1 = [220, 140, 0]
+v10_lado1 = [220, 140, 20]
+v5_lado1 =  [210, 130, 20]
+v6_lado1 =  [210, 130, 0] # fazem parte da face pequena
 ##########
-#face pequena 
+#face pequena
+v11_lado1=[210, 130, 0]
+v12_lado1=[210, 130, 20]
 v7_lado1 = [210, 120, 20]
 v8_lado1 = [210, 120, 0]
 ##############
@@ -201,11 +206,15 @@ v2_lado2 = [190, 200, 20]
 v3_lado2 = [190, 140, 20]
 v4_lado2 = [190, 140, 0]
 #####
-v5_lado2 = [200, 130, 0]
-v6_lado2 = [200, 130, 20]
+v9_lado2=[190, 140, 0]
+v10_lado2=[190, 140, 20]
+v5_lado2 = [200, 130, 20]
+v6_lado2 = [200, 130, 0]
 #######
-v7_lado2 = [200, 120, 0]
-v8_lado2 = [200, 120, 20]
+v11_lado2=[200, 130, 0]
+v12_lado2= [200, 130, 20]
+v7_lado2 = [200, 120, 20]
+v8_lado2 = [200, 120, 0]
 
 ###
 vertexes = [
@@ -260,13 +269,13 @@ bottle_topo = [v1_bottle_topo, v2_bottle_topo, v3_bottle_topo, v4_bottle_topo]
 bottle_base = [v1_bottle_base, v2_bottle_base, v3_bottle_base, v4_bottle_base]
 
 #faces laterais
-bottle_f5 = [v1_lado1,v2_lado1,v4_lado1,v3_lado1]
-bottle_f6 = [v6_lado1,v5_lado1]
-bottle_f7 = [v7_lado1,v8_lado1]
+bottle_f5 = [v1_lado1,v2_lado1,v3_lado1,v4_lado1]
+bottle_f6 = [v9_lado1,v10_lado1,v5_lado1,v6_lado1]
+bottle_f7 = [v11_lado1,v12_lado1,v7_lado1,v8_lado1]
 
 bottle_f8 = [v1_lado2,v2_lado2,v3_lado2,v4_lado2]
-bottle_f9 = [v6_lado2,v5_lado2]
-bottle_f10 =[v7_lado2,v8_lado2]
+bottle_f9 = [v9_lado2,v10_lado2,v5_lado2,v6_lado2]
+bottle_f10 =[v11_lado2,v12_lado2,v7_lado2,v8_lado2]
 
 #bottle_f11 =[v5_lado1,v5_lado2]
 
@@ -1076,13 +1085,13 @@ exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
 file_path = "images/velosem-logo.png"
 
 
-logo = Image.open(file_path)
-logo_width, logo_height = logo.size
-logo_w_resize = round((logo_width * canvas_width)/screen_width)
-logo_h_resize = round((logo_height * canvas_height)/screen_height)
-logo.resize((logo_w_resize, logo_h_resize))
-img = ImageTk.PhotoImage(logo)
-canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.25, image = img)
+# logo = Image.open(file_path)
+# logo_width, logo_height = logo.size
+# logo_w_resize = round((logo_width * canvas_width)/screen_width)
+# logo_h_resize = round((logo_height * canvas_height)/screen_height)
+# logo.resize((logo_w_resize, logo_h_resize))
+# img = ImageTk.PhotoImage(logo)
+# canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.25, image = img)
 
 
 root.mainloop()
