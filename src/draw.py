@@ -1,4 +1,4 @@
-from tkinter import Tk, Canvas, Frame, Button, Label, BOTH
+from tkinter import Tk, Canvas, Frame, Button, Label, BOTH, Radiobutton
 from PIL import Image, ImageTk
 import math
 import numpy as np
@@ -36,6 +36,12 @@ The simple figures have less than 6 vertices.
 The average figures have between 6 and 8 vertices.
 The complex have more than 8 vertices.
 """
+
+#For mouse event debugging
+def callback(event):
+    print("Clicked at", event.x, event.y)
+
+
 ##Vertices
 
 ### Arrow
@@ -127,6 +133,7 @@ v6_bottle = [200, 120, 0]
 v7_bottle = [200, 130, 0]
 v8_bottle = [190, 140, 0]
 
+# face tras
 v1_bottlef2 = [190, 200, 20]
 v2_bottlef2 = [220, 200, 20]
 v3_bottlef2 = [220, 140, 20]
@@ -135,6 +142,7 @@ v5_bottlef2 = [210, 120, 20]
 v6_bottlef2 = [200, 120, 20]
 v7_bottlef2 = [200, 130, 20]
 v8_bottlef2 = [190, 140, 20]
+
 
 v1_bottlef3 = [190, 200, 0]
 v2_bottlef3 = [190, 200, 20]
@@ -145,6 +153,7 @@ v6_bottlef3 = [200, 120, 0]
 v7_bottlef3 = [200, 130, 0]
 v8_bottlef3 = [190, 140, 0]
 
+ 
 v1_bottlef4 = [220, 200, 0]
 v2_bottlef4 = [220, 200, 20]
 v3_bottlef4 = [220, 140, 20]
@@ -153,6 +162,7 @@ v5_bottlef4 = [210, 120, 20]
 v6_bottlef4 = [210, 120, 0]
 v7_bottlef4 = [210, 130, 0]
 v8_bottlef4 = [220, 140, 0]
+
 
 v1_bottle_topo = [210, 120, 0]
 v2_bottle_topo = [200, 120, 0]
@@ -164,6 +174,40 @@ v2_bottle_base = [220, 200, 0]
 v3_bottle_base = [220, 200, 20]
 v4_bottle_base = [190, 200, 20]
 
+
+# lado 1 ##### (caso tenha duvida olhe o desenho enviado no grupo mais cedo)
+
+#face maior
+v1_lado1 = [220, 200, 0]
+v2_lado1 = [220, 200, 20]   
+v3_lado1 = [220, 140, 0]    # 3 e 4 fazem parte da face media
+v4_lado1 = [220, 140, 20]
+######### 
+#face media
+v5_lado1 = [210, 130, 0]
+v6_lado1 = [210, 130, 20] # fazem parte da face pequena
+##########
+#face pequena 
+v7_lado1 = [210, 120, 20]
+v8_lado1 = [210, 120, 0]
+##############
+
+#############
+#lado 2#############(analogo)
+
+#####
+v1_lado2 = [190, 200, 0]
+v2_lado2 = [190, 200, 20]
+v3_lado2 = [190, 140, 20]
+v4_lado2 = [190, 140, 0]
+#####
+v5_lado2 = [200, 130, 0]
+v6_lado2 = [200, 130, 20]
+#######
+v7_lado2 = [200, 120, 0]
+v8_lado2 = [200, 120, 20]
+
+###
 vertexes = [
     v1_arrow, v2_arrow, v3_arrow, v4_arrow, v5_arrow, v6_arrow, v7_arrow,
     v1_t1, v2_t1, v3_t1,
@@ -215,6 +259,17 @@ bottle_f4 = [vertexes[84], vertexes[91], vertexes[90], vertexes[89], vertexes[88
 bottle_topo = [v1_bottle_topo, v2_bottle_topo, v3_bottle_topo, v4_bottle_topo]
 bottle_base = [v1_bottle_base, v2_bottle_base, v3_bottle_base, v4_bottle_base]
 
+#faces laterais
+bottle_f5 = [v1_lado1,v2_lado1,v4_lado1,v3_lado1]
+bottle_f6 = [v6_lado1,v5_lado1]
+bottle_f7 = [v7_lado1,v8_lado1]
+
+bottle_f8 = [v1_lado2,v2_lado2,v3_lado2,v4_lado2]
+bottle_f9 = [v6_lado2,v5_lado2]
+bottle_f10 =[v7_lado2,v8_lado2]
+
+#bottle_f11 =[v5_lado1,v5_lado2]
+
 faces = [
          arrow_f1, arrow_f2, box_f1, box_f2, cup_f1, cup_f2, triangle_f1, triangle_f2,
          pentagon_f1, pentagon_f2, hexagon_f1, hexagon_f2, heptagon_f1, heptagon_f2,
@@ -251,8 +306,18 @@ chair_image = [faces[14], faces[15]]
 star_image = [faces[16], faces[17]]
 
 ### Bottle
-bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo]
+# testes:
 
+#lado1 com as faces
+#bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo,bottle_f5,bottle_f6,bottle_f7]
+#lado 2 com as faces
+#bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo,bottle_f8,bottle_f9,bottle_f10]
+
+#face da parte da frente
+#bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo,bottle_f11]
+
+#tudo
+bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo,bottle_f5,bottle_f6,bottle_f7,bottle_f8,bottle_f9,bottle_f10]
 
 # Transformations 
 
@@ -390,10 +455,10 @@ def isometric(image, angle_x=30, angle_y = 45):
     for face in image:
         for vertex in face:
             # Cada vetor do array é uma linha da matriz            
-            matrixRotation = np.array([[math.cos(radian_y), math.sin(radian_y) * math.sin(radian_y), 0, 0],
+            matrixRotation = np.array([ [math.cos(radian_y), math.sin(radian_y) * math.sin(radian_y), 0, 0],
                                         [0, math.cos(radian_x),0 ,0],
                                         [math.sin(radian_y), -(math.sin(radian_x) * math.cos(radian_y)), 0, 0],
-                                        [0,0,0,1]])                                           
+                                        [0,0,0,1]]                                                             )                                           
 
             vetorPosition = np.array([vertex[0],vertex[1], vertex[2], 1])
             result=np.matmul(vetorPosition,matrixRotation)
@@ -404,6 +469,13 @@ def isometric(image, angle_x=30, angle_y = 45):
     image = translate_2D(image, position[0], position[1])
     return image
 
+
+
+#radio button
+#valor = IntVar()
+valor = 1
+#valor.set(1)
+total = 0
 
 #Auxiliary functions
 #Converte uma imagem para o SRD
@@ -441,9 +513,9 @@ def convert3D_to_2D(image):
 
 
 # Inicialização da tela base (root)
-root = Tk()
+root = Tk()                 #265,32   e 181,2    
 canvas = Canvas(root, width=800, height=600)
-
+canvas.bind("<Button-1>", callback)
 canvas.pack()
 root.update()
 
@@ -454,15 +526,19 @@ screen_height = root.winfo_screenheight()
 font_size = int(min(canvas_width, screen_width) / 20)
 print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, screen_width, screen_height))
 
+# passa as coordenadas do bottle para 2d e ao mesmo tempo fazendo uma copia
 bottle_2D = convert3D_to_2D(bottle_image)
+# aplica transformação isométrica no bottle
 isometric_bottle = isometric(bottle_image)
+# converte para 2d para poder ser desenhado no tkinter
 bottle = convert3D_to_2D(isometric_bottle)
+#copia que será usada
 bottle_copy = deepcopy(bottle)
 bottle_coverpage = map_coords(bottle_copy, canvas_width, canvas_height, screen_width, screen_height)
 translate_2D(bottle_coverpage, canvas_width * 0.33, canvas_height * 0.3)
 scale_2D(bottle_coverpage, [2,2])
 draw_image(bottle_coverpage, canvas)
-canvas.create_text(canvas_width * 0.48, canvas_height * 0.65, font=("Helvetica", 10,"bold","italic"), text="Beba Agua")
+canvas.create_text(canvas_width * 0.48, canvas_height * 0.65, font=("Helvetica", 10,"bold","italic"), text="Beba Água")
 
 root.pages = []
 root.answers = []
@@ -537,9 +613,11 @@ def next_page():
         answer_list = answers[root.current_page]
         for image in answer_list:
             #i+= 1
-            #option = canvas.create_text(image[0] - 20 , image[0] - 20 , font=("Times New Roman", font_size), text=str(i) + ")")
+            #b = Radiobutton(options, text=i, variable=v, value=i) 
             draw_image(image, canvas)
     root.current_page += 1
+    #total += valor
+    #valor = 1
 
 
 
@@ -569,7 +647,10 @@ def midpoint(image):
 ##First question 
 arrow_origin = translateOrigin(arrow_image)
 
+
 arrow1_pos = translate_2D(deepcopy(arrow_image),270,150)
+#b = Radiobutton(canvas, text=1, variable=valor, value=1)
+#b.place(x=270 , y=150)
 arrow2_pos = translate_2D(deepcopy(arrow_image), 370, 150)
 arrow3_pos = translate_2D(deepcopy(arrow_image), 470, 150)
 
@@ -991,6 +1072,7 @@ menu_button = Button(canvas, text="Ir para o menu!", command=back_menu)
 start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
 exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
 
+
 file_path = "images/velosem-logo.png"
 
 
@@ -1001,5 +1083,6 @@ logo_h_resize = round((logo_height * canvas_height)/screen_height)
 logo.resize((logo_w_resize, logo_h_resize))
 img = ImageTk.PhotoImage(logo)
 canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.25, image = img)
+
 
 root.mainloop()
