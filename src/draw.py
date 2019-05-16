@@ -621,15 +621,14 @@ def next_page():
     for image in page_list:
         draw_image(image, canvas)
     position = midpoint(page_list[-1])
-    question_mark = canvas.create_text(position[0] * 1.25, position[1], font=("Times New Roman", font_size), text="?")
+    question_mark = canvas.create_text(position[0] * 1.20, position[1], font=("Times New Roman", font_size), text="?")
     
     i = 0
-    if(root.current_page < 6):
-        answer_list = answers[root.current_page]
-        for image in answer_list:
-            #i+= 1
-            #b = Radiobutton(options, text=i, variable=v, value=i) 
-            draw_image(image, canvas)
+    answer_list = answers[root.current_page]
+    for image in answer_list:
+        #i+= 1
+        #b = Radiobutton(options, text=i, variable=v, value=i) 
+        draw_image(image, canvas)
     root.current_page += 1
     #total += valor
     #valor = 1
@@ -663,18 +662,18 @@ def midpoint(image):
 arrow_origin = translateOrigin(arrow_image)
 
 
-arrow1_pos = translate_2D(deepcopy(arrow_image),270,150)
+arrow1_pos = translate_2D(deepcopy(arrow_image),470,150)
 #b = Radiobutton(canvas, text=1, variable=valor, value=1)
 #b.place(x=270 , y=150)
-arrow2_pos = translate_2D(deepcopy(arrow_image), 370, 150)
-arrow3_pos = translate_2D(deepcopy(arrow_image), 470, 150)
+arrow2_pos = translate_2D(deepcopy(arrow_image), 570, 150)
+arrow3_pos = translate_2D(deepcopy(arrow_image), 670, 150)
 
-arrow4_pos = translate_2D(deepcopy(arrow_image), 270, 250)
-arrow5_pos = translate_2D(deepcopy(arrow_image), 370, 250)
-arrow6_pos = translate_2D(deepcopy(arrow_image), 470, 250)
+arrow4_pos = translate_2D(deepcopy(arrow_image), 470, 250)
+arrow5_pos = translate_2D(deepcopy(arrow_image), 570, 250)
+arrow6_pos = translate_2D(deepcopy(arrow_image), 670, 250)
 
-arrow7_pos = translate_2D(deepcopy(arrow_image), 270, 350)
-arrow8_pos = translate_2D(deepcopy(arrow_image), 370, 350)
+arrow7_pos = translate_2D(deepcopy(arrow_image), 470, 350)
+arrow8_pos = translate_2D(deepcopy(arrow_image), 570, 350)
 
 arrow2_pos = rotation_2D(arrow2_pos, 90)
 arrow3_pos = rotation_2D(arrow3_pos, 180)
@@ -689,13 +688,13 @@ page1=[arrow1_pos, arrow2_pos, arrow3_pos, arrow4_pos, arrow5_pos, arrow6_pos, a
 pages.append(page1)
 
 
-arrow9_pos = translate_2D(deepcopy(arrow_image),  770,200)
-arrow10_pos = translate_2D(deepcopy(arrow_image), 870, 200)
-arrow11_pos = translate_2D(deepcopy(arrow_image), 970, 200)
+arrow9_pos = translate_2D(deepcopy(arrow_image),  1170,200)
+arrow10_pos = translate_2D(deepcopy(arrow_image), 1370, 200)
+arrow11_pos = translate_2D(deepcopy(arrow_image), 1570, 200)
 
-arrow12_pos = translate_2D(deepcopy(arrow_image), 770, 300)
-arrow13_pos = translate_2D(deepcopy(arrow_image), 870, 300)
-arrow14_pos = translate_2D(deepcopy(arrow_image), 970, 300)
+arrow12_pos = translate_2D(deepcopy(arrow_image), 1170, 300)
+arrow13_pos = translate_2D(deepcopy(arrow_image), 1370, 300)
+arrow14_pos = translate_2D(deepcopy(arrow_image), 1570, 300)
 
 
 
@@ -713,16 +712,16 @@ answers.append(answers1)
 ## Second question
 triangle_position = translateOrigin(triangle_image)
 
-triangle1_pos = translate_2D(deepcopy(triangle_image), 270, 150)
-triangle2_pos = translate_2D(deepcopy(triangle_image), 370, 150)
-triangle3_pos = translate_2D(deepcopy(triangle_image), 470, 150)
+triangle1_pos = translate_2D(deepcopy(triangle_image), 470, 150)
+triangle2_pos = translate_2D(deepcopy(triangle_image), 570, 150)
+triangle3_pos = translate_2D(deepcopy(triangle_image), 670, 150)
 
-triangle4_pos = translate_2D(deepcopy(triangle_image), 270, 250)
-triangle5_pos = translate_2D(deepcopy(triangle_image), 370, 250)
-triangle6_pos = translate_2D(deepcopy(triangle_image), 470, 250)
+triangle4_pos = translate_2D(deepcopy(triangle_image), 470, 250)
+triangle5_pos = translate_2D(deepcopy(triangle_image), 570, 250)
+triangle6_pos = translate_2D(deepcopy(triangle_image), 670, 250)
 
-triangle7_pos = translate_2D(deepcopy(triangle_image), 270, 350)
-triangle8_pos = translate_2D(deepcopy(triangle_image), 370, 350)
+triangle7_pos = translate_2D(deepcopy(triangle_image), 470, 350)
+triangle8_pos = translate_2D(deepcopy(triangle_image), 570, 350)
 
 triangle2_pos = scale_2D(triangle2_pos, [1,2])
 triangle2_pos = translate_2D(triangle2_pos, 0, -20)
@@ -739,15 +738,14 @@ triangle7_pos = scale_2D(triangle7_pos, [0.5,0.5])
 triangle7_pos = translate_2D(triangle7_pos, 5, 10) 
 
 
-
-triangle9_pos = scale_2D(translate_2D(deepcopy(triangle_image), 770,200),[1,3])
-triangle10_pos = scale_2D(translate_2D(deepcopy(triangle_image), 870, 200),[1,2])
+triangle9_pos = scale_2D(translate_2D(deepcopy(triangle_image), 1170,200),[1,3])
+triangle10_pos = scale_2D(translate_2D(deepcopy(triangle_image), 1370, 200),[1,2])
 triangle10_pos = translate_2D(triangle10_pos,0,20)
-triangle11_pos = scale_2D(translate_2D(deepcopy(triangle_image),970, 200),[1,0.5])
+triangle11_pos = scale_2D(translate_2D(deepcopy(triangle_image),1570, 200),[1,0.5])
 triangle11_pos = translate_2D(triangle11_pos,0,50)
-triangle12_pos = translate_2D(deepcopy(triangle_image), 770, 300)
-triangle13_pos = scale_2D(translate_2D(deepcopy(triangle_image), 870, 300),[0.5,1])
-triangle14_pos = scale_2D(translate_2D(deepcopy(triangle_image), 970, 300),[0.5,0.5])
+triangle12_pos = translate_2D(deepcopy(triangle_image), 1170, 350)
+triangle13_pos = scale_2D(translate_2D(deepcopy(triangle_image), 1370, 350),[0.5,1])
+triangle14_pos = scale_2D(translate_2D(deepcopy(triangle_image), 1570, 350),[0.5,0.5])
 triangle14_pos = translate_2D(triangle14_pos,0,10)
 
 page2 = [triangle1_pos, triangle2_pos, triangle3_pos, triangle4_pos, triangle5_pos, triangle6_pos, triangle7_pos, triangle8_pos]
@@ -761,27 +759,29 @@ answers.append(answers2)
 
 chair_origin = translateOrigin(chair_image)
 
-chair1_pos = translate_2D(deepcopy(chair_image), 320, 160)
-chair2_pos = translate_2D(deepcopy(chair_image), 420, 160)
+chair1_pos = translate_2D(deepcopy(chair_image), 520, 160)
+chair2_pos = translate_2D(deepcopy(chair_image), 620, 160)
 
-chair3_pos = translate_2D(deepcopy(chair_image), 320, 280)
+chair3_pos = translate_2D(deepcopy(chair_image), 520, 280)
 
 chair1_pos = scale_2D(chair1_pos, [-1, 1])
 chair3_pos = scale_2D(chair3_pos, [-1, -1])
 page3 = [chair1_pos, chair2_pos, chair3_pos]
 pages.append(page3)
 
-chair4_pos = translate_2D(deepcopy(chair_image), 820, 160)
+
+
+chair4_pos = translate_2D(deepcopy(chair_image), 1220, 160)
 chair4_pos = scale_2D(chair4_pos,[-1,1])
-chair5_pos = translate_2D(deepcopy(chair_image), 920, 160)
+chair5_pos = translate_2D(deepcopy(chair_image), 1420, 160)
 chair5_pos = scale_2D(chair5_pos,[-1,-1])
 chair6_pos = rotation_2D(deepcopy(chair_image),270)
-chair6_pos = translate_2D(chair6_pos, 1020, 160)
+chair6_pos = translate_2D(chair6_pos, 1620, 160)
 
-chair7_pos = scale_2D(translate_2D(deepcopy(chair_image), 820, 280),[1,-1])
-chair8_pos = translate_2D(deepcopy(chair_image), 920, 280)
+chair7_pos = scale_2D(translate_2D(deepcopy(chair_image), 1220, 300),[1,-1])
+chair8_pos = translate_2D(deepcopy(chair_image), 1420, 300)
 chair9_pos = rotation_2D(deepcopy(chair_image),270)
-chair9_pos = scale_2D(translate_2D(chair9_pos, 1020, 280),[-1,1])
+chair9_pos = scale_2D(translate_2D(chair9_pos, 1620, 300),[-1,1])
 
 answers3=[chair4_pos, chair5_pos, chair6_pos, chair7_pos, chair8_pos, chair9_pos]
 answers.append(answers3)
@@ -789,33 +789,33 @@ answers.append(answers3)
 ##fourth question
 box_origin = translateOrigin(box_image)
 
-box1_pos = translate_2D(deepcopy(box_image),270,150)
+box1_pos = translate_2D(deepcopy(box_image),470,150)
 
-box2_pos = translate_2D(deepcopy(box_image), 350, 150)
-box3_pos = translate_2D(deepcopy(box_image), 390, 150)
+box2_pos = translate_2D(deepcopy(box_image), 550, 150)
+box3_pos = translate_2D(deepcopy(box_image), 590, 150)
 
-box4_pos = translate_2D(deepcopy(box_image), 470, 150)
-box5_pos = translate_2D(deepcopy(box_image), 510, 150)
-box6_pos = translate_2D(deepcopy(box_image), 550, 150)
+box4_pos = translate_2D(deepcopy(box_image), 670, 150)
+box5_pos = translate_2D(deepcopy(box_image), 710, 150)
+box6_pos = translate_2D(deepcopy(box_image), 750, 150)
 
-box7_pos = translate_2D(deepcopy(box_image), 270, 250)
-box8_pos = translate_2D(deepcopy(box_image), 310, 250)
-box9_pos = translate_2D(deepcopy(box_image), 350, 250)
-box10_pos = translate_2D(deepcopy(box_image), 390, 250)
+box7_pos = translate_2D(deepcopy(box_image), 470, 250)
+box8_pos = translate_2D(deepcopy(box_image), 510, 250)
+box9_pos = translate_2D(deepcopy(box_image), 550, 250)
+box10_pos = translate_2D(deepcopy(box_image), 590, 250)
 
-box11_pos = translate_2D(deepcopy(box_image), 470, 250)
-box12_pos = translate_2D(deepcopy(box_image), 510, 250)
-box13_pos = translate_2D(deepcopy(box_image), 550, 250)
-box14_pos = translate_2D(deepcopy(box_image), 590, 250)
-box15_pos = translate_2D(deepcopy(box_image), 630, 250)
+box11_pos = translate_2D(deepcopy(box_image), 670, 250)
+box12_pos = translate_2D(deepcopy(box_image), 710, 250)
+box13_pos = translate_2D(deepcopy(box_image), 750, 250)
+box14_pos = translate_2D(deepcopy(box_image), 790, 250)
+box15_pos = translate_2D(deepcopy(box_image), 830, 250)
 
 
-box16_pos = translate_2D(deepcopy(box_image), 270, 350)
-box17_pos = translate_2D(deepcopy(box_image), 310, 350)
-box18_pos = translate_2D(deepcopy(box_image), 350, 350)
-box19_pos = translate_2D(deepcopy(box_image), 390, 350)
-box20_pos = translate_2D(deepcopy(box_image), 430, 350)
-box21_pos = translate_2D(deepcopy(box_image), 470, 350)
+box16_pos = translate_2D(deepcopy(box_image), 470, 350)
+box17_pos = translate_2D(deepcopy(box_image), 510, 350)
+box18_pos = translate_2D(deepcopy(box_image), 550, 350)
+box19_pos = translate_2D(deepcopy(box_image), 590, 350)
+box20_pos = translate_2D(deepcopy(box_image), 630, 350)
+box21_pos = translate_2D(deepcopy(box_image), 670, 350)
 
 
 page4=[box1_pos, box2_pos, box3_pos,box4_pos,box5_pos,box6_pos,box7_pos,box8_pos,box9_pos,box10_pos,box11_pos,box12_pos,box13_pos,box14_pos,box15_pos
@@ -823,43 +823,45 @@ page4=[box1_pos, box2_pos, box3_pos,box4_pos,box5_pos,box6_pos,box7_pos,box8_pos
 pages.append(page4)
 
 
-box22_pos = translate_2D(deepcopy(box_image), 970, 150)
-box23_pos = translate_2D(deepcopy(box_image), 1010, 150)
-box24_pos = translate_2D(deepcopy(box_image), 1050, 150)
-box25_pos = translate_2D(deepcopy(box_image), 1090, 150)
-box26_pos = translate_2D(deepcopy(box_image), 1130, 150)
-box27_pos = translate_2D(deepcopy(box_image), 1170, 150)
 
 
-box28_pos = translate_2D(deepcopy(box_image), 970, 250)
-box29_pos = translate_2D(deepcopy(box_image), 1010, 250)
-box30_pos = translate_2D(deepcopy(box_image), 1050, 250)
-box31_pos = translate_2D(deepcopy(box_image), 1090, 250)
-box32_pos = translate_2D(deepcopy(box_image), 1130, 250)
-box33_pos = translate_2D(deepcopy(box_image), 1170, 250)
-box34_pos = translate_2D(deepcopy(box_image), 1210, 250)
+box22_pos = translate_2D(deepcopy(box_image), 1370, 150)
+box23_pos = translate_2D(deepcopy(box_image), 1410, 150)
+box24_pos = translate_2D(deepcopy(box_image), 1450, 150)
+box25_pos = translate_2D(deepcopy(box_image), 1490, 150)
+box26_pos = translate_2D(deepcopy(box_image), 1530, 150)
+box27_pos = translate_2D(deepcopy(box_image), 1570, 150)
 
 
-box35_pos = translate_2D(deepcopy(box_image), 1290, 250)
-box36_pos = translate_2D(deepcopy(box_image), 1330, 250)
-box37_pos = translate_2D(deepcopy(box_image), 1370, 250)
-
-box38_pos = translate_2D(deepcopy(box_image), 1290, 150)
-box39_pos = translate_2D(deepcopy(box_image), 1330, 150)
-box40_pos = translate_2D(deepcopy(box_image), 1370, 150)
-box41_pos = translate_2D(deepcopy(box_image), 1410, 150)
-
+box28_pos = translate_2D(deepcopy(box_image), 1370, 250)
+box29_pos = translate_2D(deepcopy(box_image), 1410, 250)
+box30_pos = translate_2D(deepcopy(box_image), 1450, 250)
+box31_pos = translate_2D(deepcopy(box_image), 1490, 250)
+box32_pos = translate_2D(deepcopy(box_image), 1530, 250)
+box33_pos = translate_2D(deepcopy(box_image), 1570, 250)
+box34_pos = translate_2D(deepcopy(box_image), 1610, 250)
 
 
-box41_pos = translate_2D(deepcopy(box_image), 970, 350)
-box42_pos = translate_2D(deepcopy(box_image), 1010, 350)
-box43_pos = translate_2D(deepcopy(box_image), 1050, 350)
-box44_pos = translate_2D(deepcopy(box_image), 1090, 350)
-box45_pos = translate_2D(deepcopy(box_image), 1130, 350)
-box46_pos = translate_2D(deepcopy(box_image), 1170, 350)
-box47_pos = translate_2D(deepcopy(box_image), 1210, 350)
-box48_pos = translate_2D(deepcopy(box_image), 1250, 350)
-box49_pos = translate_2D(deepcopy(box_image), 1330, 350)
+box35_pos = translate_2D(deepcopy(box_image), 1690, 250)
+box36_pos = translate_2D(deepcopy(box_image), 1730, 250)
+box37_pos = translate_2D(deepcopy(box_image), 1770, 250)
+
+box38_pos = translate_2D(deepcopy(box_image), 1690, 150)
+box39_pos = translate_2D(deepcopy(box_image), 1730, 150)
+box40_pos = translate_2D(deepcopy(box_image), 1770, 150)
+box41_pos = translate_2D(deepcopy(box_image), 1810, 150)
+
+
+
+box41_pos = translate_2D(deepcopy(box_image), 1370, 350)
+box42_pos = translate_2D(deepcopy(box_image), 1410, 350)
+box43_pos = translate_2D(deepcopy(box_image), 1450, 350)
+box44_pos = translate_2D(deepcopy(box_image), 1490, 350)
+box45_pos = translate_2D(deepcopy(box_image), 1530, 350)
+box46_pos = translate_2D(deepcopy(box_image), 1570, 350)
+box47_pos = translate_2D(deepcopy(box_image), 1610, 350)
+box48_pos = translate_2D(deepcopy(box_image), 1650, 350)
+box49_pos = translate_2D(deepcopy(box_image), 1730, 350)
 
 answers4=[box22_pos, box23_pos, box24_pos,box25_pos,box26_pos,box27_pos,box28_pos,box29_pos,box30_pos,box31_pos,box32_pos,box33_pos
 ,box34_pos,box35_pos,box36_pos,box37_pos,box38_pos,box39_pos,box40_pos,box41_pos,box42_pos,box43_pos,box44_pos,box45_pos,box46_pos
@@ -868,34 +870,35 @@ answers.append(answers4)
 
 # Fifth question
 penta_origin = translateOrigin(pentagon_image)
-penta1_pos = translate_2D(deepcopy(pentagon_image),270,150)
+penta1_pos = translate_2D(deepcopy(pentagon_image),470,150)
 
-penta2_pos = translate_2D(deepcopy(pentagon_image),390,150)
+penta2_pos = translate_2D(deepcopy(pentagon_image),590,150)
 penta2_pos = rotation_2D(penta2_pos, 90)
 penta2_pos = scale_2D(penta2_pos,[0.75,0.75])
 
-penta3_pos = translate_2D(deepcopy(pentagon_image),510,150)
+penta3_pos = translate_2D(deepcopy(pentagon_image),710,150)
 penta3_pos = rotation_2D(penta3_pos, 180)
 penta3_pos = scale_2D(penta3_pos,[0.50,0.50])
 
 
-penta4_pos = translate_2D(deepcopy(pentagon_image),270,250)
+penta4_pos = translate_2D(deepcopy(pentagon_image),470,250)
 penta4_pos = rotation_2D(penta4_pos, 270)
 penta4_pos = scale_2D(penta4_pos,[0.25,0.25])
 
-penta5_pos = translate_2D(deepcopy(pentagon_image),390,250)
+penta5_pos = translate_2D(deepcopy(pentagon_image),590,250)
 penta5_pos = rotation_2D(penta5_pos,360)
 penta5_pos = scale_2D(penta5_pos,[1.25,1.25])
 
 page5 = [penta1_pos,penta2_pos,penta3_pos,penta4_pos,penta5_pos]
 pages.append(page5)
 
-penta6_pos = scale_2D(translate_2D(deepcopy(pentagon_image),770,150),[1.5,1.5])
-penta7_pos = rotation_2D(scale_2D(translate_2D(deepcopy(pentagon_image),890,150),[1.25,1.25]),270)
-penta8_pos = rotation_2D(scale_2D(translate_2D(deepcopy(pentagon_image),1010,150),[1.25,1.25]),180)
-penta9_pos = rotation_2D(scale_2D(translate_2D(deepcopy(pentagon_image),770,250),[1.5,1.5]),90)
-penta10_pos = rotation_2D(scale_2D(translate_2D(deepcopy(pentagon_image),1010,250),[1.5,1.5]),270)
-penta11_pos = rotation_2D(scale_2D(translate_2D(deepcopy(pentagon_image),890,250),[1.75,1.75]),90)
+
+penta6_pos = scale_2D(translate_2D(deepcopy(pentagon_image),1170,150),[1.5,1.5])
+penta7_pos = rotation_2D(scale_2D(translate_2D(deepcopy(pentagon_image),1350,150),[1.25,1.25]),270)
+penta8_pos = rotation_2D(scale_2D(translate_2D(deepcopy(pentagon_image),1510,150),[1.25,1.25]),180)
+penta9_pos = rotation_2D(scale_2D(translate_2D(deepcopy(pentagon_image),1170,300),[1.5,1.5]),90)
+penta10_pos = rotation_2D(scale_2D(translate_2D(deepcopy(pentagon_image),1350,300),[1.5,1.5]),270)
+penta11_pos = rotation_2D(scale_2D(translate_2D(deepcopy(pentagon_image),1500,300),[1.75,1.75]),90)
 answers5 = [penta6_pos,penta7_pos,penta8_pos,penta9_pos,penta10_pos,penta11_pos]
 answers.append(answers5)
 
@@ -905,38 +908,38 @@ cup_origin = translateOrigin(cup_image)
 star_origin = translateOrigin(star_image)
 box_origin = translateOrigin(box_image)
 
-cup1_pos = translate_2D(deepcopy(cup_image), 270, 150)
-star1_pos = translate_2D(deepcopy(star_image), 270, 130)
+cup1_pos = translate_2D(deepcopy(cup_image), 470, 150)
+star1_pos = translate_2D(deepcopy(star_image), 470, 130)
 star1_pos = scale_2D(star1_pos, [0.3, 0.3])
 
-box19_pos = translate_2D(deepcopy(box_image), 370, 150)
-arrow9_pos = translate_2D(deepcopy(arrow_image),370, 150)
+box19_pos = translate_2D(deepcopy(box_image), 570, 150)
+arrow9_pos = translate_2D(deepcopy(arrow_image),570, 150)
 arrow9_pos = scale_2D(arrow9_pos, [0.65,0.65])
 arrow9_pos = rotation_2D(arrow9_pos, 90)
 
-cup2_pos = translate_2D(deepcopy(cup_image), 470, 100)
-star2_pos = translate_2D(deepcopy(star_image), 470, 70)
+cup2_pos = translate_2D(deepcopy(cup_image), 670, 100)
+star2_pos = translate_2D(deepcopy(star_image), 670, 70)
 cup2_pos = scale_2D(cup2_pos, [1.5, 1.5])
 star2_pos = scale_2D(star2_pos, [0.5,0.5])
 
 
-cup3_pos = translate_2D(deepcopy(cup_image), 270, 250)
-star3_pos = translate_2D(deepcopy(star_image), 270, 230)
+cup3_pos = translate_2D(deepcopy(cup_image), 470, 250)
+star3_pos = translate_2D(deepcopy(star_image), 470, 230)
 star3_pos = scale_2D(star3_pos, [0.3,0.3])
 
-arrow10_pos = translate_2D(deepcopy(arrow_image), 370, 250)
+arrow10_pos = translate_2D(deepcopy(arrow_image), 570, 250)
 arrow10_pos = rotation_2D(arrow10_pos, 90)
 
-cup4_pos = translate_2D(deepcopy(cup_image), 470, 200)
-star4_pos = translate_2D(deepcopy(star_image), 470, 180)
+cup4_pos = translate_2D(deepcopy(cup_image), 670, 200)
+star4_pos = translate_2D(deepcopy(star_image), 670, 180)
 star4_pos = scale_2D(star4_pos, [0.3,0.3])
 
-cup5_pos = translate_2D(deepcopy(cup_image),270,350)
-star5_pos = translate_2D(deepcopy(star_image), 270, 330)
+cup5_pos = translate_2D(deepcopy(cup_image),470,350)
+star5_pos = translate_2D(deepcopy(star_image), 470, 330)
 star5_pos = scale_2D(star5_pos, [0.3,0.3])
 
-box20_pos = translate_2D(deepcopy(box_image), 370, 350)
-arrow11_pos = translate_2D(deepcopy(arrow_image), 370, 350)
+box20_pos = translate_2D(deepcopy(box_image), 570, 350)
+arrow11_pos = translate_2D(deepcopy(arrow_image), 570, 350)
 arrow11_pos = scale_2D(arrow11_pos, [0.65,0.65])
 arrow11_pos = rotation_2D(arrow11_pos, -90)
 
@@ -945,34 +948,35 @@ page6 = [cup1_pos, star1_pos, box19_pos, arrow9_pos, cup2_pos, star2_pos, cup3_p
 pages.append(page6)
 
 
-cup6_pos = translate_2D(deepcopy(cup_image), 770, 200)
-star6_pos = translate_2D(deepcopy(star_image), 770, 170)
+
+cup6_pos = translate_2D(deepcopy(cup_image), 1170, 200)
+star6_pos = translate_2D(deepcopy(star_image), 1170, 170)
 cup6_pos = scale_2D(cup6_pos, [1.5, 1.5])
 star6_pos = scale_2D(star6_pos, [0.5,0.5])
 
 
-cup7_pos = translate_2D(deepcopy(cup_image), 870, 200)
-cup7_pos = translate_2D(deepcopy(cup_image), 870, 210)
-star7_pos = translate_2D(deepcopy(star_image), 870, 190)
+cup7_pos = translate_2D(deepcopy(cup_image), 1370, 200)
+cup7_pos = translate_2D(deepcopy(cup_image), 1370, 210)
+star7_pos = translate_2D(deepcopy(star_image), 1370, 190)
 star7_pos = scale_2D(star7_pos, [0.3,0.3])
 
-cup8_pos = translate_2D(deepcopy(cup_image), 970, 150)
-star8_pos = translate_2D(deepcopy(star_image), 970, 120)
+cup8_pos = translate_2D(deepcopy(cup_image), 1570, 150)
+star8_pos = translate_2D(deepcopy(star_image), 1570, 120)
 cup8_pos = scale_2D(cup8_pos, [1.5, 1.5])
 star8_pos = scale_2D(star8_pos, [0.5,0.5])
 
-cup9_pos = translate_2D(deepcopy(cup_image), 770, 300)
-star9_pos = translate_2D(deepcopy(star_image), 770, 270)
+cup9_pos = translate_2D(deepcopy(cup_image), 1170, 300)
+star9_pos = translate_2D(deepcopy(star_image), 1170, 270)
 cup9_pos = scale_2D(cup9_pos, [1.5, 1.5])
 star9_pos = scale_2D(star9_pos, [0.5,0.5])
 
-cup10_pos = translate_2D(deepcopy(cup_image), 870, 350)
-star10_pos = translate_2D(deepcopy(star_image), 870, 320)
+cup10_pos = translate_2D(deepcopy(cup_image), 1370, 350)
+star10_pos = translate_2D(deepcopy(star_image), 1370, 320)
 cup10_pos = scale_2D(cup10_pos, [1.75, 1.75])
 star10_pos = scale_2D(star10_pos, [0.5,0.5])
 
-cup11_pos = translate_2D(deepcopy(cup_image), 970, 370)
-star11_pos = translate_2D(deepcopy(star_image), 970, 350)
+cup11_pos = translate_2D(deepcopy(cup_image), 1570, 370)
+star11_pos = translate_2D(deepcopy(star_image), 1570, 350)
 star11_pos = scale_2D(star11_pos, [0.3,0.3])
 
 
@@ -988,16 +992,16 @@ bottle_img = scale_2D(bottle_2D_image, [0.7,0.7])
 bottle_img = translateOrigin(bottle_2D_image)
 pentagon_origin = translateOrigin(pentagon_image)
 
-hex1_pos = translate_2D(deepcopy(hexagon_image), 270, 150)
-box21_pos = translate_2D(deepcopy(box_image), 370, 150)
-star6_pos = translate_2D(deepcopy(star_image), 470, 150 )
+hex1_pos = translate_2D(deepcopy(hexagon_image), 470, 150)
+box21_pos = translate_2D(deepcopy(box_image), 570, 150)
+star6_pos = translate_2D(deepcopy(star_image), 670, 150 )
 
-pent1_pos = translate_2D(deepcopy(pentagon_image), 270, 250)
-triangle9_pos = translate_2D(deepcopy(triangle_image), 370, 250)
-bottle1_pos = translate_2D(deepcopy(bottle_2D_image), 280, 200)
+pent1_pos = translate_2D(deepcopy(pentagon_image), 470, 250)
+triangle9_pos = translate_2D(deepcopy(triangle_image), 570, 250)
+bottle1_pos = translate_2D(deepcopy(bottle_2D_image), 400, 200)
 
-pent2_pos = translate_2D(deepcopy(pentagon_image), 270, 350)
-triangle10_pos = translate_2D(deepcopy(triangle_image), 370, 350)
+pent2_pos = translate_2D(deepcopy(pentagon_image), 470, 350)
+triangle10_pos = translate_2D(deepcopy(triangle_image), 570, 350)
 
 hex1_pos = cisa_2D(hex1_pos, [-0.225, 0])
 box21_pos = cisa_2D(box21_pos, [-0.225, 0])
@@ -1014,63 +1018,134 @@ page7 = [hex1_pos, box21_pos, star6_pos, pent1_pos, triangle9_pos, bottle1_pos, 
 pages.append(page7)
 
 
+hexa2_pos = cisa_2D(translate_2D(deepcopy(hexagon_image),1170,150),[-0.225,0])
+penta2_pos = cisa_2D(translate_2D(deepcopy(pentagon_image),1350,150),[-0.225, 0])
+triangle8_pos = translate_2D(deepcopy(triangle_image),1510,150)
+bottle2_pos = cisa_2D(scale_2D(translate_2D(deepcopy(bottle_2D_image),670,235),[1.5, 1.5]),[-0.225,0])
+box22_pos = translate_2D(deepcopy(box_image),1510,300)
+hexa3_pos = translate_2D(deepcopy(hexagon_image),1350,300)
+
+
+answers7 = [hexa2_pos,penta2_pos,triangle8_pos,bottle2_pos,box22_pos,hexa3_pos]
+answers.append(answers7)
 
 # eighth question
 hep_origin = translateOrigin(heptagon_image)
 star_origin = translateOrigin(star_image)
 
-hep1_pos = translate_2D(deepcopy(heptagon_image),240,150)
-star_pos1 = translate_2D(deepcopy(star_image),230,165)
+hep1_pos = translate_2D(deepcopy(heptagon_image),440,150)
+star_pos1 = translate_2D(deepcopy(star_image),430,165)
 starzinha1 = scale_2D(star_pos1,[0.15,0.15])
 
-hep2_pos = translate_2D(deepcopy(heptagon_image),340,150)
-starzinha2 = scale_2D(translate_2D(deepcopy(star_image),330,145),[0.15,0.15])
+hep2_pos = translate_2D(deepcopy(heptagon_image),540,150)
+starzinha2 = scale_2D(translate_2D(deepcopy(star_image),530,145),[0.15,0.15])
 
-hep3_pos = scale_2D(translate_2D(deepcopy(heptagon_image),440,150),[1,-1])
-starzinha3 = scale_2D(translate_2D(deepcopy(star_image),430,155),[0.15,0.15])
+hep3_pos = scale_2D(translate_2D(deepcopy(heptagon_image),640,150),[1,-1])
+starzinha3 = scale_2D(translate_2D(deepcopy(star_image),630,155),[0.15,0.15])
 
-hep4_pos = scale_2D(translate_2D(deepcopy(heptagon_image),540,150),[1,-1])
-starzinha4 = scale_2D(translate_2D(deepcopy(star_image),530,135),[0.15,0.15])
+hep4_pos = scale_2D(translate_2D(deepcopy(heptagon_image),740,150),[1,-1])
+starzinha4 = scale_2D(translate_2D(deepcopy(star_image),730,135),[0.15,0.15])
 
 page8 = [hep1_pos,starzinha1,starzinha2,hep2_pos,starzinha3,hep3_pos,starzinha4,hep4_pos]
 pages.append(page8)
 
 
+
+hep5_pos = translate_2D(deepcopy(heptagon_image),1140,150)
+star_pos5 = translate_2D(deepcopy(star_image),1130,165)
+starzinha5 = scale_2D(star_pos1,[0.15,0.15])
+
+hep6_pos = translate_2D(deepcopy(heptagon_image),1340,150)
+starzinha6 = scale_2D(translate_2D(deepcopy(star_image),1330,145),[0.15,0.15])
+
+hep7_pos = scale_2D(translate_2D(deepcopy(heptagon_image),1540,150),[1,-1])
+starzinha7 = scale_2D(translate_2D(deepcopy(star_image),1530,155),[0.15,0.15])
+
+hep8_pos = scale_2D(translate_2D(deepcopy(heptagon_image),1140,300),[1,-1])
+starzinha8 = scale_2D(translate_2D(deepcopy(star_image),1135,295),[0.15,0.15])
+
+hep9_pos = scale_2D(translate_2D(deepcopy(heptagon_image),1340,300),[1,-1])
+starzinha9 = scale_2D(translate_2D(deepcopy(star_image),1330,285),[0.15,0.15])
+
+hep10_pos = scale_2D(translate_2D(deepcopy(heptagon_image),1540,300),[1,-1])
+starzinha10 = scale_2D(translate_2D(deepcopy(star_image),1540,285),[0.15,0.15])
+
+answers8 = [hep5_pos,starzinha5,starzinha6,hep6_pos,starzinha7,hep7_pos,starzinha8,hep8_pos,hep9_pos,starzinha9,starzinha10,hep10_pos]
+answers.append(answers8)
+
 ## Ninth question
-triangle11_pos = translate_2D(deepcopy(triangle_image), 270, 150)
-box22_pos = translate_2D(deepcopy(box_image), 370, 150)
-pent3_pos = translate_2D(deepcopy(pentagon_image), 460, 150)
+triangle11_pos = translate_2D(deepcopy(triangle_image), 470, 150)
+box22_pos = translate_2D(deepcopy(box_image), 570, 150)
+pent3_pos = translate_2D(deepcopy(pentagon_image), 660, 150)
 
 page10 = [triangle11_pos, box22_pos, pent3_pos]
 pages.append(page10)
+
+
+arrow_ex9 = translate_2D(deepcopy(arrow_image),  1170,150)
+star_ex9 = translate_2D(deepcopy(star_image), 1370, 150)
+pent_ex9 = translate_2D(deepcopy(pentagon_image), 1570, 150)
+
+bottle_ex9 = translate_2D(deepcopy(bottle_2D_image), 690, 230)
+box_ex9 = translate_2D(deepcopy(box_image), 1370, 300)
+hep_ex9 = translate_2D(deepcopy(heptagon_image), 1570, 300)
+
+
+
+answers9=[arrow_ex9, star_ex9, bottle_ex9, box_ex9, hep_ex9, pent_ex9]
+answers.append(answers9)
+
 
 
 #x question
 
 box_origin = translateOrigin(deepcopy(box_image))
 
-box1_pos = translate_2D(deepcopy(box_image),270,150)
+box1_pos = translate_2D(deepcopy(box_image),470,150)
 
-box2_pos = translate_2D(deepcopy(box_image),370,150)
+box2_pos = translate_2D(deepcopy(box_image),570,150)
 disto2_pos = cisa_2D(deepcopy(box2_pos), [1, 0])
-box3_pos = translate_2D(deepcopy(box_image),470,150)
+box3_pos = translate_2D(deepcopy(box_image),670,150)
 disto3_pos = cisa_2D(deepcopy(box3_pos), [2, 0])
 
 
-box4_pos = translate_2D(deepcopy(box_image),270,230)
+box4_pos = translate_2D(deepcopy(box_image),470,230)
 
-box5_pos = translate_2D(deepcopy(box_image),370,230)
+box5_pos = translate_2D(deepcopy(box_image),570,230)
 disto5_pos = cisa_2D(deepcopy(box5_pos), [0, 1])
-box6_pos = translate_2D(deepcopy(box_image),470,230)
+box6_pos = translate_2D(deepcopy(box_image),670,230)
 disto6_pos = cisa_2D(deepcopy(box6_pos), [0, 2])
 
 
-box7_pos = translate_2D(deepcopy(box_image),270,330)
-box8_pos = translate_2D(deepcopy(box_image),370,330)
+box7_pos = translate_2D(deepcopy(box_image),470,330)
+box8_pos = translate_2D(deepcopy(box_image),570,330)
 disto8_pos = cisa_2D(deepcopy(box8_pos), [1, 1])
 
 pageX = [box1_pos,box2_pos,disto2_pos,box3_pos,disto3_pos,box4_pos,box5_pos,disto5_pos,box6_pos,disto6_pos,box7_pos,box8_pos,disto8_pos]
 pages.append(pageX)
+
+box_ex1 = translate_2D(deepcopy(box_image),  1170,150)
+box_exd1 = cisa_2D(deepcopy(box_ex1), [0, 2])
+
+box_ex2 = translate_2D(deepcopy(box_image), 1370, 150)
+box_exd2 = cisa_2D(deepcopy(box_ex2), [0.5, 0.5])
+
+
+box_ex3 = translate_2D(deepcopy(box_image), 1570, 150)
+
+
+box_ex4 = translate_2D(deepcopy(box_image), 1170, 300)
+box_exd4 = cisa_2D(deepcopy(box_ex4), [2, 2])
+
+box_ex5 = translate_2D(deepcopy(box_image), 1370, 300)
+box_exd5 = cisa_2D(deepcopy(box_ex5), [1.2, 1.2])
+
+box_ex6 = translate_2D(deepcopy(box_image), 1570, 300)
+box_exd6 = cisa_2D(deepcopy(box_ex6), [1.5, 1.5])
+
+
+answersx=[box_ex1,box_exd1, box_ex2, box_exd2, box_ex3 , box_ex4, box_exd4,  box_ex5,  box_exd5, box_ex6, box_exd6]
+answers.append(answersx)
 
 canvas.pack()
 root.update()
@@ -1089,15 +1164,11 @@ exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
 
 
 file_path = "images/velosem-logo.png"
-
-
-# logo = Image.open(file_path)
-# logo_width, logo_height = logo.size
-# logo_w_resize = round((logo_width * canvas_width)/screen_width)
-# logo_h_resize = round((logo_height * canvas_height)/screen_height)
-# logo.resize((logo_w_resize, logo_h_resize))
-# img = ImageTk.PhotoImage(logo)
-# canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.25, image = img)
-
-
+logo = Image.open(file_path)
+logo_width, logo_height = logo.size
+logo_w_resize = round((logo_width * canvas_width)/screen_width)
+logo_h_resize = round((logo_height * canvas_height)/screen_height)
+logo.resize((logo_w_resize, logo_h_resize))
+img = ImageTk.PhotoImage(logo)
+canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.25, image = img)
 root.mainloop()
