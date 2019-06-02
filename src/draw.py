@@ -462,7 +462,7 @@ def rotation_2D(image, angle=90):
     return image
 
 
-def isometric(image, angle_x=30, angle_y = 45):
+def isometric(image, angle_x=37, angle_y = 45):
     radian_x = angle_x * (math.pi / 180)
     radian_y = angle_y * (math.pi / 180)
     position=translateOrigin(image)
@@ -527,8 +527,68 @@ def convert3D_to_2D(image):
     return image_2D
 
 
+def backface_culling(image):
+    newimage = []
+    #viewer = [0,0,-1]
+    viewer = [canvas_width//2,canvas_height//2,-1]
+    #viewer = [280,680,-1]
+    print("observador",viewer)
+    print()
+    #deve-se primeiro agrupar os vertices em grupos de vetores e por fim teremos um vetor x e y que vao fazer parte do produto vetorial
+    for f in range(0,len(image)):
+        
+
+        #definindo os vetores u e v
+        p1 = image[f][0]
+        p2 = image[f][1]
+        p3 = image[f][2]
+
+        vetor1 = np.subtract(p3,p2)
+        vetor2 = np.subtract(p1,p2)
+        #print()
+        #print("vetor 1: ",vetor1)
+        #print("vetor 2: ",vetor2)
+
+        
+        # calculo da normal
+        prodvetorial = np.cross(vetor1,vetor2)
+        
+
+        '''
+        prodvetorial = [ ( (p3[1]-p2[1])*(p1[2]-p2[2]) ) - ( (p1[1]-p2[1])*(p3[2]-p2[2]) ),   
+                         ( (p3[2]-p2[2])*(p1[0]-p2[0]) ) - ( (p1[2]-p2[2])*(p3[0]-p2[0]) ),
+                         ( (p3[0]-p2[0])*(p1[1]-p2[1]) ) - ( (p1[0]-p2[0])*(p3[1]-p2[1]) )  ]
+        '''
+
+        print("produto vetorial: ",prodvetorial)
+
+        #vetor da visao do ponto da face para o observador
+        vetorvisao = np.subtract(viewer,p2)
+        #vetorvisao = [viewer[0] - p2[0],viewer[1] - p2[1],viewer[2] - p2[2]]
+
+        print("vetor visao",vetorvisao)
+
+        prodinterno = np.inner(prodvetorial,vetorvisao)
+        #prodinterno = prodvetorial[0]*vetorvisao[0] + prodvetorial[1]*vetorvisao[1]+ prodvetorial[2]*vetorvisao[2]
+        print("produto interno: ",prodinterno)
+
+        if(prodinterno >= 0):
+            print("face escolhida: ",image[f])
+            newimage.append(image[f])
+        else:
+            print("exclui a face:",image[f])
+        print()
+
+    print("numero original de faces: " + str(len(image)))
+    print("temos agora...: " + str(len(newimage)))
+    print(newimage)
+    return newimage
+
+
+
+
 # Inicialização da tela base (root)
-root = Tk()                 #265,32   e 181,2    
+root = Tk()                
 canvas = Canvas(root, width=800, height=600)
 canvas.bind("<Button-1>", callback)
 canvas.pack()
@@ -541,13 +601,17 @@ screen_height = root.winfo_screenheight()
 font_size = int(min(canvas_width, screen_width) / 20)
 print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, screen_width, screen_height))
 
+#faz uma copia da bottle para na ultima imagem aplicar uma algoritimo para remover as faces
+bottle_last = deepcopy(bottle_image)
+
 # passa as coordenadas do bottle para 2d e ao mesmo tempo fazendo uma copia
 bottle_2D = convert3D_to_2D(bottle_image)
 # aplica transformação isométrica no bottle
 isometric_bottle = isometric(bottle_image,30,45)
 # converte para 2d para poder ser desenhado no tkinter
 bottle = convert3D_to_2D(isometric_bottle)
-#copia que será usada
+
+#copia que será usada em 3d
 bottle_copy = deepcopy(bottle)
 bottle_coverpage = map_coords(bottle_copy, canvas_width, canvas_height, screen_width, screen_height)
 translate_2D(bottle_coverpage, canvas_width * 0.33, canvas_height * 0.3)
@@ -561,6 +625,8 @@ root.current_page = 0
 root.start = 0
 answers = root.answers
 pages = root.pages
+
+
 
 
 """ arrow = canvas.create_polygon(arrow_image, fill='', outline='black')
@@ -586,6 +652,7 @@ def exit_game():
 
 def back_menu():
     print("You spent %s seconds taking the test!" % (time.time() - root.start))
+    canvas.delete('all')
     root.start = 0
     menu_button.place_forget()
     exit_button.place_forget()
@@ -609,6 +676,20 @@ def next_page():
     else:
         canvas.delete('all')
         next_button.place_forget()
+        #quando for desenhar ele escolhe somente as faces que ao aplicar produto vetorial ele forma um angulo apropriado com
+        # a visao (vetor em direção a tela ) , e então controi uma NOVA IMAGE em que não contem essas faces
+        ##############
+        backface_bottle = backface_culling(bottle_last)
+        isometric_last_bottle = isometric(backface_bottle,30,45)
+        isometric_last_bottle2D = convert3D_to_2D(isometric_last_bottle)
+        #print()
+        #print(isometric_last_bottle2D)
+        bottle_lastpage = map_coords(isometric_last_bottle2D, canvas_width, canvas_height, screen_width, screen_height)
+        #print()
+        #print(bottle_lastpage)
+        translate_2D(bottle_lastpage, canvas_width * 0.33, canvas_height * 0.3)
+        scale_2D(bottle_lastpage, [2,2])
+        draw_image(bottle_lastpage, canvas)
         exit_button.place(x=canvas.winfo_width()*0.65, y=canvas.winfo_height()*0.70)
         menu_button.place(x=canvas.winfo_width()*0.25, y=canvas.winfo_height()*0.70)
         return
@@ -1163,7 +1244,7 @@ start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
 exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
 
 
-file_path = "images/velosem-logo.png"
+file_path = "/images/velosem-logo.png"
 logo = Image.open(file_path)
 logo_width, logo_height = logo.size
 logo_w_resize = round((logo_width * canvas_width)/screen_width)
