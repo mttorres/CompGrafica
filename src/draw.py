@@ -613,6 +613,8 @@ print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, sc
 
 #faz uma copia da bottle para na ultima imagem aplicar uma algoritimo para remover as faces
 bottle_last = deepcopy(bottle_image)
+# ao inves de só desenhar na ultima pagina 
+
 
 # passa as coordenadas do bottle para 2d e ao mesmo tempo fazendo uma copia
 bottle_2D = convert3D_to_2D(bottle_image)
@@ -689,19 +691,19 @@ def next_page():
         #quando for desenhar ele escolhe somente as faces que ao aplicar produto vetorial ele forma um angulo apropriado com
         # a visao (vetor em direção a tela ) , e então controi uma NOVA IMAGE em que não contem essas faces
         ##############
-        backface_bottle = backface_culling(bottle_last)
+        bottle_bye = deepcopy(bottle_last)
+        backface_bottle = backface_culling(bottle_bye)
         isometric_last_bottle = isometric(backface_bottle,30,45)
         isometric_last_bottle2D = convert3D_to_2D(isometric_last_bottle)
-        #print()
-        #print(isometric_last_bottle2D)
         bottle_lastpage = map_coords(isometric_last_bottle2D, canvas_width, canvas_height, screen_width, screen_height)
-        #print()
-        #print(bottle_lastpage)
         translate_2D(bottle_lastpage, canvas_width * 0.33, canvas_height * 0.3)
         scale_2D(bottle_lastpage, [2,2])
         draw_image(bottle_lastpage, canvas)
-        exit_button.place(x=canvas.winfo_width()*0.65, y=canvas.winfo_height()*0.70)
-        menu_button.place(x=canvas.winfo_width()*0.25, y=canvas.winfo_height()*0.70)
+        exit_button.place(x=canvas.winfo_width()*0.65, y=canvas.winfo_height()*0.75)
+        menu_button.place(x=canvas.winfo_width()*0.25, y=canvas.winfo_height()*0.75)
+        canvas.create_text(canvas_width * 0.48, canvas_height * 0.65, font=("Helvetica", 10,"bold","italic"), text="100%" + "hidratado")
+        canvas.create_text(canvas_width * 0.48, canvas_height * 0.70, font=("Helvetica", 10,"bold","italic"), text="Você completou o teste em: "
+        +str(int(time.time() - root.start))+" segundos!")
         return
     
     canvas.delete('all')
@@ -1254,12 +1256,12 @@ start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
 exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
 
 
-# file_path = "velosem-logo.png"
-# logo = Image.open(file_path)
-# logo_width, logo_height = logo.size
-# logo_w_resize = round((logo_width * canvas_width)/screen_width)
-# logo_h_resize = round((logo_height * canvas_height)/screen_height)
-# logo.resize((logo_w_resize, logo_h_resize))
-# img = ImageTk.PhotoImage(logo)
-# canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.25, image = img)
+file_path = "images/velosem-logo.png"
+logo = Image.open(file_path)
+logo_width, logo_height = logo.size
+logo_w_resize = round((logo_width * canvas_width)/screen_width)
+logo_h_resize = round((logo_height * canvas_height)/screen_height)
+logo.resize((logo_w_resize, logo_h_resize))
+img = ImageTk.PhotoImage(logo)
+canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.25, image = img)
 root.mainloop()
