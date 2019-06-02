@@ -333,7 +333,7 @@ star_image = [faces[16], faces[17]]
 #bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo,bottle_f11]
 
 #tudo
-bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo,bottle_f5,bottle_f6,bottle_f7,bottle_f8,bottle_f9,bottle_f10]
+bottle_image = [faces[18],faces[19], bottle_base, bottle_topo,bottle_f5,bottle_f6,bottle_f7,bottle_f8,bottle_f9,bottle_f10]
 
 # Transformations 
 
@@ -575,7 +575,6 @@ def backface_culling(image):
         prodinterno = np.inner(prodvetorial,vetorvisao)
         #prodinterno = prodvetorial[0]*vetorvisao[0] + prodvetorial[1]*vetorvisao[1]+ prodvetorial[2]*vetorvisao[2]
         print("produto interno: ",prodinterno)
-
         if(prodinterno >= 0):
             print("face escolhida: ",image[f])
             newimage.append(image[f])
