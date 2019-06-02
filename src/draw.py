@@ -1,6 +1,7 @@
 from tkinter import Tk, Canvas, Frame, Button, Label, BOTH, Radiobutton
 from PIL import Image, ImageTk
 import math
+import sys
 import numpy as np
 from copy import deepcopy
 import os
@@ -534,14 +535,19 @@ def backface_culling(image):
     #viewer = [280,680,-1]
     print("observador",viewer)
     print()
-    #deve-se primeiro agrupar os vertices em grupos de vetores e por fim teremos um vetor x e y que vao fazer parte do produto vetorial
     for f in range(0,len(image)):
         
 
         #definindo os vetores u e v
-        p1 = image[f][0]
-        p2 = image[f][1]
-        p3 = image[f][2]
+        if(len(image[f]) != 4):
+            p1 = image[f][7]
+            p2 = image[f][1]
+            p3 = image[f][2]
+        
+        else:
+            p1 = image[f][0]
+            p2 = image[f][1]
+            p3 = image[f][3]
 
         vetor1 = np.subtract(p3,p2)
         vetor2 = np.subtract(p1,p2)
@@ -585,6 +591,13 @@ def backface_culling(image):
     return newimage
 
 
+def zbuffer(image):
+    #viewer = [canvas_width//2,canvas_height//2,-1]
+    '''
+    z = []
+    for f in range(0,len(image)):
+        for v in range(0,len(f)):
+    '''
 
 
 # Inicialização da tela base (root)
@@ -1244,7 +1257,7 @@ start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
 exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
 
 
-file_path = "/images/velosem-logo.png"
+file_path = "velosem-logo.png"
 logo = Image.open(file_path)
 logo_width, logo_height = logo.size
 logo_w_resize = round((logo_width * canvas_width)/screen_width)
