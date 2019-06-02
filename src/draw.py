@@ -530,9 +530,7 @@ def convert3D_to_2D(image):
 
 def backface_culling(image):
     newimage = []
-    #viewer = [0,0,-1]
     viewer = [canvas_width//2,canvas_height//2,-1]
-    #viewer = [280,680,-1]
     print("observador",viewer)
     print()
     for f in range(0,len(image)):
@@ -549,15 +547,12 @@ def backface_culling(image):
 
         vetor1 = np.subtract(p3,p2)
         vetor2 = np.subtract(p1,p2)
-        #print()
-        #print("vetor 1: ",vetor1)
-        #print("vetor 2: ",vetor2)
+
 
         
         # calculo da normal
         prodvetorial = np.cross(vetor1,vetor2)
         
-
         '''
         prodvetorial = [ ( (p3[1]-p2[1])*(p1[2]-p2[2]) ) - ( (p1[1]-p2[1])*(p3[2]-p2[2]) ),   
                          ( (p3[2]-p2[2])*(p1[0]-p2[0]) ) - ( (p1[2]-p2[2])*(p3[0]-p2[0]) ),
@@ -568,12 +563,10 @@ def backface_culling(image):
 
         #vetor da visao do ponto da face para o observador
         vetorvisao = np.subtract(viewer,p2)
-        #vetorvisao = [viewer[0] - p2[0],viewer[1] - p2[1],viewer[2] - p2[2]]
 
         print("vetor visao",vetorvisao)
 
         prodinterno = np.inner(prodvetorial,vetorvisao)
-        #prodinterno = prodvetorial[0]*vetorvisao[0] + prodvetorial[1]*vetorvisao[1]+ prodvetorial[2]*vetorvisao[2]
         print("produto interno: ",prodinterno)
         if(prodinterno >= 0):
             print("face escolhida: ",image[f])
