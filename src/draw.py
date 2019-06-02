@@ -280,9 +280,9 @@ bottle_f5 = [v1_lado1,v2_lado1,v3_lado1,v4_lado1]
 bottle_f6 = [v9_lado1,v10_lado1,v5_lado1,v6_lado1]
 bottle_f7 = [v11_lado1,v12_lado1,v7_lado1,v8_lado1]
 
-bottle_f8 = [v1_lado2,v2_lado2,v3_lado2,v4_lado2]
-bottle_f9 = [v9_lado2,v10_lado2,v5_lado2,v6_lado2]
-bottle_f10 =[v11_lado2,v12_lado2,v7_lado2,v8_lado2]
+bottle_f8 = [v2_lado2,v1_lado2,v4_lado2,v3_lado2]
+bottle_f9 = [v9_lado2,v6_lado2,v5_lado2,v10_lado2]
+bottle_f10 =[v11_lado2,v8_lado2,v7_lado2,v12_lado2]
 
 #bottle_f11 =[v5_lado1,v5_lado2]
 
@@ -333,7 +333,7 @@ star_image = [faces[16], faces[17]]
 #bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo,bottle_f11]
 
 #tudo
-bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo,bottle_f5,bottle_f6,bottle_f7,bottle_f8,bottle_f9,bottle_f10,bottle_tampa]
+bottle_image = [faces[18],faces[19], faces[20], faces[21], bottle_base, bottle_topo,bottle_f5,bottle_f6,bottle_f7,bottle_f8,bottle_f9,bottle_f10]
 
 # Transformations 
 
@@ -536,8 +536,6 @@ def backface_culling(image):
     print("observador",viewer)
     print()
     for f in range(0,len(image)):
-        
-
         #definindo os vetores u e v
         if(len(image[f]) != 4):
             p1 = image[f][7]
@@ -1257,12 +1255,12 @@ start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
 exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
 
 
-file_path = "velosem-logo.png"
-logo = Image.open(file_path)
-logo_width, logo_height = logo.size
-logo_w_resize = round((logo_width * canvas_width)/screen_width)
-logo_h_resize = round((logo_height * canvas_height)/screen_height)
-logo.resize((logo_w_resize, logo_h_resize))
-img = ImageTk.PhotoImage(logo)
-canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.25, image = img)
+# file_path = "velosem-logo.png"
+# logo = Image.open(file_path)
+# logo_width, logo_height = logo.size
+# logo_w_resize = round((logo_width * canvas_width)/screen_width)
+# logo_h_resize = round((logo_height * canvas_height)/screen_height)
+# logo.resize((logo_w_resize, logo_h_resize))
+# img = ImageTk.PhotoImage(logo)
+# canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.25, image = img)
 root.mainloop()
