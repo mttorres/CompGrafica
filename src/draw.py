@@ -590,6 +590,44 @@ def zbuffer(image):
     '''
 
 
+
+def quaternion_rotation(image,angle=90,axis='z'):
+	#ideia...
+	# a rotação deve ser a multiplicação do quaternio , os pontos da imagem e seu conjugado: qpq*
+	
+	#vetor unitario do eixo escolhido do quaternio
+	if(axix == 'x'):
+		uni = [1,0,0]
+	if(axix == 'y'):
+		uni = [0,1,0]
+	else:
+		uni = [0,0,1]
+
+	#vetorial part of quaternion:
+	vq = [(x * math.sin(angle/2)) for x in uni]
+	q = [math.cos(angle/2), vq]
+	qc = [math.cos(angle/2), [x * -1 for x in vq]]
+
+	#produto:
+	#tem que fazer para cada ponto(vértice) da image!
+	for face in image:
+		for vertex in face:
+			r = vertex
+			s = q[0]
+			v = q[1]
+			vc = q[1]
+
+			#  i     ii      iii       iv
+			#s^2r -(v.v)r + 2(v.r)v + 2s (vxr)
+			i =  [r*math.pow(s,2) for x in r]
+			ii = [(np.inner(v,v)) for x in r]
+			iii = [(np.inner(v,r))*2 for x in v]
+			prodvet = (np.cross(v,r))
+			iv = [2*s for x in prodvet]
+			result = [i[0] - ii[0] +iii[0] + iv[0],i[1] - ii[1] +iii[1] + iv[1],i[2] - ii[2] +iii[2] + iv[2] ]
+			vertex = result
+	
+
 # Inicialização da tela base (root)
 root = Tk()                
 canvas = Canvas(root, width=800, height=600)
@@ -1249,7 +1287,7 @@ start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
 exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
 
 
-file_path = "images/velosem-logo.png"
+file_path = "../images/velosem-logo.png"
 logo = Image.open(file_path)
 logo_width, logo_height = logo.size
 logo_w_resize = round((logo_width * canvas_width)/screen_width)
