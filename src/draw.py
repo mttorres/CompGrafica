@@ -591,26 +591,29 @@ def zbuffer(image):
 
 
 
-def quaternion_rotation(image,angle=90,axis='z'):
+def quaternion_rotation(image,angle=90,axis=[0,1,0]):
 	#ideia...
 	# a rotação deve ser a multiplicação do quaternio , os pontos da imagem e seu conjugado: qpq*
 	
 	#vetor unitario do eixo escolhido do quaternio
+	'''
 	if(axix == 'x'):
 		uni = [1,0,0]
 	if(axix == 'y'):
 		uni = [0,1,0]
 	else:
 		uni = [0,0,1]
-
+	'''
+	novaimg = []
 	#vetorial part of quaternion:
-	vq = [(x * math.sin(angle/2)) for x in uni]
+	vq = [(x * math.sin(angle/2)) for x in axis]
 	q = [math.cos(angle/2), vq]
 	qc = [math.cos(angle/2), [x * -1 for x in vq]]
 
 	#produto:
 	#tem que fazer para cada ponto(vértice) da image!
 	for face in image:
+		novaface = []
 		for vertex in face:
 			r = vertex
 			s = q[0]
@@ -619,14 +622,25 @@ def quaternion_rotation(image,angle=90,axis='z'):
 
 			#  i     ii      iii       iv
 			#s^2r -(v.v)r + 2(v.r)v + 2s (vxr)
-			i =  [r*math.pow(s,2) for x in r]
-			ii = [(np.inner(v,v)) for x in r]
-			iii = [(np.inner(v,r))*2 for x in v]
+			i =  [(math.pow(s,2)*x) for x in r]
+			ii = [((np.inner(v,v))*x) for x in r]
+			iii = [(2*(np.inner(v,r))*x) for x in v]
 			prodvet = (np.cross(v,r))
-			iv = [2*s for x in prodvet]
-			result = [i[0] - ii[0] +iii[0] + iv[0],i[1] - ii[1] +iii[1] + iv[1],i[2] - ii[2] +iii[2] + iv[2] ]
-			vertex = result
-	
+			iv = [(2*s*x) for x in prodvet]
+			result = [i[0] - ii[0] +iii[0] + iv[0], i[1] - ii[1] + iii[1] + iv[1], i[2] - ii[2] +iii[2] + iv[2] ]
+			novaface.append(result)
+			print("antes: ")
+			print()
+			print(vertex)
+			print()
+			print("depois: ")
+			print(result)
+			print()
+			#print(novaface)
+			
+		novaimg.append(novaface)
+
+	return novaimg
 
 # Inicialização da tela base (root)
 root = Tk()                
@@ -642,6 +656,7 @@ screen_height = root.winfo_screenheight()
 font_size = int(min(canvas_width, screen_width) / 20)
 print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, screen_width, screen_height))
 
+
 #faz uma copia da bottle para na ultima imagem aplicar uma algoritimo para remover as faces
 bottle_last = deepcopy(bottle_image)
 # ao inves de só desenhar na ultima pagina 
@@ -649,10 +664,19 @@ bottle_last = deepcopy(bottle_image)
 
 # passa as coordenadas do bottle para 2d e ao mesmo tempo fazendo uma copia
 bottle_2D = convert3D_to_2D(bottle_image)
+
+
 # aplica transformação isométrica no bottle
-isometric_bottle = isometric(bottle_image,30,45)
-# converte para 2d para poder ser desenhado no tkinter
-bottle = convert3D_to_2D(isometric_bottle)
+#isometric_bottle = isometric(bottle_image,30,45)
+
+
+#roda o bottle de acordo com um input do usuario(EM TESTE, nao ta 100% ainda nao descobri porque... (ele parece estar trasnladando a imagem! teste aumentando o parametro angle)
+imagemrotacionada = quaternion_rotation(bottle_image,angle=120,axis=[0,1,0])
+#comentei a transformacao isometrica por enquanto para testar!
+# o proximo passo é mandar ele sempre redesenhar essa imagemrotacionada para "animar"
+
+#converte para 2d para poder ser desenhado no tkinter
+bottle = convert3D_to_2D(imagemrotacionada)
 
 #copia que será usada em 3d
 bottle_copy = deepcopy(bottle)
