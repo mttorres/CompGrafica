@@ -595,15 +595,7 @@ def quaternion_rotation(image,angle=90,axis=[0,1,0]):
 	#ideia...
 	# a rotação deve ser a multiplicação do quaternio , os pontos da imagem e seu conjugado: qpq*
 	
-	#vetor unitario do eixo escolhido do quaternio
-	'''
-	if(axix == 'x'):
-		uni = [1,0,0]
-	if(axix == 'y'):
-		uni = [0,1,0]
-	else:
-		uni = [0,0,1]
-	'''
+	angle = angle*(math.pi / 180)
 	novaimg = []
 	#vetorial part of quaternion:
 	vq = [(x * math.sin(angle/2)) for x in axis]
@@ -642,6 +634,10 @@ def quaternion_rotation(image,angle=90,axis=[0,1,0]):
 
 	return novaimg
 
+
+
+
+
 # Inicialização da tela base (root)
 root = Tk()                
 canvas = Canvas(root, width=800, height=600)
@@ -670,8 +666,8 @@ bottle_2D = convert3D_to_2D(bottle_image)
 #isometric_bottle = isometric(bottle_image,30,45)
 
 
-#roda o bottle de acordo com um input do usuario(EM TESTE, nao ta 100% ainda nao descobri porque... (ele parece estar trasnladando a imagem! teste aumentando o parametro angle)
-imagemrotacionada = quaternion_rotation(bottle_image,angle=120,axis=[0,1,0])
+#roda o bottle de acordo com um input do usuario(EM TESTE)
+imagemrotacionada = quaternion_rotation(bottle_image,angle=90,axis=[1,0,1])
 #comentei a transformacao isometrica por enquanto para testar!
 # o proximo passo é mandar ele sempre redesenhar essa imagemrotacionada para "animar"
 
@@ -681,7 +677,7 @@ bottle = convert3D_to_2D(imagemrotacionada)
 #copia que será usada em 3d
 bottle_copy = deepcopy(bottle)
 bottle_coverpage = map_coords(bottle_copy, canvas_width, canvas_height, screen_width, screen_height)
-translate_2D(bottle_coverpage, canvas_width * 0.33, canvas_height * 0.3)
+translate_2D(bottle_coverpage, canvas_width * 0.50, canvas_height * 0.30)
 scale_2D(bottle_coverpage, [2,2])
 draw_image(bottle_coverpage, canvas)
 canvas.create_text(canvas_width * 0.48, canvas_height * 0.65, font=("Helvetica", 10,"bold","italic"), text="Beba Água")
