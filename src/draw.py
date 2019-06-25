@@ -693,7 +693,7 @@ bottle_2D = convert3D_to_2D(bottle_image)
 
 ####### TESTE#######
 #cruva bezier (EM TESTE)
-bezier_curve([canvas_width/2,canvas_height/2,0],[(canvas_width/2)+10,(canvas_height/2)+10,20],[(canvas_width/2)+20,(canvas_height/2),0],[(canvas_width/2)+30,(canvas_height/2)+10,20])
+bezier_curve([canvas_width/2,canvas_height/2,0],[(canvas_width/2)+100,(canvas_height/2)+100,20],[(canvas_width/2)+200,(canvas_height/2),0],[(canvas_width/2)+300,(canvas_height/2)+100,20])
 #roda o bottle de acordo com um input do usuario(EM TESTE)
 imagemrotacionada = quaternion_rotation(bottle_image,angle=90,axis=[1,0,1])
 
