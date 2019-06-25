@@ -634,9 +634,35 @@ def quaternion_rotation(image,angle=90,axis=[0,1,0]):
 
 	return novaimg
 
+#######################################EM ANDAMENTO#######################################
+def bezier_operation(t,MB,GB):
+	T = [math.pow(t,3),math.pow(t,2),t,1]
+	intermed = np.matmul(T,MB)
+	#print(intermed)
+	return np.matmul(intermed,GB)
 
+def bezier_curve(B0,B1,B2,B3):
 
-
+	
+	MB = [	[-1,3,-3,1],
+		  	[3,-6,3,0],
+		  	[-3,3,0,0],
+		  	[1,0,0,0]	] 
+	GB = [B0,B1,B2,B3]
+	#print(GB)
+	t = 0.00
+	while(t <= 1.00):
+		P = bezier_operation(t,MB,GB)
+		pointimage = [[P]]
+		print(pointimage)
+		pointimage = isometric(pointimage) # faz a projeta isometrica
+		pointimage = convert3D_to_2D(pointimage) # converte para 2d 
+		if(t == 0.00):
+			print("#####################")
+			print(pointimage)
+		canvas.create_oval(pointimage[0][0][0]-1, pointimage[0][0][1]-1, pointimage[0][0][0]+1, (pointimage[0][0][1])+1, fill='green') # desenha um pontinho da curva
+		t += 0.01 # "intervalo longo" "aumenta numero de pontos menores"
+#######################################EM ANDAMENTO###################################################
 
 # Inicialização da tela base (root)
 root = Tk()                
@@ -665,11 +691,15 @@ bottle_2D = convert3D_to_2D(bottle_image)
 # aplica transformação isométrica no bottle
 #isometric_bottle = isometric(bottle_image,30,45)
 
-
+####### TESTE#######
+#cruva bezier (EM TESTE)
+bezier_curve([canvas_width/2,canvas_height/2,0],[(canvas_width/2)+10,(canvas_height/2)+10,20],[(canvas_width/2)+20,(canvas_height/2),0],[(canvas_width/2)+30,(canvas_height/2)+10,20])
 #roda o bottle de acordo com um input do usuario(EM TESTE)
 imagemrotacionada = quaternion_rotation(bottle_image,angle=90,axis=[1,0,1])
+
 #comentei a transformacao isometrica por enquanto para testar!
 # o proximo passo é mandar ele sempre redesenhar essa imagemrotacionada para "animar"
+####### TESTE#######
 
 #converte para 2d para poder ser desenhado no tkinter
 bottle = convert3D_to_2D(imagemrotacionada)
