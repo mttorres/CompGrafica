@@ -484,6 +484,26 @@ def isometric(image, angle_x=37, angle_y = 45):
     # Transladando a imagem pro ponto original
     image = translate_2D(image, position[0], position[1])
     return image
+# Gets the midpoint of an image
+def midpoint(image):
+    esquerda = None
+    direita = None
+    cima = None
+    baixo = None
+    face = image[0]
+    for vertex in face:
+        if ((esquerda == None) or (esquerda < vertex[0])):
+            esquerda = vertex[0]
+        if ((direita == None) or (direita > vertex[0])):
+            direita = vertex[0]
+        if ((cima == None) or (cima < vertex[1])):
+            cima = vertex[1]
+        if ((baixo == None) or (baixo > vertex[1])):
+            baixo = vertex[1]
+    medio_x = (direita - esquerda) / 2
+    medio_y = (baixo - cima) / 2
+    position=[esquerda + medio_x,cima + medio_y]
+    return position
 
 
 
@@ -580,59 +600,46 @@ def backface_culling(image):
     print(newimage)
     return newimage
 
-
-def zbuffer(image):
-    #viewer = [canvas_width//2,canvas_height//2,-1]
-    '''
-    z = []
-    for f in range(0,len(image)):
-        for v in range(0,len(f)):
-    '''
-
-
-
+       
 def quaternion_rotation(image,angle=90,axis=[0,1,0]):
-	#ideia...
-	# a rotação deve ser a multiplicação do quaternio , os pontos da imagem e seu conjugado: qpq*
-	
-	angle = angle*(math.pi / 180)
-	novaimg = []
-	#vetorial part of quaternion:
-	vq = [(x * math.sin(angle/2)) for x in axis]
-	q = [math.cos(angle/2), vq]
-	qc = [math.cos(angle/2), [x * -1 for x in vq]]
+    angle = angle*(math.pi / 180)
+    novaimg = []
+    rot_vector = [0, 0, 0]
+    if(axis[0]):
+        rot_vector[0] += 1
+    if(axis[1]):
+        rot_vector[1] += 1
+    if(axis[2]):
+        rot_vector[2] += 1
+    
+    #vetorial part of quaternion:
+    vq = [(x * math.sin(angle/2)) for x in rot_vector];
+    q = [math.cos(angle/2), vq];
+    qc = [math.cos(angle/2), [x * -1 for x in vq]]
+    
+    #produto:
+    #tem que fazer para cada ponto(vértice) da image!
+    for face in image:
+        novaface = []
+        for vertex in face:
+            r = vertex
+            s = q[0]
+            v = q[1]
+            vc = q[1]
 
-	#produto:
-	#tem que fazer para cada ponto(vértice) da image!
-	for face in image:
-		novaface = []
-		for vertex in face:
-			r = vertex
-			s = q[0]
-			v = q[1]
-			vc = q[1]
-
-			#  i     ii      iii       iv
-			#s^2r -(v.v)r + 2(v.r)v + 2s (vxr)
-			i =  [(math.pow(s,2)*x) for x in r]
-			ii = [((np.inner(v,v))*x) for x in r]
-			iii = [(2*(np.inner(v,r))*x) for x in v]
-			prodvet = (np.cross(v,r))
-			iv = [(2*s*x) for x in prodvet]
-			result = [i[0] - ii[0] +iii[0] + iv[0], i[1] - ii[1] + iii[1] + iv[1], i[2] - ii[2] +iii[2] + iv[2] ]
-			novaface.append(result)
-			print("antes: ")
-			print()
-			print(vertex)
-			print()
-			print("depois: ")
-			print(result)
-			print()
-			#print(novaface)
-			
-		novaimg.append(novaface)
-
-	return novaimg
+            #  i     ii      iii       iv
+            #s^2r -(v.v)r + 2(v.r)v + 2s (vxr)
+            i =  [(math.pow(s,2)*x) for x in r]
+            ii = [((np.inner(v,v))*x) for x in r]
+            iii = [(2*(np.inner(v,r))*x) for x in v]
+            prodvet = (np.cross(v,r))
+            iv = [(2*s*x) for x in prodvet]
+            result = [i[0] - ii[0] +iii[0] + iv[0], i[1] - ii[1] + iii[1] + iv[1], i[2] - ii[2] +iii[2] + iv[2] ]
+            novaface.append(result)
+            #print(novaface)
+            
+        novaimg.append(novaface)
+    return novaimg
 
 #######################################EM ANDAMENTO#######################################
 def bezier_operation(t,MB,GB):
@@ -664,6 +671,28 @@ def bezier_curve(B0,B1,B2,B3):
 		t += 0.01 # "intervalo longo" "aumenta numero de pontos menores"
 #######################################EM ANDAMENTO###################################################
 
+def delete_image(image_ptr):
+    for pointer in image_ptr:
+        canvas.delete(pointer)
+
+def draw_one_quaternion(image, angleUser, subAngle, steps, axis,canvas, image_ptr=None):
+    if(subAngle > angleUser):
+        return
+    if(image_ptr):
+        delete_image(image_ptr)
+    imagemrotacionada = quaternion_rotation(image,subAngle,axis)
+    
+    bottle = convert3D_to_2D(imagemrotacionada)
+    bottle_coverpage = deepcopy(bottle)
+    scale_2D(bottle_coverpage, [0.6, 0.6])
+    map_coords(bottle_coverpage, canvas_width, canvas_height, screen_width, screen_height)
+    pointer = draw_image(bottle_coverpage, canvas)
+    
+    angleIncr = angleUser/steps
+    subAngle += angleIncr
+    
+    canvas.after(250, draw_one_quaternion, image, angleUser, subAngle, 50, axis, canvas, pointer)
+
 # Inicialização da tela base (root)
 root = Tk()                
 canvas = Canvas(root, width=800, height=600)
@@ -685,7 +714,7 @@ bottle_last = deepcopy(bottle_image)
 
 
 # passa as coordenadas do bottle para 2d e ao mesmo tempo fazendo uma copia
-bottle_2D = convert3D_to_2D(bottle_image)
+bottle_2D = deepcopy(bottle_image)
 
 
 # aplica transformação isométrica no bottle
@@ -693,23 +722,21 @@ bottle_2D = convert3D_to_2D(bottle_image)
 
 ####### TESTE#######
 #cruva bezier (EM TESTE)
-bezier_curve([canvas_width/2,canvas_height/2,0],[(canvas_width/2)+100,(canvas_height/2)+100,20],[(canvas_width/2)+200,(canvas_height/2),0],[(canvas_width/2)+300,(canvas_height/2)+100,20])
+#bezier_curve([canvas_width/2,canvas_height/2,0],[(canvas_width/2)+100,(canvas_height/2)+100,20],[(canvas_width/2)+200,(canvas_height/2),0],[(canvas_width/2)+300,(canvas_height/2)+100,20])
 #roda o bottle de acordo com um input do usuario(EM TESTE)
-imagemrotacionada = quaternion_rotation(bottle_image,angle=90,axis=[1,0,1])
 
+    
 #comentei a transformacao isometrica por enquanto para testar!
 # o proximo passo é mandar ele sempre redesenhar essa imagemrotacionada para "animar"
 ####### TESTE#######
 
 #converte para 2d para poder ser desenhado no tkinter
-bottle = convert3D_to_2D(imagemrotacionada)
+
 
 #copia que será usada em 3d
-bottle_copy = deepcopy(bottle)
-bottle_coverpage = map_coords(bottle_copy, canvas_width, canvas_height, screen_width, screen_height)
-translate_2D(bottle_coverpage, canvas_width * 0.50, canvas_height * 0.30)
-scale_2D(bottle_coverpage, [2,2])
-draw_image(bottle_coverpage, canvas)
+
+#bottle_coverpage = map_coords(bottle_coverpage, canvas_width, canvas_height, screen_width, screen_height)
+
 canvas.create_text(canvas_width * 0.48, canvas_height * 0.65, font=("Helvetica", 10,"bold","italic"), text="Beba Água")
 
 root.pages = []
@@ -719,6 +746,25 @@ root.start = 0
 answers = root.answers
 pages = root.pages
 
+#Define user variables
+anguloUser = 90
+anguloSteps = 50
+anguloDiv = round(anguloUser/anguloSteps, 2)
+pontoA = [500, 250, 0]
+pontoB = [100, 100, 0]
+eixoUser = np.subtract(pontoA, pontoB)
+
+#Translates bottle near to user axis
+eixoDraw = [[pontoA, pontoB]]
+eixo_iso = isometric(eixoDraw);
+bottle_first = deepcopy(bottle_image)
+bottle_first_2D = convert3D_to_2D(bottle_first)
+bottle_midpoint = midpoint(bottle_first_2D)
+eixo_midpoint = [eixoUser[0]/2, eixoUser[1]/2]
+position_bottle = abs(np.subtract(bottle_midpoint, eixo_midpoint))
+bottle_first = translate_2D(bottle_first, eixo_midpoint[0], eixo_midpoint[1] - 40)
+
+canvas.create_line(pontoA[0], pontoA[1],pontoB[0], pontoB[1])
 
 
 
@@ -809,26 +855,6 @@ def next_page():
 
 
 
-# Gets the midpoint of an image
-def midpoint(image):
-    esquerda = None
-    direita = None
-    cima = None
-    baixo = None
-    face = image[0]
-    for vertex in face:
-        if ((esquerda == None) or (esquerda < vertex[0])):
-            esquerda = vertex[0]
-        if ((direita == None) or (direita > vertex[0])):
-            direita = vertex[0]
-        if ((cima == None) or (cima < vertex[1])):
-            cima = vertex[1]
-        if ((baixo == None) or (baixo > vertex[1])):
-            baixo = vertex[1]
-    medio_x = (direita - esquerda) / 2
-    medio_y = (baixo - cima) / 2
-    position=[esquerda + medio_x,cima + medio_y]
-    return position
 
 # Creating the question's images
 
@@ -1335,14 +1361,7 @@ menu_button = Button(canvas, text="Ir para o menu!", command=back_menu)
 
 start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
 exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
-
-
-file_path = "../images/velosem-logo.png"
-logo = Image.open(file_path)
-logo_width, logo_height = logo.size
-logo_w_resize = round((logo_width * canvas_width)/screen_width)
-logo_h_resize = round((logo_height * canvas_height)/screen_height)
-logo.resize((logo_w_resize, logo_h_resize))
-img = ImageTk.PhotoImage(logo)
-canvas.create_image(canvas.winfo_width()*0.50, canvas.winfo_height()*0.25, image = img)
+        
+draw_one_quaternion(bottle_first, anguloUser, anguloDiv, anguloSteps, eixoUser, canvas)
 root.mainloop()
+
