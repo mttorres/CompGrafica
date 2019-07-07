@@ -7,6 +7,7 @@ from copy import deepcopy
 import os
 import pathlib
 import time
+from colorutils import Color
 
 """
 This file is used to draw figures using the Canvas object (and its methods) from Tkinter
@@ -575,7 +576,7 @@ def modeloEspecular(i,viewer,luz,normal,ra, rd, fat, rs, n,reflection):
     #return math.ceil((i*ra + fat*(i*ra*(escalarEN)))) # nem muda muita coisa
 
     ####### modelo especular agora###########
-    return math.ceil(((i*ra) + fat*i*(rd*(escalarEN)+ rs*math.pow((escalarRV),n) ) ))
+    return ((i*ra) + fat*i*(rd*(escalarEN)+ rs*math.pow((escalarRV),n) ) )
 
 
 # flat shading 
@@ -586,7 +587,7 @@ def shading(face, rgb):
     viewer = [canvas_width//2,canvas_height//2, sys.maxsize*(-1)]
     luz = [(canvas_width//2)+150,(canvas_height//2)-150, sys.maxsize*(-1)]
     # eu defini essa reflexão (pode estar bem errada real)
-    reflection = [(canvas_width//2),(canvas_height//2)-250, sys.maxsize*(-1)]
+    reflection = [(canvas_width//2),(canvas_height//2)-150, sys.maxsize*(-1)]
 
     # devem só ser consideradas se quisermos "resultados aceitaveis" como nossa figura é mt simples... vou por esse valor como -10 fora da tela
     
@@ -624,32 +625,48 @@ def shading(face, rgb):
     #APLICAR modelo especular para essa face!
     # e aplicar para cada "canal da cor"
 
-    # variaveis do modelo de iluminacao (os ra's e coeficiente sao do "material")
+    # variaveis do modelo de iluminacao
     n = 50 # varia de 1 a 200 segundo o livro (é o grau de "polimento da superficie")
-    ra = 0.7  # define a percentagem de "cor constante" (NAO POR 1 pq senao da overflow)
-    rd = 0.7  #define o quanto de luz refletida baseada no angulo temos 
-    rs = 0.7  #define o quanto de brilho
+    ra = 0.9  # define a percentagem de "cor constante" (NAO POR 1 pq senao da overflow)
+    rd = 0.3  #define o quanto de luz refletida baseada no angulo temos 
+    rs = 0.3  #define o quanto de brilho
     fat = 0.2 # coeficiente de atenuacao
-
- 
-    # PROBLEMA (dependendo de como a gente ajuste esses parametros ele da "overflow" nas CORES do TKINTER!)
-    # eu achei uma biblioteca interessante que trata cores, pode ser uma solução...(vou upar em um arquivo separado)
-    #OBS: a biblioteca nao resolve os problemas nao... é tudo uma questão de aproximação dos valores das cores e o tkinter nao
-    #lida muito bem com isso aparentemente... a diferença é que com essa biblioteca ele consegue resultados "mais precisos" somente
-    # eu posso por parametros maiores e só.
-
+    '''
     novacor = []
     for c in range(0,len(rgb)):
         i = rgb[c]
         novacor.append(modeloEspecular(i,viewer,luz,normal,ra,rd,fat, rs,n,reflection))
-        
-    return convertRGB_to_HEX(novacor) 
+    '''
+
+
+    #return convertRGB_to_HEX(novacor) 
+
+    COR = rgb.hsv
+    print(COR)
+    a  = 0
+    b  =0
+    c = 0
+    cont = 0
+    for var in COR:
+        cont += 1
+        valor =modeloEspecular(var,viewer,luz,normal,ra,rd,fat,rs,n,reflection)
+        if(cont == 1):
+            a = valor
+        if(cont == 2):
+            b = valor
+        if(cont == 3):
+            c = valor
+
+    resultado = Color(hsv=(a,b,c))
+    return resultado.hex
+
 #Desenha uma imagem bidimensional face por face (e levando em conta shading)
 def draw_image(image, canvas,color=''):
     image_pointer = []
     for face in image:
         if(color != ''):
-            rgb = convertHEX_to_RGB(color)
+            #rgb = convertHEX_to_RGB(color)
+            rgb = Color((50, 250, 150))
             print("MEU RGB ANTES: ")
             print(rgb)
             cor = shading(face,rgb)
