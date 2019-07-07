@@ -676,8 +676,10 @@ def delete_image(image_ptr):
         canvas.delete(pointer)
 
 def draw_one_quaternion(image, angleUser, subAngle, steps, axis,canvas, image_ptr=None):
+    '''
     if(subAngle > angleUser):
         return
+    '''     
     if(image_ptr):
         delete_image(image_ptr)
     imagemrotacionada = quaternion_rotation(image,subAngle,axis)
@@ -1366,7 +1368,10 @@ menu_button = Button(canvas, text="Ir para o menu!", command=back_menu)
 start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
 exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
         
-
-draw_one_quaternion(bottle_first, anguloUser, anguloDiv, anguloSteps, eixoNorm, canvas)
+print(eixoNorm)
+#vejam oque acontece se nao usar o vetor normalizado e se usar
+eixoUsado = eixoNorm
+#eixoUsado = eixoUser
+draw_one_quaternion(bottle_first, anguloUser, anguloDiv, anguloSteps, eixoUsado, canvas)
 root.mainloop()
 
