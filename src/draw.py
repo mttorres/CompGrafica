@@ -534,28 +534,97 @@ def convertHEX_to_RGB(color):
     rgb = []
     for i in (0,2,4):
         valor = int(rawHEX[i:i+2],16)
-        print("####",i)
-        print(valor)
         rgb.append(valor)
     return rgb
 
-def shading():
+def convertRGB_to_HEX(rgb):
 
-    return
+    return '#{:02x}{:02x}{:02x}'.format( rgb[0], rgb[1] , rgb[2] )
+
+def shading(face, rgb):
+    resultado = []
+    viewer = [canvas_width//2,canvas_height//2,-1]
+    luz = [(canvas_width//2)+150,(canvas_height//2)-150,-10]
+    print("observador",viewer)
+    print()
+    print("luz",luz)
+    print()
+    print(face)
+    #calculando a normal da face
+    #definindo os vetores u e v
+    #print(face[v])
+    if(len(face) != 4):
+        p1 = face[7]
+        p2 = face[1]
+        p3 = face[2]
+    else:
+        p1 = face[0]
+        p2 = face[1]
+        p3 = face[3]
+
+    vetor1 = np.subtract(p3,p2)
+    vetor2 = np.subtract(p1,p2)
+    # calculo da normal
+    prodvetorial = np.cross(vetor1,vetor2)
+    print("produto vetorial: ",prodvetorial)
+
+    #vetor da visao do ponto da face para o observador
+    vetorvisao = np.subtract(viewer,p2)
+    print("vetor visao",vetorvisao)
+    
+    x= face[8] #break point para debug .-. kkk
+    '''
+    prodinterno = np.inner(prodvetorial,vetorvisao)
+    print("produto interno: ",prodinterno)
+    if(prodinterno >= 0):
+        print("face escolhida: ",image[f])
+            newimage.append(image[f])
+    else:
+            print("exclui a face:",image[f])
+    print()
+
+    print("numero original de faces: " + str(len(image)))
+    print("temos agora...: " + str(len(newimage)))
+    print(newimage)
+    return newimage
+    '''
+    return convertRGB_to_HEX(rgb) 
 #Desenha uma imagem bidimensional face por face (e levando em conta shading)
 def draw_image(image, canvas,color=''):
     image_pointer = []
     for face in image:
         if(color != ''):
             rgb = convertHEX_to_RGB(color)
-            print("MEU RGB: ")
+            print("MEU RGB ANTES: ")
             print(rgb)
-            #shading(face,rgb)
-            polygon = canvas.create_polygon(face, fill='#32FA96', outline='black')
+            #cor = shading(face,rgb)
+            cor = convertRGB_to_HEX(rgb)
+            drawface= convert3Dface_to_2D(face)
+            #--- opcional ---
+            #drawface = scale_2DFace()
+            #drawface = translate_2DFace()
+            #--- opcional ---
+            print()
+            print()
+            print("MINHA COR DEPOIS: ",cor)
+            polygon = canvas.create_polygon(drawface, fill= cor, outline='black')
         else:
             polygon = canvas.create_polygon(face, fill='', outline='black')
         image_pointer.append(polygon)
     return image_pointer
+
+#Transforma uma FACE 3D em 2d (isso é feito quando precisamos desenhar face por face ainda processar os dados 3d dela antes(shading))
+def convert3Dface_to_2D(face):
+    face2d = []
+    for vertex in range(0,len(face)):
+        face2d.append(face[vertex][0:2])
+
+    return face2d
+
+# vou precisar de um Scale e translate de faces tmb para o shader (a nao ser que a gente deixe a figura no mesmo ponto e parada)
+
+
+
 
 #Transforma uma imagem 3D em 2D
 def convert3D_to_2D(image):
@@ -661,7 +730,7 @@ def quaternion_rotation(image,angle=90,axis=[0,1,0]):
         novaimg.append(novaface)
     return novaimg
 
-#######################################EM ANDAMENTO#######################################
+
 def bezier_operation(t,MB,GB):
 	T = [math.pow(t,3),math.pow(t,2),t,1]
 	intermed = np.matmul(T,MB)
@@ -754,7 +823,7 @@ print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, sc
 #faz uma copia da bottle para na ultima imagem aplicar uma algoritimo para remover as faces, para a bezier e para o shader
 bottle_last = deepcopy(bottle_image)
 bottle_bezier = convert3D_to_2D(isometric(deepcopy(bottle_image)))
-bottle_shader = convert3D_to_2D(isometric(deepcopy(bottle_image)))
+bottle_shader = isometric(deepcopy(bottle_image))
 # ao inves de só desenhar na ultima pagina 
 
 
