@@ -539,17 +539,67 @@ def convertHEX_to_RGB(color):
 
 def convertRGB_to_HEX(rgb):
 
+    print("MEU RGB DEPOIS: ",rgb)
     return '#{:02x}{:02x}{:02x}'.format( rgb[0], rgb[1] , rgb[2] )
 
+
+def modeloEspecular(i,viewer,luz,normal,ra, rd, fat, rs, n,reflection):
+
+
+    #vamos por partes... 
+    ################como ficaria se fosse somente o modelo LUZ AMBIENTE#################
+    #return int(i*ra) (FUNCIONA)
+    
+    #calculando os veotres unitarios desses
+    uniluz = np.divide(luz,np.linalg.norm(luz))
+    #print("luz normalizada",uniluz)
+    uninormal = np.divide(normal,np.linalg.norm(normal))
+    #print("normal normalizada",uninormal)
+    escalarEN = np.inner(uniluz,uninormal)
+    print("escalarEN: ",escalarEN)
+    print()
+
+    
+    unirefle = np.divide(reflection,np.linalg.norm(reflection))
+    #print("luz normalizada",uniluz)
+    uniview = np.divide(viewer,np.linalg.norm(viewer))
+    #print("normal normalizada",uninormal)
+    escalarRV = np.inner(unirefle,uniview)
+    print("escalarRV: ",escalarRV)
+    print()
+    ###############como ficaria se fosse somente modelo de LUZ DIFUSA ##############################
+    
+    #return math.ceil((i*ra + (i*rd*(escalarEN)))) # ate funciona 
+
+    #################agora luz difusa com fator de atenuação###############
+    #return math.ceil((i*ra + fat*(i*ra*(escalarEN)))) # nem muda muita coisa
+
+    ####### modelo especular agora###########
+    return math.ceil(((i*ra) + fat*i*(rd*(escalarEN)+ rs*math.pow((escalarRV),n) ) ))
+
+
+# flat shading 
 def shading(face, rgb):
     resultado = []
-    viewer = [canvas_width//2,canvas_height//2,-1]
-    luz = [(canvas_width//2)+150,(canvas_height//2)-150,-10]
-    print("observador",viewer)
-    print()
-    print("luz",luz)
-    print()
-    print(face)
+    # flat shading: observador e luz estao no infinito (e aplicaremos modelo de iluminação para cada FACE/SUPERFICIE) 
+    # POREM SE COLOCARMOS NO INFINITO ELE ESTRAGA O PRODUTO VETORIAL...(o valor grande aproxima para zero as coordenadas x e y quando for normalizar o vetor!), apesar que essa consideração de luz e observador no infinito
+    viewer = [canvas_width//2,canvas_height//2, sys.maxsize*(-1)]
+    luz = [(canvas_width//2)+150,(canvas_height//2)-150, sys.maxsize*(-1)]
+    # eu defini essa reflexão (pode estar bem errada real)
+    reflection = [(canvas_width//2),(canvas_height//2)-150, sys.maxsize*(-1)]
+
+    # devem só ser consideradas se quisermos "resultados aceitaveis" como nossa figura é mt simples... vou por esse valor como -10 fora da tela
+    
+    # ou nao... funciona se por a distancia deles no INFINITO
+    #viewer = [canvas_width//2,canvas_height//2, -10]
+    #luz = [(canvas_width//2)+350,(canvas_height//2)-150, -10]
+    #reflection = [(canvas_width//2)-350,(canvas_height//2)-150, -10]
+    
+    #print("observador",viewer)
+    #print()
+    #print("luz",luz)
+    #print()
+    #print(face)
     #calculando a normal da face
     #definindo os vetores u e v
     #print(face[v])
@@ -564,31 +614,29 @@ def shading(face, rgb):
 
     vetor1 = np.subtract(p3,p2)
     vetor2 = np.subtract(p1,p2)
+    #print(vetor1)
+    #print(vetor2)
     # calculo da normal
-    prodvetorial = np.cross(vetor1,vetor2)
-    print("produto vetorial: ",prodvetorial)
+    normal = np.cross(vetor1,vetor2)
+    print("produto vetorial: ",normal)
 
-    #vetor da visao do ponto da face para o observador
-    vetorvisao = np.subtract(viewer,p2)
-    print("vetor visao",vetorvisao)
-    
-    x= face[8] #break point para debug .-. kkk
-    '''
-    prodinterno = np.inner(prodvetorial,vetorvisao)
-    print("produto interno: ",prodinterno)
-    if(prodinterno >= 0):
-        print("face escolhida: ",image[f])
-            newimage.append(image[f])
-    else:
-            print("exclui a face:",image[f])
-    print()
+    #"O processo de se aplicar um modelo de iluminação para vários pontos de uma superfície é chamado sombreamento."
+    #APLICAR modelo especular para essa face!
+    # e aplicar para cada "canal da cor"
 
-    print("numero original de faces: " + str(len(image)))
-    print("temos agora...: " + str(len(newimage)))
-    print(newimage)
-    return newimage
-    '''
-    return convertRGB_to_HEX(rgb) 
+    # variaveis do modelo
+    n = 100 # varia de 1 a 200 segundo o livro (é o grau de "polimento da superficie")
+    ra = 0.7 
+    rd = 0.3
+    rs = 1.0
+    fat = 0.2
+
+    novacor = []
+    for c in range(0,len(rgb)):
+        i = rgb[c]
+        novacor.append(modeloEspecular(i,viewer,luz,normal,ra,rd,fat, rs,n,reflection))
+        
+    return convertRGB_to_HEX(novacor) 
 #Desenha uma imagem bidimensional face por face (e levando em conta shading)
 def draw_image(image, canvas,color=''):
     image_pointer = []
@@ -597,8 +645,8 @@ def draw_image(image, canvas,color=''):
             rgb = convertHEX_to_RGB(color)
             print("MEU RGB ANTES: ")
             print(rgb)
-            #cor = shading(face,rgb)
-            cor = convertRGB_to_HEX(rgb)
+            cor = shading(face,rgb)
+            #cor = convertRGB_to_HEX(rgb)
             drawface= convert3Dface_to_2D(face)
             #--- opcional ---
             #drawface = scale_2DFace()
@@ -607,6 +655,7 @@ def draw_image(image, canvas,color=''):
             print()
             print()
             print("MINHA COR DEPOIS: ",cor)
+            print()
             polygon = canvas.create_polygon(drawface, fill= cor, outline='black')
         else:
             polygon = canvas.create_polygon(face, fill='', outline='black')
