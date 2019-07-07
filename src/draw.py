@@ -696,11 +696,7 @@ def delete_image(image_ptr):
     for pointer in image_ptr:
         canvas.delete(pointer)
 
-def draw_one_quaternion(image, angleUser, subAngle, steps, axis,canvas, image_ptr=None):
-    '''
-    if(subAngle > angleUser):
-        return
-    '''     
+def draw_one_quaternion(image, angleUser, subAngle, steps, axis, limit, times, canvas, orientation=1, image_ptr=None):    
     if(image_ptr):
         delete_image(image_ptr)
     imagemrotacionada = quaternion_rotation(image,subAngle,axis)
@@ -712,9 +708,18 @@ def draw_one_quaternion(image, angleUser, subAngle, steps, axis,canvas, image_pt
     pointer = draw_image(bottle_coverpage, canvas)
     
     angleIncr = angleUser/steps
-    subAngle += angleIncr
-    
-    canvas.after(250, draw_one_quaternion, image, angleUser, subAngle, 50, axis, canvas, pointer)
+    subAngle += orientation*angleIncr
+    if(subAngle >= limit):
+        orientation = -1
+        times+= 1
+    if(subAngle <= (-1)*limit):
+        orientation = 1
+        times+=1
+
+    #print(subAngle)
+    #print(times)
+    if(times != 3 ):
+        canvas.after(250, draw_one_quaternion, image, angleUser, subAngle, 50, axis, limit, times, canvas, orientation, pointer)
 
 
 ##### INICIANDO TRANSLACAO DA FIGURA PELA CURVA
@@ -790,6 +795,8 @@ pages = root.pages
 anguloUser = 90
 anguloSteps = 50
 anguloDiv = round(anguloUser/anguloSteps, 2)
+limit = anguloUser
+times = 0
 pontoA = [500, 250, 0]
 pontoB = [100, 100, 0]
 eixoUser = np.subtract(pontoA, pontoB)
@@ -805,16 +812,19 @@ B3 = [(canvas_width/2)+300,(canvas_height/2)-200,20]
 #Translates bottle near to user axis
 eixoDraw = [[pontoA, pontoB]]
 eixo_iso = isometric(eixoDraw);
-#deve-se normalizar o vetor?
+#deve-se normalizar o vetor? NAO MUDA NADA NA VERDADE...
 #vetor normalizado
-dif = np.subtract(eixoDraw[0][0],eixoDraw[0][0][1])
+dif = np.subtract(eixoDraw[0][0],eixoDraw[0][1])
 eixoNorm = np.divide(dif,np.linalg.norm(dif))
+
 bottle_first = deepcopy(bottle_image)
 bottle_first_2D = convert3D_to_2D(bottle_first)
 bottle_midpoint = midpoint(bottle_first_2D)
-eixo_midpoint = [eixoUser[0]/2, eixoUser[1]/2]
+# tem que transladar até um certo pont para nao nao fugir da tela!
+eixo_midpoint = [eixoDraw[0][0][0]/2, eixoDraw[0][0][1]/2]
+print(eixo_midpoint)
 position_bottle = abs(np.subtract(bottle_midpoint, eixo_midpoint))
-bottle_first = translate_2D(bottle_first, eixo_midpoint[0], eixo_midpoint[1] - 40)
+bottle_first = translate_2D(bottle_first, eixo_midpoint[0]+300, eixo_midpoint[1]-300)
 
 canvas.create_line(pontoA[0], pontoA[1],pontoB[0], pontoB[1])
 
@@ -1426,10 +1436,10 @@ menu_button = Button(canvas, text="Ir para o menu!", command=back_menu)
 start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
 exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
         
-print(eixoNorm)
+#print(eixoNorm)
 #vejam oque acontece se nao usar o vetor normalizado e se usar
 eixoUsado = eixoNorm
 #eixoUsado = eixoUser
-draw_one_quaternion(bottle_first, anguloUser, anguloDiv, anguloSteps, eixoUsado, canvas)
+draw_one_quaternion(bottle_first, anguloUser, anguloDiv, anguloSteps, eixoUsado, limit, times, canvas)
 root.mainloop()
 
