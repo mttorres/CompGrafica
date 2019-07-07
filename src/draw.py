@@ -529,11 +529,31 @@ def map_pages(page_list, width, height, screen_w, screen_h):
         for image in i_page:
             image = map_coords(image, width, height, screen_w, screen_h)
 
-#Desenha uma imagem bidimensional face por face
-def draw_image(image, canvas):
+def convertHEX_to_RGB(color):
+    rawHEX = color.lstrip('#')
+    rgb = []
+    for i in (0,2,4):
+        valor = int(rawHEX[i:i+2],16)
+        print("####",i)
+        print(valor)
+        rgb.append(valor)
+    return rgb
+
+def shading():
+
+    return
+#Desenha uma imagem bidimensional face por face (e levando em conta shading)
+def draw_image(image, canvas,color=''):
     image_pointer = []
     for face in image:
-        polygon = canvas.create_polygon(face, fill='', outline='black')
+        if(color != ''):
+            rgb = convertHEX_to_RGB(color)
+            print("MEU RGB: ")
+            print(rgb)
+            #shading(face,rgb)
+            polygon = canvas.create_polygon(face, fill='#32FA96', outline='black')
+        else:
+            polygon = canvas.create_polygon(face, fill='', outline='black')
         image_pointer.append(polygon)
     return image_pointer
 
@@ -726,9 +746,10 @@ font_size = int(min(canvas_width, screen_width) / 20)
 print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, screen_width, screen_height))
 
 
-#faz uma copia da bottle para na ultima imagem aplicar uma algoritimo para remover as faces
+#faz uma copia da bottle para na ultima imagem aplicar uma algoritimo para remover as faces, para a bezier e para o shader
 bottle_last = deepcopy(bottle_image)
 bottle_bezier = convert3D_to_2D(isometric(deepcopy(bottle_image)))
+bottle_shader = convert3D_to_2D(isometric(deepcopy(bottle_image)))
 # ao inves de só desenhar na ultima pagina 
 
 
@@ -843,7 +864,8 @@ def next_page():
         return   
     #if == -1 para a figura com shader (trab part3)    
     if(root.current_page == -1):
-
+        canvas.delete('all')
+        draw_image(bottle_shader,canvas,'#32FA96')
         root.current_page = root.current_page+1
         return 
         
