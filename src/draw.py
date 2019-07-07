@@ -663,6 +663,9 @@ def bezier_curve(B0,B1,B2,B3,image,t,canvas):
     canvas.create_oval(pointimage[0][0][0]-1, pointimage[0][0][1]-1, pointimage[0][0][0]+1, (pointimage[0][0][1])+1, fill='green') 
     # desenha um pontinho da curva
     # translada o centro dessa figura para cada ponto da curva!
+    #print("#######################")
+    #print(pointimage)
+    #print("######################")
     pos = midpoint(image)
     dif = np.subtract(pointimage[0],pos)
     translate_2D(image,dif[0][0],dif[0][1])
@@ -704,6 +707,8 @@ def draw_bezier_translation(image,B0,B1,B2,B3,canvas,t,image_ptr=None):
     t = t+ 0.01 # "intervalo longo" "aumenta numero de pontos menores"
     if(t <= 1.00 ):
         canvas.after(250, draw_bezier_translation ,image ,B0 ,B1 ,B2 ,B3 ,canvas ,t ,pointer)
+    else:
+        delete_image(image_ptr)    
 
 
 # Inicialização da tela base (root)
@@ -723,7 +728,7 @@ print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, sc
 
 #faz uma copia da bottle para na ultima imagem aplicar uma algoritimo para remover as faces
 bottle_last = deepcopy(bottle_image)
-bottle_bezier = deepcopy(bottle_image)
+bottle_bezier = convert3D_to_2D(isometric(deepcopy(bottle_image)))
 # ao inves de só desenhar na ultima pagina 
 
 
@@ -771,9 +776,9 @@ eixoUser = np.subtract(pontoA, pontoB)
 #Define user variables (BEZIER)
 Steps = 100
 B0 = [canvas_width/2,canvas_height/2,0]
-B1 = [(canvas_width/2)+100,(canvas_height/2)+100,20]
+B1 = [(canvas_width/2)+100,(canvas_height/2)+200,20]
 B2 = [(canvas_width/2)+200,(canvas_height/2),0]
-B3 = [(canvas_width/2)+300,(canvas_height/2)+100,20]
+B3 = [(canvas_width/2)+300,(canvas_height/2)-200,20]
 
 
 #Translates bottle near to user axis
@@ -834,10 +839,14 @@ def next_page():
         canvas.delete('all')
         t = 0
         draw_bezier_translation(bottle_bezier,B0,B1,B2,B3,canvas,t)
-        t = t+1
         root.current_page = root.current_page+1
         return   
-    #fazer if == -1 para a figura com shader (trab part3)    
+    #if == -1 para a figura com shader (trab part3)    
+    if(root.current_page == -1):
+
+        root.current_page = root.current_page+1
+        return 
+        
     if(root.start == 0):
         root.start = time.time()
         canvas.delete('all')
