@@ -648,29 +648,27 @@ def bezier_operation(t,MB,GB):
 	#print(intermed)
 	return np.matmul(intermed,GB)
 
-def bezier_curve(B0,B1,B2,B3):
-
-	
-	MB = [	[-1,3,-3,1],
+def bezier_curve(B0,B1,B2,B3,image,t,canvas):
+    MB = [	[-1,3,-3,1],
 		  	[3,-6,3,0],
 		  	[-3,3,0,0],
 		  	[1,0,0,0]	] 
-	GB = [B0,B1,B2,B3]
-	#print(GB)
-	t = 0.00
-	while(t <= 1.00):
-		P = bezier_operation(t,MB,GB)
-		pointimage = [[P]]
-		print(pointimage)
-		pointimage = isometric(pointimage) # faz a projeta isometrica
-		pointimage = convert3D_to_2D(pointimage) # converte para 2d 
-		if(t == 0.00):
-			print("#####################")
-			print(pointimage)
-		canvas.create_oval(pointimage[0][0][0]-1, pointimage[0][0][1]-1, pointimage[0][0][0]+1, (pointimage[0][0][1])+1, fill='green') # desenha um pontinho da curva
-		t += 0.01 # "intervalo longo" "aumenta numero de pontos menores"
-#######################################EM ANDAMENTO###################################################
+    GB = [B0,B1,B2,B3]
+    P = bezier_operation(t,MB,GB)
+    pointimage = [[P]]
+    pointimage = isometric(pointimage) # projeta isometrica a curva
+    pointimage = convert3D_to_2D(pointimage) # converte para 2d 
 
+    # como guarda o pointer como foi feito no draw quaternion se nesse caso temos que desenhar 2 coisas? (bottle e varios pontos) 
+    canvas.create_oval(pointimage[0][0][0]-1, pointimage[0][0][1]-1, pointimage[0][0][0]+1, (pointimage[0][0][1])+1, fill='green') 
+    # desenha um pontinho da curva
+    # translada o centro dessa figura para cada ponto da curva!
+    pos = midpoint(image)
+    dif = np.subtract(pointimage[0],pos)
+    translate_2D(image,dif[0][0],dif[0][1])
+    # retorna o ponteiro
+    return draw_image(image,canvas)
+    
 def delete_image(image_ptr):
     for pointer in image_ptr:
         canvas.delete(pointer)
@@ -695,6 +693,19 @@ def draw_one_quaternion(image, angleUser, subAngle, steps, axis,canvas, image_pt
     
     canvas.after(250, draw_one_quaternion, image, angleUser, subAngle, 50, axis, canvas, pointer)
 
+
+##### INICIANDO TRANSLACAO DA FIGURA PELA CURVA
+
+def draw_bezier_translation(image,B0,B1,B2,B3,canvas,t,image_ptr=None):
+
+    if(image_ptr):
+        delete_image(image_ptr)
+    pointer = bezier_curve(B0,B1,B2,B3,image,t,canvas)
+    t = t+ 0.01 # "intervalo longo" "aumenta numero de pontos menores"
+    if(t <= 1.00 ):
+        canvas.after(250, draw_bezier_translation ,image ,B0 ,B1 ,B2 ,B3 ,canvas ,t ,pointer)
+
+
 # Inicialização da tela base (root)
 root = Tk()                
 canvas = Canvas(root, width=800, height=600)
@@ -712,6 +723,7 @@ print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, sc
 
 #faz uma copia da bottle para na ultima imagem aplicar uma algoritimo para remover as faces
 bottle_last = deepcopy(bottle_image)
+bottle_bezier = deepcopy(bottle_image)
 # ao inves de só desenhar na ultima pagina 
 
 
@@ -743,18 +755,26 @@ canvas.create_text(canvas_width * 0.48, canvas_height * 0.65, font=("Helvetica",
 
 root.pages = []
 root.answers = []
-root.current_page = 0
+root.current_page = -2
 root.start = 0
 answers = root.answers
 pages = root.pages
 
-#Define user variables
+#Define user variables(QUATERNION)
 anguloUser = 90
 anguloSteps = 50
 anguloDiv = round(anguloUser/anguloSteps, 2)
 pontoA = [500, 250, 0]
 pontoB = [100, 100, 0]
 eixoUser = np.subtract(pontoA, pontoB)
+
+#Define user variables (BEZIER)
+Steps = 100
+B0 = [canvas_width/2,canvas_height/2,0]
+B1 = [(canvas_width/2)+100,(canvas_height/2)+100,20]
+B2 = [(canvas_width/2)+200,(canvas_height/2),0]
+B3 = [(canvas_width/2)+300,(canvas_height/2)+100,20]
+
 
 #Translates bottle near to user axis
 eixoDraw = [[pontoA, pontoB]]
@@ -810,10 +830,17 @@ def back_menu():
     canvas.create_text(canvas_width * 0.48, canvas_height * 0.65, font=("Helvetica", 10,"bold","italic"), text="Beba Água")
 
 def next_page():
-    if(root.current_page < 0):
-        return  
+    if(root.current_page == -2):
+        canvas.delete('all')
+        t = 0
+        draw_bezier_translation(bottle_bezier,B0,B1,B2,B3,canvas,t)
+        t = t+1
+        root.current_page = root.current_page+1
+        return   
+    #fazer if == -1 para a figura com shader (trab part3)    
     if(root.start == 0):
         root.start = time.time()
+        canvas.delete('all')
     start_button.place_forget()
     exit_button.place_forget()
     if(root.current_page >= 0 and root.current_page < len(pages) ):
