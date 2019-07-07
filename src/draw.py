@@ -757,6 +757,10 @@ eixoUser = np.subtract(pontoA, pontoB)
 #Translates bottle near to user axis
 eixoDraw = [[pontoA, pontoB]]
 eixo_iso = isometric(eixoDraw);
+#deve-se normalizar o vetor?
+#vetor normalizado
+dif = np.subtract(eixoDraw[0][0],eixoDraw[0][0][1])
+eixoNorm = np.divide(dif,np.linalg.norm(dif))
 bottle_first = deepcopy(bottle_image)
 bottle_first_2D = convert3D_to_2D(bottle_first)
 bottle_midpoint = midpoint(bottle_first_2D)
@@ -1362,6 +1366,7 @@ menu_button = Button(canvas, text="Ir para o menu!", command=back_menu)
 start_button.place(x=canvas.winfo_width()*0.42, y=canvas.winfo_height()*0.70)
 exit_button.place(x=canvas.winfo_width()*0.43, y=canvas.winfo_height()*0.80)
         
-draw_one_quaternion(bottle_first, anguloUser, anguloDiv, anguloSteps, eixoUser, canvas)
+
+draw_one_quaternion(bottle_first, anguloUser, anguloDiv, anguloSteps, eixoNorm, canvas)
 root.mainloop()
 
