@@ -746,7 +746,7 @@ def backface_culling(image):
     return newimage
 
        
-def quaternion_rotation(image,angle=90,axis=[0,1,0]):
+def quaternion_rotation(image,angle=90,axis=[1,1,1]):
     angle = angle*(math.pi / 180)
     novaimg = []
     rot_vector = [0, 0, 0]
@@ -879,7 +879,10 @@ print("Canvas %d x %d ======= Screen %d x %d" % (canvas_width, canvas_height, sc
 #faz uma copia da bottle para na ultima imagem aplicar uma algoritimo para remover as faces, para a bezier e para o shader
 bottle_last = deepcopy(bottle_image)
 bottle_bezier = convert3D_to_2D(isometric(deepcopy(bottle_image)))
+
 bottle_shader = isometric(deepcopy(bottle_image))
+#bottle_shadertemp = isometric(deepcopy(bottle_image))
+#bottle_shader = quaternion_rotation(bottle_shadertemp,-120,[1,1,0])
 # ao inves de só desenhar na ultima pagina 
 
 
